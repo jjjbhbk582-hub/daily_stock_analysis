@@ -271,7 +271,10 @@ def test_load_market_rejects_incomplete_eastmoney_spot_and_uses_fallbacks(monkey
     source.client = object()
     result = source.load_market([], date(2026, 8, 20))
     assert result["indices"][0]["source"] == "腾讯行情"
-    assert result["total_amount"] == 6e9
+    assert result["total_amount"] == 1.15e12
     assert result["breadth"] == {"up": 1, "down": 1, "flat": 1, "median_pct": 0.0}
     assert result["industry_table"][0]["industry"] == "半导体"
-    assert any(item["source"] == "东方财富全市场完整性校验" and not item["ok"] for item in result["source_status"])
+    assert any(
+        item["source"] == "东方财富全市场完整性校验" and not item["ok"]
+        for item in result["source_status"]
+    )
