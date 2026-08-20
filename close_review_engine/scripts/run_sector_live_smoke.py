@@ -7,7 +7,7 @@ from datetime import date
 from ashare_review.calendar import last_completed_trading_day
 from ashare_review.config import load_universe
 from ashare_review.engine import build_live_source
-from ashare_review.sector_review import build_sector_review
+from ashare_review.sector_runtime import build_sector_review
 
 ALLOWED_PREFIXES = ("600", "601", "603", "605", "000", "001", "002", "003")
 
