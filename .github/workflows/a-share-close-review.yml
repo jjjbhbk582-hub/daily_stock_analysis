@@ -1,6 +1,14 @@
 name: 17只A股收盘复盘
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "close_review_engine/src/**"
+      - "close_review_engine/config/**"
+      - "close_review_engine/scripts/**"
+      - "close_review_engine/pyproject.toml"
+      - ".github/workflows/a-share-close-review.yml"
   schedule:
     # Beijing time (UTC+8): 15:05, 15:15 and 15:30, Monday-Friday.
     - cron: "5 7 * * 1-5"
@@ -75,6 +83,8 @@ jobs:
           publish=false
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             publish="${INPUT_PUBLISH:-true}"
+          elif [[ "${{ github.event_name }}" == "push" ]]; then
+            publish=true
           elif [[ "${EVENT_SCHEDULE:-}" == "30 7 * * 1-5" ]]; then
             publish=true
           fi
