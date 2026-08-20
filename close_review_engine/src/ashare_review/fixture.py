@@ -17,7 +17,7 @@ class FixtureDataSource:
         self.payload = payload
 
     @classmethod
-    def from_path(cls, path: str | Path) -> "FixtureDataSource":
+    def from_path(cls, path: str | Path) -> FixtureDataSource:
         return cls(yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {})
 
     def load_market(self, stocks: list[StockConfig], target_date: date) -> dict[str, Any]:
