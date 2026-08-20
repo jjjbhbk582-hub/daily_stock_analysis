@@ -5,7 +5,8 @@ import io
 import math
 import re
 from dataclasses import dataclass, field
-from datetime import date, datetime, time as clock_time, timedelta
+from datetime import date, datetime, timedelta
+from datetime import time as clock_time
 from typing import Any
 from zoneinfo import ZoneInfo
 
