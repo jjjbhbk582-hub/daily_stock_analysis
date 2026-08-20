@@ -5,23 +5,108 @@ import json
 from datetime import date
 
 from ashare_review.config import load_universe
+from ashare_review.data import HttpClient
 from ashare_review.engine import build_live_source
+from ashare_review.fallbacks import (
+    fetch_sina_industries,
+    fetch_sina_market_spot,
+    fetch_tencent_intraday,
+    fetch_tencent_market_indices,
+)
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--as-of", type=date.fromisoformat, default=date.today())
-    parser.add_argument("--stocks", type=int, default=1)
-    parser.add_argument("--universe", default="config/universe.yml")
-    parser.add_argument("--require-market", action="store_true")
-    parser.add_argument("--require-60m", action="store_true")
-    args = parser.parse_args()
-    stocks = load_universe(args.universe)[: max(1, min(args.stocks, 17))]
-    source = build_live_source()
-    market = source.load_market(stocks, args.as_of)
+def _fallback_only(stocks, target_date: date) -> dict:
+    client = HttpClient(timeout=10.0)
+    source_status: list[dict] = []
+    market: dict = {
+        "data_date": target_date.isoformat(),
+        "indices": [],
+        "total_amount": None,
+        "breadth": {},
+        "industry_table": [],
+        "source_status": source_status,
+    }
+
+    try:
+        tencent = fetch_tencent_market_indices(client, target_date=target_date)
+        market["indices"] = tencent.get("indices") or []
+        market["total_amount"] = tencent.get("total_amount")
+        source_status.append(
+            {
+                "source": "腾讯指数与两市成交额",
+                "ok": len(market["indices"]) == 3 and market["total_amount"] not in (None, 0),
+                "indices": len(market["indices"]),
+            }
+        )
+    except Exception as exc:  # noqa: BLE001
+        source_status.append(
+            {"source": "腾讯指数与两市成交额", "ok": False, "error": f"{type(exc).__name__}: {exc}"}
+        )
+
+    try:
+        spot = fetch_sina_market_spot(client)
+        valid = spot["pct_change"].dropna() if not spot.empty else None
+        if valid is not None:
+            market["total_amount"] = float(spot["amount"].fillna(0).sum())
+            market["breadth"] = {
+                "up": int((valid > 0).sum()),
+                "down": int((valid < 0).sum()),
+                "flat": int((valid == 0).sum()),
+                "median_pct": float(valid.median()) if not valid.empty else None,
+            }
+        source_status.append(
+            {"source": "新浪全市场行情", "ok": not spot.empty, "rows": len(spot)}
+        )
+    except Exception as exc:  # noqa: BLE001
+        source_status.append(
+            {"source": "新浪全市场行情", "ok": False, "error": f"{type(exc).__name__}: {exc}"}
+        )
+
+    try:
+        industries = fetch_sina_industries(client)
+        market["industry_table"] = industries
+        source_status.append(
+            {"source": "新浪行业行情", "ok": bool(industries), "rows": len(industries)}
+        )
+    except Exception as exc:  # noqa: BLE001
+        source_status.append(
+            {"source": "新浪行业行情", "ok": False, "error": f"{type(exc).__name__}: {exc}"}
+        )
+
     rows = []
     for stock in stocks:
-        bundle = source.load_stock(stock, args.as_of)
+        try:
+            intraday = fetch_tencent_intraday(client, stock.symbol, limit=320)
+            intraday = intraday[intraday["date"].dt.date <= target_date].reset_index(drop=True)
+            rows.append(
+                {
+                    "code": stock.code,
+                    "intraday_rows": len(intraday),
+                    "last_intraday": None if intraday.empty else str(intraday["date"].max()),
+                    "source": "腾讯60分钟",
+                    "ok": len(intraday) >= 26,
+                }
+            )
+        except Exception as exc:  # noqa: BLE001
+            rows.append(
+                {
+                    "code": stock.code,
+                    "intraday_rows": 0,
+                    "last_intraday": None,
+                    "source": "腾讯60分钟",
+                    "ok": False,
+                    "error": f"{type(exc).__name__}: {exc}",
+                }
+            )
+    return {"market": market, "stocks": rows}
+
+
+def _integrated(stocks, target_date: date) -> dict:
+    source = build_live_source()
+    market = source.load_market(stocks, target_date)
+    rows = []
+    for stock in stocks:
+        bundle = source.load_stock(stock, target_date)
         rows.append(
             {
                 "code": stock.code,
@@ -36,7 +121,22 @@ def main() -> int:
                 "source_status": bundle.source_status,
             }
         )
-    output = {"market": market, "stocks": rows}
+    return {"market": market, "stocks": rows}
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--as-of", type=date.fromisoformat, default=date.today())
+    parser.add_argument("--stocks", type=int, default=1)
+    parser.add_argument("--universe", default="config/universe.yml")
+    parser.add_argument("--require-market", action="store_true")
+    parser.add_argument("--require-60m", action="store_true")
+    parser.add_argument("--fallback-only", action="store_true")
+    args = parser.parse_args()
+    stocks = load_universe(args.universe)[: max(1, min(args.stocks, 17))]
+    output = _fallback_only(stocks, args.as_of) if args.fallback_only else _integrated(stocks, args.as_of)
+    market = output["market"]
+    rows = output["stocks"]
     print(json.dumps(output, ensure_ascii=False, indent=2, default=str))
 
     errors: list[str] = []
