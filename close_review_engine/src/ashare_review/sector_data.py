@@ -1,7 +1,9 @@
 from __future__ import annotations
 
-from datetime import date
-from typing import Any, Iterable
+from collections.abc import Iterable
+from datetime import date, datetime
+from typing import Any
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 
@@ -9,6 +11,7 @@ from ashare_review.data import HttpClient, fetch_eastmoney_kline
 from ashare_review.indicators import finite
 from ashare_review.sector_config import FocusConcept
 
+SHANGHAI = ZoneInfo("Asia/Shanghai")
 BOARD_LIST_HOSTS = (
     "https://79.push2.eastmoney.com/api/qt/clist/get",
     "https://17.push2.eastmoney.com/api/qt/clist/get",
@@ -25,6 +28,23 @@ def _as_int(value: Any) -> int:
     return int(numeric)
 
 
+def _board_data_date(item: dict[str, Any], target_date: date) -> date:
+    explicit = item.get("data_date")
+    if explicit:
+        parsed = pd.to_datetime(explicit, errors="coerce")
+        if not pd.isna(parsed):
+            return parsed.date()
+    raw_timestamp = finite(item.get("f124"))
+    if raw_timestamp is None or raw_timestamp <= 0:
+        return target_date
+    if raw_timestamp > 10_000_000_000:
+        raw_timestamp /= 1000
+    try:
+        return datetime.fromtimestamp(raw_timestamp, tz=SHANGHAI).date()
+    except (OverflowError, OSError, ValueError):
+        return target_date
+
+
 def normalize_board_overview(
     rows: Iterable[dict[str, Any]],
     board_type: str,
@@ -36,6 +56,7 @@ def normalize_board_overview(
         name = str(item.get("board_name") or item.get("f14") or "").strip()
         if not code or not name:
             continue
+        source_date = _board_data_date(item, target_date)
         output.append(
             {
                 "board_code": code,
@@ -53,7 +74,7 @@ def normalize_board_overview(
                 "leader_pct_change": finite(
                     item.get("leader_pct_change", item.get("f136"))
                 ),
-                "data_date": target_date.isoformat(),
+                "data_date": source_date.isoformat(),
                 "source": str(item.get("source") or "东方财富板块行情"),
             }
         )
@@ -141,12 +162,13 @@ def fetch_board_overview(
             "invt": 2,
             "fid": "f3",
             "fs": board_filter,
-            "fields": "f2,f3,f6,f8,f12,f14,f20,f104,f105,f128,f136",
+            "fields": "f2,f3,f6,f8,f12,f14,f20,f104,f105,f124,f128,f136",
             "ut": "bd1d9ddb04089700cf9c27f6f7426281",
         },
         max_pages=4,
     )
-    return normalize_board_overview(rows, board_type, target_date)
+    normalized = normalize_board_overview(rows, board_type, target_date)
+    return [row for row in normalized if row.get("data_date") == target_date.isoformat()]
 
 
 def fetch_board_history(
