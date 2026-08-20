@@ -13,7 +13,8 @@ import pandas as pd
 from ashare_review.analysis import analyze_stock
 from ashare_review.comparison import _alerts, _compare, _market_summary
 from ashare_review.config import StockConfig
-from ashare_review.data import LiveDataSource, StockBundle
+from ashare_review.data import StockBundle
+from ashare_review.fallbacks import ResilientLiveDataSource
 from ashare_review.fixture import FixtureDataSource as FixtureDataSource
 
 
@@ -82,7 +83,8 @@ def run_review(
         "source_policy": {
             "daily": ["东方财富日线", "腾讯日线", "网易日线"],
             "close_cross_check": "腾讯15:00收盘快照",
-            "intraday": "东方财富60分钟",
+            "intraday": ["东方财富60分钟", "腾讯60分钟"],
+            "market": ["东方财富", "腾讯指数", "新浪全市场/行业"],
             "enrichment": ["东方财富财务", "东方财富公告", "东方财富资金流"],
         },
     }
@@ -104,8 +106,8 @@ def _clean(value: Any) -> Any:
     return value
 
 
-def build_live_source() -> LiveDataSource:
-    return LiveDataSource()
+def build_live_source() -> ResilientLiveDataSource:
+    return ResilientLiveDataSource()
 
 
 def dump_json(value: Any) -> str:
