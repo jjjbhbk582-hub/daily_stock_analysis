@@ -1,0 +1,3346 @@
+{
+  "schema_version": 1,
+  "status": "success",
+  "target_date": "2026-08-20",
+  "generated_at": "2026-08-20T19:21:00.131912+08:00",
+  "valid_count": 17,
+  "universe_count": 17,
+  "market": {
+    "data_date": "2026-08-20",
+    "indices": [],
+    "total_amount": null,
+    "breadth": {},
+    "industry_table": [],
+    "source_status": [
+      {
+        "source": "上证指数行情",
+        "ok": false,
+        "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.000001&klt=101&fqt=1&lmt=5&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf"
+      },
+      {
+        "source": "深证成指行情",
+        "ok": false,
+        "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.399001&klt=101&fqt=1&lmt=5&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf"
+      },
+      {
+        "source": "创业板指行情",
+        "ok": false,
+        "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.399006&klt=101&fqt=1&lmt=5&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf"
+      },
+      {
+        "source": "东方财富全市场行情",
+        "ok": false,
+        "error": "ConnectionError: HTTPSConnectionPool(host='82.push2.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/clist/get?pn=1&pz=6000&po=1&np=1&fltt=2&invt=2&fid=f3&fs=m%3A0%2Bt%3A6%2Cm%3A0%2Bt%3A80%2Cm%3A1%2Bt%3A2%2Cm%3A1%2Bt%3A23&fields=f12%2Cf14%2"
+      }
+    ],
+    "strong_industries": [],
+    "weak_industries": [],
+    "theme_states": {
+      "AI算力": {
+        "sample_count": 9,
+        "median_pct_change": 0.65,
+        "average_score": 51.5,
+        "source": "固定股票池样本代理"
+      },
+      "CPO": {
+        "sample_count": 2,
+        "median_pct_change": -0.44,
+        "average_score": 46.6,
+        "source": "固定股票池样本代理"
+      },
+      "PCB": {
+        "sample_count": 7,
+        "median_pct_change": 0.65,
+        "average_score": 52.4,
+        "source": "固定股票池样本代理"
+      },
+      "半导体": {
+        "sample_count": 5,
+        "median_pct_change": 0.03,
+        "average_score": 51.3,
+        "source": "固定股票池样本代理"
+      },
+      "存储": {
+        "sample_count": 2,
+        "median_pct_change": 1.09,
+        "average_score": 51.8,
+        "source": "固定股票池样本代理"
+      },
+      "稀土": {
+        "sample_count": 1,
+        "median_pct_change": -3.14,
+        "average_score": 42.3,
+        "source": "固定股票池样本代理"
+      }
+    },
+    "posture": "市场风险偏好较弱，当前应控制仓位并减少追涨"
+  },
+  "stocks": [
+    {
+      "code": "603228",
+      "name": "景旺电子",
+      "industry": "电子元件",
+      "themes": [
+        "PCB",
+        "AI算力",
+        "汽车电子"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 89.22,
+      "pct_change": 1.2597889002383456,
+      "score": 64.1,
+      "rating": "C",
+      "daily_trend": "多头",
+      "weekly_trend": "强势多头",
+      "trend_60m": "数据不足",
+      "conclusion": "多头/强势多头，60分钟数据不足；已进入条件化回踩观察区，仍需次日量价确认。",
+      "patterns": [
+        "缩量回踩"
+      ],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 84.58,
+        "pullback_high": 89.72,
+        "breakout_trigger": 106.33,
+        "no_chase_above": 112.21,
+        "invalidation": 75.31,
+        "target_1": 106.33,
+        "target_2": 116.75,
+        "risk_reward_1": 1.62,
+        "risk_reward_2": 2.5,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-20",
+          "title": "景旺电子:景旺电子关于为子公司提供担保的进展公告",
+          "art_code": "AN202608191828157471",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-18",
+          "title": "景旺电子:景旺电子关于召开2026年半年度业绩说明会的公告",
+          "art_code": "AN202608171828047529",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-11",
+          "title": "景旺电子:景旺电子股票交易异常波动公告",
+          "art_code": "AN202608101827812221",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-06",
+          "title": "景旺电子:投资者关系活动记录表(202607)",
+          "art_code": "AN202608061827710303",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-01",
+          "title": "景旺电子:景旺电子关于2026年股票期权与限制性股票激励计划首次授予结果公告",
+          "art_code": "AN202607311827530319",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-24",
+          "title": "景旺电子:景旺电子关于为子公司提供担保的进展公告",
+          "art_code": "AN202607231827289882",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-23",
+          "title": "景旺电子:景旺电子关于股权激励限制性股票回购注销实施公告",
+          "art_code": "AN202607221827263220",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-23",
+          "title": "景旺电子:北京观韬(深圳)律师事务所关于深圳市景旺电子股份有限公司2024年股票期权与限制性股票激励计划回购注销部分限制性股票实施相关事项的法律意见书",
+          "art_code": "AN202607221827263219",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-06",
+          "title": "景旺电子:景旺电子关于重新向香港联交所递交H股发行上市的申请并刊发申请资料的公告",
+          "art_code": "AN202607051826728384",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {},
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 15.1,
+        "trend": 20.9,
+        "structure": 5.5,
+        "events": 6.6
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.603228&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.603228&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0603228&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.603228&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        }
+      ],
+      "metrics": {
+        "open": 88.99,
+        "high": 90.79,
+        "low": 85.0,
+        "close": 89.22,
+        "pct_change": 1.2597889002383456,
+        "volume": 32064200.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.5804151126018026,
+        "ma_5": 94.034,
+        "ma_10": 94.58099999999999,
+        "ma_20": 85.5835,
+        "ma_50": 77.429,
+        "ma_100": 73.3656,
+        "ma_200": 69.9738,
+        "ema_5": 92.18921206917472,
+        "ema_10": 91.43281761238536,
+        "ema_20": 87.15020152631719,
+        "ema_50": 80.19174341442225,
+        "rsi_14": 54.41925173414161,
+        "macd_dif": 5.488827147867781,
+        "macd_dea": 5.416816637345376,
+        "macd_hist": 0.14402102104480896,
+        "kdj_k": 40.794709436224075,
+        "kdj_d": 59.522511100747444,
+        "kdj_j": 3.3391061071773294,
+        "stoch_rsi_k": 38.64685936520001,
+        "stoch_rsi_d": 61.70591491146856,
+        "adx_14": 21.773172470298896,
+        "plus_di_14": 25.13301004858285,
+        "minus_di_14": 19.285782782332603,
+        "obv": 1832246600.0,
+        "high_20": 106.01,
+        "low_20": 66.66,
+        "atr_14": 7.351096877147807
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺",
+        "2026-07-23 景旺电子:景旺电子关于股权激励限制性股票回购注销实施公告",
+        "2026-07-23 景旺电子:北京观韬(深圳)律师事务所关于深圳市景旺电子股份有限公司2024年股票期权与限制性股票激励计划回购注销部分限制性股票实施相关事项的法律意见书"
+      ],
+      "rank": 1
+    },
+    {
+      "code": "600584",
+      "name": "长电科技",
+      "industry": "半导体",
+      "themes": [
+        "半导体",
+        "先进封装",
+        "存储"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情",
+        "东方财富资金流"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 79.48,
+      "pct_change": 2.2382299974273323,
+      "score": 58.5,
+      "rating": "D",
+      "daily_trend": "偏多震荡",
+      "weekly_trend": "多头",
+      "trend_60m": "数据不足",
+      "conclusion": "偏多震荡/多头，60分钟数据不足；已进入条件化回踩观察区，仍需次日量价确认。",
+      "patterns": [
+        "缩量回踩"
+      ],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 76.88,
+        "pullback_high": 80.27,
+        "breakout_trigger": 87.76,
+        "no_chase_above": 92.74,
+        "invalidation": 65.76,
+        "target_1": 97.8,
+        "target_2": 113.87,
+        "risk_reward_1": 1.5,
+        "risk_reward_2": 2.75,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-20",
+          "title": "长电科技:江苏长电科技股份有限公司关于2025年股票期权激励计划内幕信息知情人买卖公司股票情况的自查报告",
+          "art_code": "AN202608191828159331",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "长电科技:江苏世纪同仁律师事务所关于江苏长电科技股份有限公司2026年第一次临时股东会的法律意见书",
+          "art_code": "AN202608191828159330",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "长电科技:江苏长电科技股份有限公司2026年第一次临时股东会决议公告",
+          "art_code": "AN202608191828159329",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-14",
+          "title": "长电科技:江苏长电科技股份有限公司关于召开2026年半年度业绩说明会的公告",
+          "art_code": "AN202608131827946932",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-13",
+          "title": "长电科技:江苏长电科技股份有限公司2026年第一次临时股东会会议资料",
+          "art_code": "AN202608121827907116",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-13",
+          "title": "长电科技:江苏长电科技股份有限公司关于股东会开设网络投票提示服务的公告",
+          "art_code": "AN202608121827906901",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-08",
+          "title": "长电科技:江苏长电科技股份有限公司董事会薪酬与考核委员会关于公司2025年股票期权激励计划激励对象名单的核查意见及公示情况说明",
+          "art_code": "AN202608071827754407",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-07",
+          "title": "长电科技:江苏长电科技股份有限公司股票交易价格异常波动公告",
+          "art_code": "AN202608061827718644",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-04",
+          "title": "长电科技:江苏长电科技股份有限公司关于召开2026年第一次临时股东会的通知",
+          "art_code": "AN202608031827592795",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-04",
+          "title": "长电科技:江苏长电科技股份有限公司关于独立董事公开征集委托投票权的公告",
+          "art_code": "AN202608031827592794",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-31",
+          "title": "长电科技:江苏长电科技股份有限公司股票交易价格异常波动公告",
+          "art_code": "AN202607301827499998",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-24",
+          "title": "长电科技:江苏长电科技股份有限公司关于对外投资的进展公告",
+          "art_code": "AN202607231827294660",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {
+        "date": "2026-08-20",
+        "main_net_inflow": 157098016.0,
+        "small_net_inflow": -317262000.0,
+        "medium_net_inflow": 160163984.0,
+        "large_net_inflow": 97527520.0,
+        "super_large_net_inflow": 59570496.0,
+        "main_net_ratio": 1.59,
+        "source": "东方财富资金流"
+      },
+      "score_breakdown": {
+        "fundamental": 15.0,
+        "industry": 14.7,
+        "trend": 17.1,
+        "structure": 6.8,
+        "events": 5.0
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600584&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600584&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0600584&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": true
+        }
+      ],
+      "metrics": {
+        "open": 79.8,
+        "high": 82.13,
+        "low": 77.82,
+        "close": 79.48,
+        "pct_change": 2.2382299974273323,
+        "volume": 123467000.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.778705915357082,
+        "ma_5": 81.44,
+        "ma_10": 79.714,
+        "ma_20": 75.6185,
+        "ma_50": 84.64119999999998,
+        "ma_100": 70.3185,
+        "ma_200": 55.9225,
+        "ema_5": 80.2194467929852,
+        "ema_10": 79.20146173214994,
+        "ema_20": 79.06085018779028,
+        "ema_50": 78.91176457232973,
+        "rsi_14": 49.92651430724634,
+        "macd_dif": -0.5437422315600315,
+        "macd_dea": -1.7681845306432278,
+        "macd_hist": 2.4488845981663925,
+        "kdj_k": 55.001162076169045,
+        "kdj_d": 68.6456287052798,
+        "kdj_j": 27.712228817947533,
+        "stoch_rsi_k": 76.83307049435764,
+        "stoch_rsi_d": 87.62999714343222,
+        "adx_14": 15.846848250028437,
+        "plus_di_14": 25.119506140031447,
+        "minus_di_14": 25.49584057715047,
+        "obv": 4396701500.0,
+        "high_20": 87.5,
+        "low_20": 60.84,
+        "atr_14": 6.227184491647082
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺",
+        "主力净流入占比+1.59%（2026-08-20）"
+      ],
+      "rank": 2
+    },
+    {
+      "code": "600183",
+      "name": "生益科技",
+      "industry": "电子元件",
+      "themes": [
+        "PCB",
+        "覆铜板",
+        "AI算力"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情",
+        "东方财富资金流"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 126.28,
+      "pct_change": 0.6455726468478584,
+      "score": 55.3,
+      "rating": "D",
+      "daily_trend": "偏多震荡",
+      "weekly_trend": "多头",
+      "trend_60m": "数据不足",
+      "conclusion": "偏多震荡/多头，60分钟数据不足；已进入条件化回踩观察区，仍需次日量价确认。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 122.03,
+        "pullback_high": 127.54,
+        "breakout_trigger": 152.36,
+        "no_chase_above": 160.75,
+        "invalidation": 117.4,
+        "target_1": 152.36,
+        "target_2": 191.88,
+        "risk_reward_1": 3.73,
+        "risk_reward_2": 9.09,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-15",
+          "title": "生益科技:生益科技关于2026年半年度日常关联交易情况及增加2026年度日常关联交易预计额度的公告",
+          "art_code": "AN202608141827994208",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-15",
+          "title": "生益科技:生益科技关于召开2026年半年度业绩说明会的公告",
+          "art_code": "AN202608141827994211",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-15",
+          "title": "生益科技:生益科技2026年半年度报告",
+          "art_code": "AN202608141827994209",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-15",
+          "title": "生益科技:生益科技第十一届董事会第二十次会议决议公告",
+          "art_code": "AN202608141827994207",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-15",
+          "title": "生益科技:生益科技2026年半年度报告摘要",
+          "art_code": "AN202608141827994210",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-08",
+          "title": "生益科技:生益科技股票交易风险提示公告",
+          "art_code": "AN202608071827753777",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-07",
+          "title": "生益科技:生益科技股票交易异常波动公告",
+          "art_code": "AN202608061827717473",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-07",
+          "title": "生益科技:生益科技关于湖南绿晟环保股份有限公司及其下属公司互相提供担保的进展公告",
+          "art_code": "AN202608061827717474",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-25",
+          "title": "生益科技:生益科技2026年第一次临时股东会决议公告",
+          "art_code": "AN202607241827323215",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-25",
+          "title": "生益科技:北京市康达(广州)律师事务所关于生益科技2026年第一次临时股东会的法律意见书",
+          "art_code": "AN202607241827323214",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-17",
+          "title": "生益科技:生益科技关于2024年度限制性股票激励计划第二个解除限售期解除限售暨上市的公告",
+          "art_code": "AN202607161827028316",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-17",
+          "title": "生益科技:北京市康达(广州)律师事务所关于生益科技2024年度限制性股票激励计划第二个解除限售期解除限售条件成就的法律意见书",
+          "art_code": "AN202607161827028315",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {
+        "date": "2026-08-20",
+        "main_net_inflow": 55118224.0,
+        "small_net_inflow": 121441024.0,
+        "medium_net_inflow": -176559232.0,
+        "large_net_inflow": 88867648.0,
+        "super_large_net_inflow": -33749424.0,
+        "main_net_ratio": 0.72,
+        "source": "东方财富资金流"
+      },
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 15.5,
+        "trend": 16.1,
+        "structure": 4.2,
+        "events": 3.5
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600183&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600183&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0600183&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": true
+        }
+      ],
+      "metrics": {
+        "open": 128.19,
+        "high": 131.19,
+        "low": 124.16,
+        "close": 126.28,
+        "pct_change": 0.6455726468478584,
+        "volume": 59615200.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.8262490035739325,
+        "ma_5": 135.772,
+        "ma_10": 137.768,
+        "ma_20": 125.69850000000001,
+        "ma_50": 144.47459999999998,
+        "ma_100": 117.3078,
+        "ma_200": 90.39265000000002,
+        "ema_5": 132.44514485713574,
+        "ema_10": 133.0468708540832,
+        "ema_20": 132.3497867409835,
+        "ema_50": 131.76792054262376,
+        "rsi_14": 45.90617297882355,
+        "macd_dif": -0.08892143051861012,
+        "macd_dea": -1.2198601579474257,
+        "macd_hist": 2.2618774548576313,
+        "kdj_k": 36.1479528682431,
+        "kdj_d": 58.0355144038634,
+        "kdj_j": -7.62717020299749,
+        "stoch_rsi_k": 60.014342150063484,
+        "stoch_rsi_d": 77.36868625458924,
+        "adx_14": 19.71030318748604,
+        "plus_di_14": 23.04932020031034,
+        "minus_di_14": 25.73786452946724,
+        "obv": 2530545100.0,
+        "high_20": 151.9,
+        "low_20": 97.51,
+        "atr_14": 10.492628699070693
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺",
+        "风险：2026-08-08 生益科技:生益科技股票交易风险提示公告",
+        "主力净流入占比+0.72%（2026-08-20）"
+      ],
+      "rank": 3
+    },
+    {
+      "code": "603920",
+      "name": "世运电路",
+      "industry": "电子元件",
+      "themes": [
+        "PCB",
+        "汽车电子",
+        "AI算力"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 38.13,
+      "pct_change": 1.1405835543766507,
+      "score": 54.5,
+      "rating": "D",
+      "daily_trend": "偏多震荡",
+      "weekly_trend": "强势空头",
+      "trend_60m": "数据不足",
+      "conclusion": "偏多震荡/强势空头，60分钟数据不足；已进入条件化回踩观察区，仍需次日量价确认。",
+      "patterns": [
+        "缩量回踩"
+      ],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 36.64,
+        "pullback_high": 38.27,
+        "breakout_trigger": 41.93,
+        "no_chase_above": 43.79,
+        "invalidation": 33.35,
+        "target_1": 43.61,
+        "target_2": 70.28,
+        "risk_reward_1": 1.5,
+        "risk_reward_2": 8.0,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-15",
+          "title": "世运电路:世运电路关于使用闲置募集资金进行现金管理的进展公告",
+          "art_code": "AN202608141827990222",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-14",
+          "title": "世运电路:世运电路2026年半年度报告摘要",
+          "art_code": "AN202608131827948375",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-14",
+          "title": "世运电路:世运电路2026年半年度募集资金存放、管理与实际使用情况的专项报告",
+          "art_code": "AN202608131827948374",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-14",
+          "title": "世运电路:世运电路关于会计政策变更的公告",
+          "art_code": "AN202608131827948371",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-14",
+          "title": "世运电路:世运电路2026年半年度报告",
+          "art_code": "AN202608131827948372",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-14",
+          "title": "世运电路:世运电路关于召开2026年半年度业绩说明会的公告",
+          "art_code": "AN202608131827948373",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-14",
+          "title": "世运电路:世运电路第五届董事会第十七次会议决议公告",
+          "art_code": "AN202608131827948370",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-04",
+          "title": "世运电路:世运电路关于使用闲置募集资金进行现金管理到期赎回的公告",
+          "art_code": "AN202608031827587339",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-01",
+          "title": "世运电路:世运电路关于回购公司股份比例达1%及回购实施结果暨股份变动的公告",
+          "art_code": "AN202607311827530266",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-30",
+          "title": "世运电路:世运电路关于以集中竞价交易方式首次回购公司股份的公告",
+          "art_code": "AN202607291827458033",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "世运电路:世运电路第五届董事会第十六次会议决议公告",
+          "art_code": "AN202607271827390547",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "世运电路:世运电路关于以集中竞价交易方式回购股份的回购报告书",
+          "art_code": "AN202607271827390548",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {},
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 14.7,
+        "trend": 12.1,
+        "structure": 6.8,
+        "events": 5.0
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.603920&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.603920&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0603920&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.603920&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        }
+      ],
+      "metrics": {
+        "open": 38.33,
+        "high": 38.74,
+        "low": 37.16,
+        "close": 38.13,
+        "pct_change": 1.1405835543766507,
+        "volume": 20147800.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.7283664643707664,
+        "ma_5": 39.076,
+        "ma_10": 38.058,
+        "ma_20": 35.553999999999995,
+        "ma_50": 41.556599999999996,
+        "ma_100": 49.93,
+        "ma_200": 50.21245000000001,
+        "ema_5": 38.50429137780692,
+        "ema_10": 37.851747588146424,
+        "ema_20": 37.45632457453443,
+        "ema_50": 41.42039379727656,
+        "rsi_14": 50.14716379011506,
+        "macd_dif": -0.3478900469616306,
+        "macd_dea": -1.3266798452901851,
+        "macd_hist": 1.957579596657109,
+        "kdj_k": 60.97991303130135,
+        "kdj_d": 71.8198011142382,
+        "kdj_j": 39.300136865427646,
+        "stoch_rsi_k": 78.2654208247698,
+        "stoch_rsi_d": 88.87871980781591,
+        "adx_14": 29.055895240171367,
+        "plus_di_14": 24.834480805368287,
+        "minus_di_14": 22.17922127017659,
+        "obv": 816224800.0,
+        "high_20": 41.8,
+        "low_20": 30.6,
+        "atr_14": 2.327283781698942
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺"
+      ],
+      "rank": 4
+    },
+    {
+      "code": "002436",
+      "name": "兴森科技",
+      "industry": "电子元件",
+      "themes": [
+        "PCB",
+        "先进封装",
+        "半导体"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 33.81,
+      "pct_change": 0.02958579881657819,
+      "score": 52.3,
+      "rating": "D",
+      "daily_trend": "偏多震荡",
+      "weekly_trend": "偏空震荡",
+      "trend_60m": "数据不足",
+      "conclusion": "偏多震荡/偏空震荡，60分钟数据不足；已进入条件化回踩观察区，仍需次日量价确认。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 33.38,
+        "pullback_high": 34.15,
+        "breakout_trigger": 39.5,
+        "no_chase_above": 41.84,
+        "invalidation": 29.0,
+        "target_1": 40.91,
+        "target_2": 55.0,
+        "risk_reward_1": 1.5,
+        "risk_reward_2": 4.46,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-07-21",
+          "title": "兴森科技:关于回购实施完成暨股份变动的公告",
+          "art_code": "AN202607201827156285",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-15",
+          "title": "兴森科技:2026年半年度业绩预告",
+          "art_code": "AN202607141826962812",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-10",
+          "title": "兴森科技:2026年第二次临时股东会决议公告",
+          "art_code": "AN202607091826849878",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-10",
+          "title": "兴森科技:2026年第二次临时股东会法律意见书",
+          "art_code": "AN202607091826849876",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {},
+      "score_breakdown": {
+        "fundamental": 15.0,
+        "industry": 14.7,
+        "trend": 12.6,
+        "structure": 4.2,
+        "events": 5.8
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002436&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002436&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002436&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002436&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        }
+      ],
+      "metrics": {
+        "open": 33.51,
+        "high": 34.6,
+        "low": 32.77,
+        "close": 33.81,
+        "pct_change": 0.02958579881657819,
+        "volume": 109796300.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.86504459561525,
+        "ma_5": 35.658,
+        "ma_10": 34.86,
+        "ma_20": 32.6635,
+        "ma_50": 38.898999999999994,
+        "ma_100": 34.588699999999996,
+        "ma_200": 28.405299999999997,
+        "ema_5": 34.86836436299238,
+        "ema_10": 34.481119580837316,
+        "ema_20": 34.40829957533569,
+        "ema_50": 35.6113387880455,
+        "rsi_14": 47.63120427406181,
+        "macd_dif": -0.4311369544662824,
+        "macd_dea": -1.1389074476713394,
+        "macd_hist": 1.415540986410114,
+        "kdj_k": 52.565753204798256,
+        "kdj_d": 67.98641258041184,
+        "kdj_j": 21.724434453571092,
+        "stoch_rsi_k": 71.36913427192707,
+        "stoch_rsi_d": 83.96435967583757,
+        "adx_14": 18.054189278600766,
+        "plus_di_14": 23.797498883468908,
+        "minus_di_14": 24.44514962682925,
+        "obv": 7363776800.0,
+        "high_20": 39.38,
+        "low_20": 26.0,
+        "atr_14": 2.932083865039661
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺",
+        "2026-07-21 兴森科技:关于回购实施完成暨股份变动的公告"
+      ],
+      "rank": 5
+    },
+    {
+      "code": "002371",
+      "name": "北方华创",
+      "industry": "半导体",
+      "themes": [
+        "半导体设备",
+        "国产替代",
+        "先进封装"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 712.55,
+      "pct_change": -0.05610491619328917,
+      "score": 52.1,
+      "rating": "D",
+      "daily_trend": "偏空震荡",
+      "weekly_trend": "多头",
+      "trend_60m": "数据不足",
+      "conclusion": "偏空震荡/多头，60分钟数据不足；目前只适合观察，等待结构改善。",
+      "patterns": [
+        "MACD底背离"
+      ],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 720.59,
+        "pullback_high": 719.68,
+        "breakout_trigger": 788.26,
+        "no_chase_above": 825.02,
+        "invalidation": 698.92,
+        "target_1": 788.26,
+        "target_2": 967.24,
+        "risk_reward_1": 2.97,
+        "risk_reward_2": 10.76,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-18",
+          "title": "北方华创:2026年第一次临时股东会法律意见书",
+          "art_code": "AN202608171828058839",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-18",
+          "title": "北方华创:2026年第一次临时股东会决议公告",
+          "art_code": "AN202608171828058851",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-06",
+          "title": "北方华创:关于2026年员工持股计划开户完成的公告",
+          "art_code": "AN202608051827670594",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-31",
+          "title": "北方华创:关于召开2026年第一次临时股东会的通知",
+          "art_code": "AN202607301827490886",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-30",
+          "title": "北方华创:关于2022年股票期权激励计划首次授予部分第三个行权期采用自主行权模式的提示性公告",
+          "art_code": "AN202607291827460361",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "北方华创:2026年员工持股计划第一次持有人会议决议公告",
+          "art_code": "AN202607271827384620",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-25",
+          "title": "北方华创:关于2022年股票期权激励计划部分股票期权注销完成的公告",
+          "art_code": "AN202607241827316756",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-22",
+          "title": "北方华创:关于2022年股票期权激励计划首次授予部分第三个行权期行权条件成就的公告",
+          "art_code": "AN202607211827217717",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-22",
+          "title": "北方华创:中信建投证券股份有限公司关于北方华创科技集团股份有限公司2026年员工持股计划(草案)之独立财务顾问报告",
+          "art_code": "AN202607211827217710",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-22",
+          "title": "北方华创:中信建投证券股份有限公司关于北方华创科技集团股份有限公司2022年股票期权激励计划首次授予部分第三个行权期行权条件成就之独立财务顾问报告",
+          "art_code": "AN202607211827217713",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-22",
+          "title": "北方华创:2026年员工持股计划(草案)",
+          "art_code": "AN202607211827217716",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-22",
+          "title": "北方华创:北京金诚同达律师事务所关于北方华创股票期权激励计划行权期行权条件成就及注销部分期权、调整行权价格相关事项的法律意见书",
+          "art_code": "AN202607211827217712",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {},
+      "score_breakdown": {
+        "fundamental": 15.0,
+        "industry": 15.7,
+        "trend": 12.5,
+        "structure": 4.0,
+        "events": 5.0
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002371&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002371&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002371&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002371&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        }
+      ],
+      "metrics": {
+        "open": 726.01,
+        "high": 739.15,
+        "low": 704.25,
+        "close": 712.55,
+        "pct_change": -0.05610491619328917,
+        "volume": 7937300.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.6983503559147036,
+        "ma_5": 741.426,
+        "ma_10": 746.382,
+        "ma_20": 728.614,
+        "ma_50": 750.7048,
+        "ma_100": 647.2769,
+        "ma_200": 551.952,
+        "ema_5": 733.3585956836239,
+        "ema_10": 736.7787279659669,
+        "ema_20": 736.6700472315437,
+        "ema_50": 719.6999841615013,
+        "rsi_14": 46.23304570208529,
+        "macd_dif": 0.6149275207541223,
+        "macd_dea": 0.7981922595314104,
+        "macd_hist": -0.3665294775545762,
+        "kdj_k": 41.45015804726034,
+        "kdj_d": 60.839266196600335,
+        "kdj_j": 2.6719417485803376,
+        "stoch_rsi_k": 61.85219699555687,
+        "stoch_rsi_d": 78.45264245644974,
+        "adx_14": 11.427642143406164,
+        "plus_di_14": 20.84022601665296,
+        "minus_di_14": 23.182210141379354,
+        "obv": 465868300.0,
+        "high_20": 785.9,
+        "low_20": 632.01,
+        "atr_14": 45.94895308131691
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺"
+      ],
+      "rank": 6
+    },
+    {
+      "code": "601138",
+      "name": "工业富联",
+      "industry": "消费电子",
+      "themes": [
+        "AI算力",
+        "服务器"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情",
+        "东方财富资金流"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 62.13,
+      "pct_change": 0.48520135856380264,
+      "score": 50.6,
+      "rating": "D",
+      "daily_trend": "偏空震荡",
+      "weekly_trend": "偏空震荡",
+      "trend_60m": "数据不足",
+      "conclusion": "偏空震荡/偏空震荡，60分钟数据不足；目前只适合观察，等待结构改善。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 62.78,
+        "pullback_high": 62.75,
+        "breakout_trigger": 71.18,
+        "no_chase_above": 73.89,
+        "invalidation": 60.62,
+        "target_1": 71.18,
+        "target_2": 84.3,
+        "risk_reward_1": 3.93,
+        "risk_reward_2": 10.05,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-20",
+          "title": "工业富联:富士康工业互联网股份有限公司关于以集中竞价交易方式首次回购股份的公告",
+          "art_code": "AN202608191828157550",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-19",
+          "title": "工业富联:富士康工业互联网股份有限公司关于召开2026年半年度业绩说明会的公告",
+          "art_code": "AN202608181828107814",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "工业富联:富士康工业互联网股份有限公司2026年半年度募集资金存放、管理与实际使用情况的专项报告",
+          "art_code": "AN202608111827859008",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "工业富联:富士康工业互联网股份有限公司第四届董事会第三次会议决议公告",
+          "art_code": "AN202608111827859011",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "工业富联:富士康工业互联网股份有限公司2026年半年度报告摘要",
+          "art_code": "AN202608111827859014",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "工业富联:富士康工业互联网股份有限公司2026年半年度报告",
+          "art_code": "AN202608111827859009",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-05",
+          "title": "工业富联:富士康工业互联网股份有限公司关于股份回购进展公告",
+          "art_code": "AN202608041827622949",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-31",
+          "title": "工业富联:富士康工业互联网股份有限公司关于回购股份事项前十名股东和前十名无限售条件股东持股情况的公告",
+          "art_code": "AN202607301827489281",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "工业富联:富士康工业互联网股份有限公司第四届董事会第二次会议决议公告",
+          "art_code": "AN202607271827384255",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "工业富联:富士康工业互联网股份有限公司关于以集中竞价交易方式回购股份的回购报告书",
+          "art_code": "AN202607271827384253",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-24",
+          "title": "工业富联:富士康工业互联网股份有限公司2025年年度权益分派实施公告",
+          "art_code": "AN202607231827290341",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-10",
+          "title": "工业富联:富士康工业互联网股份有限公司2026年半年度业绩预增公告",
+          "art_code": "AN202607091826847541",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {
+        "date": "2026-08-20",
+        "main_net_inflow": -72173712.0,
+        "small_net_inflow": -17833536.0,
+        "medium_net_inflow": 90007248.0,
+        "large_net_inflow": -63196960.0,
+        "super_large_net_inflow": -8976752.0,
+        "main_net_ratio": -1.48,
+        "source": "东方财富资金流"
+      },
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 15.3,
+        "trend": 8.9,
+        "structure": 3.0,
+        "events": 7.4
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.601138&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.601138&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0601138&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": true
+        }
+      ],
+      "metrics": {
+        "open": 62.5,
+        "high": 62.95,
+        "low": 61.5,
+        "close": 62.13,
+        "pct_change": 0.48520135856380264,
+        "volume": 78118500.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.5262907558945595,
+        "ma_5": 64.916,
+        "ma_10": 65.878,
+        "ma_20": 62.6515,
+        "ma_50": 65.4166,
+        "ma_100": 64.7561,
+        "ma_200": 62.220749999999995,
+        "ema_5": 64.0083180231064,
+        "ema_10": 64.3940957446475,
+        "ema_20": 63.966707218168175,
+        "ema_50": 64.3897428581036,
+        "rsi_14": 46.550195482273594,
+        "macd_dif": 0.32491506848941754,
+        "macd_dea": 0.21212768844474356,
+        "macd_hist": 0.22557476008934796,
+        "kdj_k": 29.38246555901297,
+        "kdj_d": 48.34901165059348,
+        "kdj_j": -8.550626624148052,
+        "stoch_rsi_k": 45.53713331276853,
+        "stoch_rsi_d": 64.08564836181425,
+        "adx_14": 16.011298336379983,
+        "plus_di_14": 24.816433296407613,
+        "minus_di_14": 27.8809737034485,
+        "obv": 7488426900.0,
+        "high_20": 70.97,
+        "low_20": 52.57,
+        "atr_14": 3.3791949512479644
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺",
+        "2026-08-20 工业富联:富士康工业互联网股份有限公司关于以集中竞价交易方式首次回购股份的公告",
+        "2026-08-05 工业富联:富士康工业互联网股份有限公司关于股份回购进展公告",
+        "2026-07-31 工业富联:富士康工业互联网股份有限公司关于回购股份事项前十名股东和前十名无限售条件股东持股情况的公告",
+        "主力净流入占比-1.48%（2026-08-20）"
+      ],
+      "rank": 7
+    },
+    {
+      "code": "002602",
+      "name": "世纪华通",
+      "industry": "游戏",
+      "themes": [
+        "游戏",
+        "数据中心",
+        "AI应用"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "东方财富日线",
+        "腾讯行情",
+        "东方财富资金流"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 13.84,
+      "pct_change": -0.43,
+      "score": 50.3,
+      "rating": "D",
+      "daily_trend": "偏多震荡",
+      "weekly_trend": "空头",
+      "trend_60m": "空头",
+      "conclusion": "偏多震荡/空头，60分钟空头；已进入条件化回踩观察区，仍需次日量价确认。",
+      "patterns": [
+        "缩量回踩"
+      ],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 13.67,
+        "pullback_high": 13.98,
+        "breakout_trigger": 14.88,
+        "no_chase_above": 15.38,
+        "invalidation": 13.42,
+        "target_1": 14.88,
+        "target_2": 15.59,
+        "risk_reward_1": 2.67,
+        "risk_reward_2": 4.44,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-14",
+          "title": "世纪华通:关于第一大股东及其一致行动人提前终止减持计划暨减持股份结果公告",
+          "art_code": "AN202608131827948456",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-30",
+          "title": "世纪华通:关于股东收到行政监管措施决定书的公告",
+          "art_code": "AN202607291827457500",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-29",
+          "title": "关于对上海曜瞿如网络科技合伙企业(有限合伙)、上海熠趣盛企业管理咨询合伙企业(有限合伙)、上海吉虞梵企业管理咨询合伙企业(有限合伙)、浙江华通控股集团有限公司给予纪律处分的决定",
+          "art_code": "AN202607291827461150",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "世纪华通:关于完成工商变更登记并换发营业执照的公告",
+          "art_code": "AN202607271827387211",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "世纪华通:关于变更公司办公地址的公告",
+          "art_code": "AN202607271827387218",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-22",
+          "title": "世纪华通:关于履行部分担保责任的公告",
+          "art_code": "AN202607211827212087",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-15",
+          "title": "世纪华通:2026年半年度业绩预告",
+          "art_code": "AN202607141826963437",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-11",
+          "title": "世纪华通:关于全资子公司与专业投资机构共同投资的公告",
+          "art_code": "AN202607101826879185",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {
+        "date": "2026-08-20",
+        "main_net_inflow": 39757029.0,
+        "small_net_inflow": -16710343.0,
+        "medium_net_inflow": -23046672.0,
+        "large_net_inflow": 49867717.0,
+        "super_large_net_inflow": -10110688.0,
+        "main_net_ratio": 3.7,
+        "source": "东方财富资金流"
+      },
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 13.5,
+        "trend": 12.3,
+        "structure": 5.0,
+        "events": 3.5
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": true,
+          "date": "2026-08-20 15:00:00"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 3188
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": true
+        }
+      ],
+      "metrics": {
+        "open": 14.0,
+        "high": 14.21,
+        "low": 13.74,
+        "close": 13.84,
+        "pct_change": -0.43,
+        "volume": 773103.0,
+        "amount": 1074581009.09,
+        "turnover_rate": 1.14,
+        "rel_volume_20": 0.6115378253780331,
+        "ma_5": 14.134,
+        "ma_10": 14.098000000000003,
+        "ma_20": 13.735499999999998,
+        "ma_50": 13.689,
+        "ma_100": 14.7299,
+        "ma_200": 16.34565,
+        "ema_5": 14.009069562868616,
+        "ema_10": 14.003240277491248,
+        "ema_20": 13.886369007746575,
+        "ema_50": 14.004072671616521,
+        "rsi_14": 49.82533486540965,
+        "macd_dif": 0.12096574778674984,
+        "macd_dea": 0.09934881738258618,
+        "macd_hist": 0.043233860808327335,
+        "kdj_k": 38.454767958224416,
+        "kdj_d": 50.53088884823413,
+        "kdj_j": 14.302526178205,
+        "stoch_rsi_k": 23.29409663746027,
+        "stoch_rsi_d": 44.055795945502446,
+        "adx_14": 14.306176021248087,
+        "plus_di_14": 19.02468074223224,
+        "minus_di_14": 14.709763567145126,
+        "obv": 107810685.0,
+        "high_20": 14.84,
+        "low_20": 12.07,
+        "atr_14": 0.6255617218527589
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺",
+        "风险：2026-08-14 世纪华通:关于第一大股东及其一致行动人提前终止减持计划暨减持股份结果公告",
+        "主力净流入占比+3.70%（2026-08-20）"
+      ],
+      "rank": 8
+    },
+    {
+      "code": "002916",
+      "name": "深南电路",
+      "industry": "电子元件",
+      "themes": [
+        "PCB",
+        "AI算力",
+        "先进封装"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情",
+        "东方财富资金流"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 345.0,
+      "pct_change": 0.31110981885849043,
+      "score": 48.3,
+      "rating": "D",
+      "daily_trend": "偏空震荡",
+      "weekly_trend": "偏空震荡",
+      "trend_60m": "数据不足",
+      "conclusion": "偏空震荡/偏空震荡，60分钟数据不足；已进入条件化回踩观察区，仍需次日量价确认。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 340.16,
+        "pullback_high": 348.45,
+        "breakout_trigger": 404.09,
+        "no_chase_above": 425.68,
+        "invalidation": 332.06,
+        "target_1": 404.09,
+        "target_2": 484.57,
+        "risk_reward_1": 4.43,
+        "risk_reward_2": 10.4,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-15",
+          "title": "深南电路:北京市嘉源律师事务所关于深南电路股份有限公司2026年第二次临时股东会的法律意见书",
+          "art_code": "AN202608141827992828",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-15",
+          "title": "深南电路:深南电路股份有限公司2026年第二次临时股东会决议公告",
+          "art_code": "AN202608141827992830",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-30",
+          "title": "深南电路:第四届董事会第十八次会议决议公告",
+          "art_code": "AN202607291827457894",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-30",
+          "title": "深南电路:关于召开2026年第二次临时股东会的通知",
+          "art_code": "AN202607291827457897",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-24",
+          "title": "深南电路:2026年7月22日-24日投资者关系活动记录表",
+          "art_code": "AN202607241827325728",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-16",
+          "title": "深南电路:2026年7月16日投资者关系活动记录表",
+          "art_code": "AN202607161827030622",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-14",
+          "title": "深南电路:2026年7月14日投资者关系活动记录表",
+          "art_code": "AN202607141826963648",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-14",
+          "title": "深南电路:2026年半年度业绩预告",
+          "art_code": "AN202607131826930017",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-09",
+          "title": "深南电路:关于2026年度向特定对象发行股票获得有权国资监管单位批复的公告",
+          "art_code": "AN202607081826819310",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {
+        "date": "2026-08-20",
+        "main_net_inflow": -150281280.0,
+        "small_net_inflow": 194802560.0,
+        "medium_net_inflow": -44521280.0,
+        "large_net_inflow": -87123712.0,
+        "super_large_net_inflow": -63157568.0,
+        "main_net_ratio": -5.32,
+        "source": "东方财富资金流"
+      },
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 15.6,
+        "trend": 8.9,
+        "structure": 4.2,
+        "events": 3.5
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002916&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002916&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002916&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": true
+        }
+      ],
+      "metrics": {
+        "open": 349.06,
+        "high": 353.53,
+        "low": 340.51,
+        "close": 345.0,
+        "pct_change": 0.31110981885849043,
+        "volume": 8134400.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.7464067065024298,
+        "ma_5": 368.336,
+        "ma_10": 374.119,
+        "ma_20": 349.6035,
+        "ma_50": 384.43379999999996,
+        "ma_100": 350.06409999999994,
+        "ma_200": 288.65535,
+        "ema_5": 360.99678061259795,
+        "ema_10": 363.42964463058024,
+        "ema_20": 362.36013212144013,
+        "ema_50": 364.88432594362365,
+        "rsi_14": 45.1507861734296,
+        "macd_dif": -0.711202989812648,
+        "macd_dea": -2.6881753815088176,
+        "macd_hist": 3.9539447833923393,
+        "kdj_k": 36.67659909396984,
+        "kdj_d": 58.40354086955779,
+        "kdj_j": -6.777284457206051,
+        "stoch_rsi_k": 52.91780396885937,
+        "stoch_rsi_d": 73.22005260051812,
+        "adx_14": 18.708881579622116,
+        "plus_di_14": 20.473489661701084,
+        "minus_di_14": 23.553247714989208,
+        "obv": 430935100.0,
+        "high_20": 402.88,
+        "low_20": 284.41,
+        "atr_14": 26.983984707754473
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺",
+        "主力净流入占比-5.32%（2026-08-20）"
+      ],
+      "rank": 9
+    },
+    {
+      "code": "002281",
+      "name": "光迅科技",
+      "industry": "通信设备",
+      "themes": [
+        "CPO",
+        "光模块",
+        "AI算力"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "东方财富日线",
+        "腾讯行情",
+        "东方财富资金流"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 173.15,
+      "pct_change": -2.66,
+      "score": 47.3,
+      "rating": "D",
+      "daily_trend": "偏空震荡",
+      "weekly_trend": "偏空震荡",
+      "trend_60m": "强势空头",
+      "conclusion": "偏空震荡/偏空震荡，60分钟强势空头；目前只适合观察，等待结构改善。",
+      "patterns": [
+        "MACD底背离"
+      ],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 173.51,
+        "pullback_high": 174.88,
+        "breakout_trigger": 202.99,
+        "no_chase_above": 215.27,
+        "invalidation": 158.93,
+        "target_1": 202.99,
+        "target_2": 279.0,
+        "risk_reward_1": 1.89,
+        "risk_reward_2": 6.86,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:武汉光迅科技股份有限公司关于对信科(北京)财务有限公司的持续风险评估说明的公告",
+          "art_code": "AN202608191828162000",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:武汉光迅科技股份有限公司关于2026年半年度计提资产减值准备的公告",
+          "art_code": "AN202608191828162004",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:北京市嘉源律师事务所关于武汉光迅科技股份有限公司回购注销2022年限制性股票激励计划、2025年限制性股票激励计划部分限制性股票的法律意见书",
+          "art_code": "AN202608191828162013",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:2026年半年度报告摘要",
+          "art_code": "AN202608191828162008",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:武汉光迅科技股份有限公司募集资金2026年半年度存放与使用情况的专项报告",
+          "art_code": "AN202608191828162010",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:武汉光迅科技股份有限公司关于2026年半年度利润分配预案的公告",
+          "art_code": "AN202608191828162015",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:申万宏源证券承销保荐有限责任公司关于武汉光迅科技股份有限公司使用自有资金支付募投项目部分款项并以募集资金等额置换的核查意见",
+          "art_code": "AN202608191828162018",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:武汉光迅科技股份有限公司关于使用自有资金支付募投项目部分款项并以募集资金等额置换的公告",
+          "art_code": "AN202608191828162012",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:武汉光迅科技股份有限公司关于回购注销2022年限制性股票激励计划、2025年限制性股票激励计划部分限制性股票的公告",
+          "art_code": "AN202608191828162001",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:2026年半年度报告",
+          "art_code": "AN202608191828162007",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:武汉光迅科技股份有限公司2026年1-6月非经营性资金占用及其他关联资金往来情况汇总表",
+          "art_code": "AN202608191828162002",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "光迅科技:武汉光迅科技股份有限公司第八届董事会第九次会议决议公告",
+          "art_code": "AN202608191828161997",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {
+        "date": "2026-08-20",
+        "main_net_inflow": -473081072.0,
+        "small_net_inflow": 655678304.0,
+        "medium_net_inflow": -182597248.0,
+        "large_net_inflow": -273772512.0,
+        "super_large_net_inflow": -199308560.0,
+        "main_net_ratio": -6.86,
+        "source": "东方财富资金流"
+      },
+      "score_breakdown": {
+        "fundamental": 15.0,
+        "industry": 15.6,
+        "trend": 8.9,
+        "structure": 3.5,
+        "events": 4.3
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": true,
+          "date": "2026-08-20 15:00:00"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 4062
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": true
+        }
+      ],
+      "metrics": {
+        "open": 176.5,
+        "high": 179.55,
+        "low": 170.0,
+        "close": 173.15,
+        "pct_change": -2.66,
+        "volume": 395488.0,
+        "amount": 6900788705.4,
+        "turnover_rate": 5.03,
+        "rel_volume_20": 0.8625108375975847,
+        "ma_5": 187.988,
+        "ma_10": 186.52299999999997,
+        "ma_20": 178.88500000000002,
+        "ma_50": 207.1384,
+        "ma_100": 183.79699999999997,
+        "ma_200": 126.8954,
+        "ema_5": 182.93800483935598,
+        "ema_10": 183.770893194007,
+        "ema_20": 185.67738601000437,
+        "ema_50": 191.37109779427274,
+        "rsi_14": 43.3835396563565,
+        "macd_dif": -4.113689987791133,
+        "macd_dea": -6.021505214826229,
+        "macd_hist": 3.8156304540701917,
+        "kdj_k": 44.30657114412891,
+        "kdj_d": 62.187835184389556,
+        "kdj_j": 8.544043063607631,
+        "stoch_rsi_k": 61.391887764084366,
+        "stoch_rsi_d": 80.43879582399005,
+        "adx_14": 17.811774014850478,
+        "plus_di_14": 18.905329017032194,
+        "minus_di_14": 26.909597114469165,
+        "obv": 62172259.0,
+        "high_20": 202.38,
+        "low_20": 152.33,
+        "atr_14": 15.352288081453402
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺",
+        "2026-08-20 光迅科技:北京市嘉源律师事务所关于武汉光迅科技股份有限公司回购注销2022年限制性股票激励计划、2025年限制性股票激励计划部分限制性股票的法律意见书",
+        "主力净流入占比-6.86%（2026-08-20）"
+      ],
+      "rank": 10
+    },
+    {
+      "code": "002463",
+      "name": "沪电股份",
+      "industry": "电子元件",
+      "themes": [
+        "PCB",
+        "AI算力",
+        "服务器"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "东方财富日线",
+        "腾讯行情",
+        "东方财富资金流"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 114.32,
+      "pct_change": 0.8,
+      "score": 47.0,
+      "rating": "D",
+      "daily_trend": "偏空震荡",
+      "weekly_trend": "偏空震荡",
+      "trend_60m": "强势空头",
+      "conclusion": "偏空震荡/偏空震荡，60分钟强势空头；目前只适合观察，等待结构改善。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 115.63,
+        "pullback_high": 115.46,
+        "breakout_trigger": 129.38,
+        "no_chase_above": 135.89,
+        "invalidation": 110.38,
+        "target_1": 129.38,
+        "target_2": 158.2,
+        "risk_reward_1": 2.68,
+        "risk_reward_2": 8.26,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-12",
+          "title": "沪电股份:2026年8月12日投资者关系活动记录表",
+          "art_code": "AN202608121827909283",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-25",
+          "title": "沪电股份:关于为控股子公司提供担保的进展公告",
+          "art_code": "AN202607241827317865",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-22",
+          "title": "沪电股份:2026年7月22日投资者关系活动记录表",
+          "art_code": "AN202607221827260319",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-21",
+          "title": "沪电股份:2026年7月21日投资者关系活动记录表",
+          "art_code": "AN202607211827215280",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-16",
+          "title": "沪电股份:2026年7月16日投资者关系活动记录表",
+          "art_code": "AN202607161827026009",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-15",
+          "title": "沪电股份:2026年7月15日投资者关系活动记录表",
+          "art_code": "AN202607151826994401",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-14",
+          "title": "沪电股份:2026年半年度业绩预告",
+          "art_code": "AN202607131826929961",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-10",
+          "title": "沪电股份:2026年7月10日投资者关系活动记录表",
+          "art_code": "AN202607101826877569",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-07",
+          "title": "沪电股份:2026年7月7日投资者关系活动记录表",
+          "art_code": "AN202607071826773710",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-06",
+          "title": "沪电股份:2026年7月6日投资者关系活动记录表",
+          "art_code": "AN202607061826748097",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {
+        "date": "2026-08-20",
+        "main_net_inflow": -134232016.0,
+        "small_net_inflow": 51461280.0,
+        "medium_net_inflow": 82770752.0,
+        "large_net_inflow": -138804432.0,
+        "super_large_net_inflow": 4572416.0,
+        "main_net_ratio": -3.72,
+        "source": "东方财富资金流"
+      },
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 15.8,
+        "trend": 8.9,
+        "structure": 1.2,
+        "events": 5.0
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": true,
+          "date": "2026-08-20 15:00:00"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 3878
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": true
+        }
+      ],
+      "metrics": {
+        "open": 115.13,
+        "high": 117.68,
+        "low": 113.09,
+        "close": 114.32,
+        "pct_change": 0.8,
+        "volume": 313023.0,
+        "amount": 3606715739.25,
+        "turnover_rate": 1.63,
+        "rel_volume_20": 0.5598438490246064,
+        "ma_5": 119.53600000000002,
+        "ma_10": 121.09199999999998,
+        "ma_20": 114.90600000000002,
+        "ma_50": 126.75619999999999,
+        "ma_100": 116.24539999999999,
+        "ma_200": 94.23049999999999,
+        "ema_5": 117.84665882714407,
+        "ema_10": 118.4746459382342,
+        "ema_20": 118.8440282430462,
+        "ema_50": 120.34827294091453,
+        "rsi_14": 45.51761663364275,
+        "macd_dif": -1.0930075814520137,
+        "macd_dea": -1.72658088676358,
+        "macd_hist": 1.2671466106231324,
+        "kdj_k": 37.647124634925724,
+        "kdj_d": 56.88695293240473,
+        "kdj_j": -0.8325319600322842,
+        "stoch_rsi_k": 58.70088462195565,
+        "stoch_rsi_d": 75.54341585536586,
+        "adx_14": 15.224222179748946,
+        "plus_di_14": 20.677437733624267,
+        "minus_di_14": 23.081600891141687,
+        "obv": 172575096.0,
+        "high_20": 128.99,
+        "low_20": 94.73,
+        "atr_14": 8.140926963248074
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺",
+        "主力净流入占比-3.72%（2026-08-20）"
+      ],
+      "rank": 11
+    },
+    {
+      "code": "002484",
+      "name": "江海股份",
+      "industry": "电子元件",
+      "themes": [
+        "被动元件",
+        "超级电容",
+        "新能源"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 59.97,
+      "pct_change": -1.1537827591890593,
+      "score": 46.4,
+      "rating": "D",
+      "daily_trend": "空头",
+      "weekly_trend": "偏空震荡",
+      "trend_60m": "数据不足",
+      "conclusion": "空头/偏空震荡，60分钟数据不足；目前只适合观察，等待结构改善。",
+      "patterns": [
+        "MACD底背离"
+      ],
+      "levels": {
+        "status": "数据不足",
+        "reason": "没有形成可验证的支撑共振区。"
+      },
+      "financials": {},
+      "announcements": [],
+      "fund_flow": {},
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 13.2,
+        "trend": 6.9,
+        "structure": 5.2,
+        "events": 5.0
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002484&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002484&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002484&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": false
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002484&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        }
+      ],
+      "metrics": {
+        "open": 61.28,
+        "high": 61.97,
+        "low": 58.6,
+        "close": 59.97,
+        "pct_change": -1.1537827591890593,
+        "volume": 49337400.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.9838241729404383,
+        "ma_5": 65.558,
+        "ma_10": 65.892,
+        "ma_20": 63.679500000000004,
+        "ma_50": 79.9276,
+        "ma_100": 64.5891,
+        "ma_200": 46.79755,
+        "ema_5": 63.59817505829554,
+        "ema_10": 64.6571618757472,
+        "ema_20": 66.69609609700171,
+        "ema_50": 70.35138169984558,
+        "rsi_14": 40.13979351787673,
+        "macd_dif": -3.2442677317091295,
+        "macd_dea": -3.871181600251481,
+        "macd_hist": 1.2538277370847029,
+        "kdj_k": 35.171602106968024,
+        "kdj_d": 54.01691492162068,
+        "kdj_j": -2.5190235223372923,
+        "stoch_rsi_k": 53.172676285623766,
+        "stoch_rsi_d": 73.91310638590652,
+        "adx_14": 19.148424998853642,
+        "plus_di_14": 18.683143163104305,
+        "minus_di_14": 25.240643136030673,
+        "obv": 1464637300.0,
+        "high_20": 72.45,
+        "low_20": 53.35,
+        "atr_14": 6.303606139521224
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺"
+      ],
+      "rank": 12
+    },
+    {
+      "code": "000988",
+      "name": "华工科技",
+      "industry": "通信设备",
+      "themes": [
+        "CPO",
+        "光模块",
+        "AI算力"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情",
+        "东方财富资金流"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 104.18,
+      "pct_change": 1.7879824132877475,
+      "score": 46.0,
+      "rating": "D",
+      "daily_trend": "空头",
+      "weekly_trend": "偏空震荡",
+      "trend_60m": "数据不足",
+      "conclusion": "空头/偏空震荡，60分钟数据不足；已进入条件化回踩观察区，仍需次日量价确认。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 102.43,
+        "pullback_high": 105.22,
+        "breakout_trigger": 117.35,
+        "no_chase_above": 123.42,
+        "invalidation": 95.51,
+        "target_1": 117.35,
+        "target_2": 187.66,
+        "risk_reward_1": 1.63,
+        "risk_reward_2": 10.08,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-07-22",
+          "title": "华工科技:关于公司董事长及高级管理人员增持公司股份的公告",
+          "art_code": "AN202607211827214958",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-10",
+          "title": "华工科技:2026年7月9日投资者关系活动记录表",
+          "art_code": "AN202607101826880226",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {
+        "date": "2026-08-20",
+        "main_net_inflow": -24473120.0,
+        "small_net_inflow": 5387072.0,
+        "medium_net_inflow": 19086064.0,
+        "large_net_inflow": 10432912.0,
+        "super_large_net_inflow": -34906032.0,
+        "main_net_ratio": -0.64,
+        "source": "东方财富资金流"
+      },
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 15.7,
+        "trend": 5.6,
+        "structure": 3.0,
+        "events": 5.8
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.000988&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.000988&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1000988&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": true
+        }
+      ],
+      "metrics": {
+        "open": 104.07,
+        "high": 105.85,
+        "low": 102.18,
+        "close": 104.18,
+        "pct_change": 1.7879824132877475,
+        "volume": 36968600.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.6195729276432251,
+        "ma_5": 108.386,
+        "ma_10": 106.93700000000001,
+        "ma_20": 103.69449999999999,
+        "ma_50": 133.08324000000002,
+        "ma_100": 132.76402,
+        "ma_200": 108.56046,
+        "ema_5": 106.35906116075441,
+        "ema_10": 106.48458161865204,
+        "ema_20": 109.62209041794834,
+        "ema_50": 121.97583137697276,
+        "rsi_14": 41.9866170125885,
+        "macd_dif": -6.036278550467017,
+        "macd_dea": -8.315312644357519,
+        "macd_hist": 4.558068187781004,
+        "kdj_k": 48.81915550829899,
+        "kdj_d": 64.51740314892558,
+        "kdj_j": 17.42266022704581,
+        "stoch_rsi_k": 69.40010993414964,
+        "stoch_rsi_d": 82.99037464478256,
+        "adx_14": 30.750494997418105,
+        "plus_di_14": 17.98412022064499,
+        "minus_di_14": 30.907820603354995,
+        "obv": 3314754600.0,
+        "high_20": 114.58,
+        "low_20": 90.23,
+        "atr_14": 7.590787890824696
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺",
+        "2026-07-22 华工科技:关于公司董事长及高级管理人员增持公司股份的公告",
+        "主力净流入占比-0.64%（2026-08-20）"
+      ],
+      "rank": 13
+    },
+    {
+      "code": "002938",
+      "name": "鹏鼎控股",
+      "industry": "电子元件",
+      "themes": [
+        "PCB",
+        "消费电子",
+        "AI终端"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 87.57,
+      "pct_change": 0.24038461538460343,
+      "score": 45.2,
+      "rating": "D",
+      "daily_trend": "空头",
+      "weekly_trend": "偏空震荡",
+      "trend_60m": "数据不足",
+      "conclusion": "空头/偏空震荡，60分钟数据不足；目前只适合观察，等待结构改善。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 88.53,
+        "pullback_high": 88.45,
+        "breakout_trigger": 104.42,
+        "no_chase_above": 110.0,
+        "invalidation": 84.85,
+        "target_1": 104.42,
+        "target_2": 123.1,
+        "risk_reward_1": 4.37,
+        "risk_reward_2": 9.5,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-20",
+          "title": "鹏鼎控股:2026年8月19日投资者关系活动记录表",
+          "art_code": "AN202608201828205064",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司关于召开2026年第一次临时股东会的通知",
+          "art_code": "AN202608191828156675",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司第四届董事会第六次会议决议公告",
+          "art_code": "AN202608191828156673",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-13",
+          "title": "鹏鼎控股:2026年8月12日投资者关系活动记录表",
+          "art_code": "AN202608131827938405",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司关于申请银行授信额度的公告",
+          "art_code": "AN202608111827863721",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司董事会薪酬与考核委员会关于公司2024年限制性股票激励计划第二个解除限售期解除限售条件部分成就的专项意见",
+          "art_code": "AN202608111827863700",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "鹏鼎控股:2026年半年度报告",
+          "art_code": "AN202608111827863710",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司关于举办半年报网上业绩交流会的公告",
+          "art_code": "AN202608111827863707",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "鹏鼎控股:2026年半年度报告摘要",
+          "art_code": "AN202608111827863720",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司2025年年度报告(英文版)",
+          "art_code": "AN202608111827863717",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "鹏鼎控股:鹏鼎控股(深圳)股份有限公司控股股东及其他关联方占用资金情况专项报告",
+          "art_code": "AN202608111827863719",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "鹏鼎控股:鹏鼎控股2025年可持续发展报告(英文版)",
+          "art_code": "AN202608111827863711",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {},
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 14.4,
+        "trend": 6.9,
+        "structure": 3.0,
+        "events": 5.0
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002938&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002938&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002938&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002938&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        }
+      ],
+      "metrics": {
+        "open": 89.0,
+        "high": 90.35,
+        "low": 86.31,
+        "close": 87.57,
+        "pct_change": 0.24038461538460343,
+        "volume": 19632800.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.6731249560714034,
+        "ma_5": 92.712,
+        "ma_10": 95.688,
+        "ma_20": 90.973,
+        "ma_50": 97.3528,
+        "ma_100": 88.4109,
+        "ma_200": 69.92705,
+        "ema_5": 91.39975521695334,
+        "ema_10": 92.73804092782281,
+        "ema_20": 93.10224539270475,
+        "ema_50": 93.37671396632416,
+        "rsi_14": 44.13299663470535,
+        "macd_dif": -0.6096414005703963,
+        "macd_dea": -0.5019319537983483,
+        "macd_hist": -0.21541889354409594,
+        "kdj_k": 30.84168193733137,
+        "kdj_d": 49.84246086100768,
+        "kdj_j": -7.159875910021256,
+        "stoch_rsi_k": 38.629863334687094,
+        "stoch_rsi_d": 57.509296236479656,
+        "adx_14": 15.794154789420572,
+        "plus_di_14": 19.09808484349492,
+        "minus_di_14": 21.049926810752215,
+        "obv": 811358100.0,
+        "high_20": 104.11,
+        "low_20": 76.05,
+        "atr_14": 6.9739830111646
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺"
+      ],
+      "rank": 14
+    },
+    {
+      "code": "603986",
+      "name": "兆易创新",
+      "industry": "半导体",
+      "themes": [
+        "存储",
+        "半导体",
+        "MCU"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 403.5,
+      "pct_change": -0.05201753734115355,
+      "score": 45.1,
+      "rating": "D",
+      "daily_trend": "空头",
+      "weekly_trend": "偏空震荡",
+      "trend_60m": "空头",
+      "conclusion": "空头/偏空震荡，60分钟空头；已进入条件化回踩观察区，仍需次日量价确认。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 394.14,
+        "pullback_high": 407.54,
+        "breakout_trigger": 484.61,
+        "no_chase_above": 512.88,
+        "invalidation": 355.93,
+        "target_1": 484.61,
+        "target_2": 846.66,
+        "risk_reward_1": 1.87,
+        "risk_reward_2": 9.93,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-19",
+          "title": "兆易创新:兆易创新第五届董事会第十五次会议决议公告",
+          "art_code": "AN202608181828113910",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-19",
+          "title": "兆易创新:兆易创新2026年第三次临时股东会会议资料",
+          "art_code": "AN202608181828113911",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-19",
+          "title": "兆易创新:兆易创新关于召开2026年半年度业绩说明会的公告",
+          "art_code": "AN202608181828113920",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-19",
+          "title": "兆易创新:北京市中伦(深圳)律师事务所关于兆易创新2023年股票期权激励计划第三个行权期行权条件成就相关事项的法律意见书",
+          "art_code": "AN202608181828113919",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-19",
+          "title": "兆易创新:兆易创新2026年半年度报告摘要",
+          "art_code": "AN202608181828113917",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-19",
+          "title": "兆易创新:兆易创新关于变更董事会秘书及联席公司秘书的公告",
+          "art_code": "AN202608181828113913",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-19",
+          "title": "兆易创新:兆易创新关于召开2026年第三次临时股东会的通知",
+          "art_code": "AN202608181828113918",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-19",
+          "title": "兆易创新:兆易创新2026年半年度募集资金存放、管理与实际使用情况的专项报告",
+          "art_code": "AN202608181828113909",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {},
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 14.8,
+        "trend": 6.9,
+        "structure": 2.5,
+        "events": 5.0
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": true,
+          "date": "2026-08-20 15:00:00"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.603986&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0603986&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.603986&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        }
+      ],
+      "metrics": {
+        "open": 410.0,
+        "high": 410.59,
+        "low": 397.83,
+        "close": 403.5,
+        "pct_change": -0.05201753734115355,
+        "volume": 36176400.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.5770244380131062,
+        "ma_5": 421.08599999999996,
+        "ma_10": 414.547,
+        "ma_20": 400.40299999999996,
+        "ma_50": 525.7298,
+        "ma_100": 443.2539,
+        "ma_200": 346.9814,
+        "ema_5": 413.35867744079223,
+        "ema_10": 412.61920210374,
+        "ema_20": 425.78711035184307,
+        "ema_50": 460.5576212994278,
+        "rsi_14": 43.15999255370949,
+        "macd_dif": -24.02067852697064,
+        "macd_dea": -33.301989387889684,
+        "macd_hist": 18.562621721838084,
+        "kdj_k": 49.27154755164956,
+        "kdj_d": 64.46950575317183,
+        "kdj_j": 18.87563114860501,
+        "stoch_rsi_k": 74.95929185011167,
+        "stoch_rsi_d": 86.40424387663772,
+        "adx_14": 19.270351065311996,
+        "plus_di_14": 23.330586438180646,
+        "minus_di_14": 27.075857380493886,
+        "obv": 1306764800.0,
+        "high_20": 462.5,
+        "low_20": 337.1,
+        "atr_14": 35.33698581494955
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺"
+      ],
+      "rank": 15
+    },
+    {
+      "code": "002179",
+      "name": "中航光电",
+      "industry": "电子元件",
+      "themes": [
+        "军工连接器",
+        "商业航天",
+        "新能源汽车"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "腾讯日线",
+        "腾讯行情"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 34.19,
+      "pct_change": -0.5526468877254387,
+      "score": 43.4,
+      "rating": "D",
+      "daily_trend": "空头",
+      "weekly_trend": "空头",
+      "trend_60m": "数据不足",
+      "conclusion": "空头/空头，60分钟数据不足；目前只适合观察，等待结构改善。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 34.58,
+        "pullback_high": 34.53,
+        "breakout_trigger": 37.35,
+        "no_chase_above": 38.36,
+        "invalidation": 33.65,
+        "target_1": 37.35,
+        "target_2": 47.21,
+        "risk_reward_1": 3.07,
+        "risk_reward_2": 13.91,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-07-31",
+          "title": "中航光电:第八届董事会第六次会议决议公告",
+          "art_code": "AN202607301827494145",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "中航光电:关于减少注册资本并修订《公司章程》的进展公告",
+          "art_code": "AN202607271827389205",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {},
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 13.9,
+        "trend": 5.6,
+        "structure": 3.0,
+        "events": 5.0
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002179&klt=60&fqt=1&lmt=240&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002179&klt=101&fqt=1&lmt=360&beg=0&end=20260820&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002179&start=20240919&end=20260820&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002179&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        }
+      ],
+      "metrics": {
+        "open": 34.74,
+        "high": 34.78,
+        "low": 34.05,
+        "close": 34.19,
+        "pct_change": -0.5526468877254387,
+        "volume": 15356300.0,
+        "amount": null,
+        "turnover_rate": null,
+        "rel_volume_20": 0.6261387431272768,
+        "ma_5": 35.236000000000004,
+        "ma_10": 35.327,
+        "ma_20": 34.629,
+        "ma_50": 37.3694,
+        "ma_100": 37.061080000000004,
+        "ma_200": 35.84414,
+        "ema_5": 34.88777169917403,
+        "ema_10": 35.0246135928283,
+        "ema_20": 35.20566133725528,
+        "ema_50": 36.21258919508966,
+        "rsi_14": 41.41419983474375,
+        "macd_dif": -0.4084268041392889,
+        "macd_dea": -0.572347154362596,
+        "macd_hist": 0.3278407004466142,
+        "kdj_k": 29.628441420798584,
+        "kdj_d": 49.98735800385202,
+        "kdj_j": -11.08939174530829,
+        "stoch_rsi_k": 30.19538704051851,
+        "stoch_rsi_d": 60.06364732496254,
+        "adx_14": 16.352942073892756,
+        "plus_di_14": 20.729359691564824,
+        "minus_di_14": 22.075181579558194,
+        "obv": 352337100.0,
+        "high_20": 37.24,
+        "low_20": 32.72,
+        "atr_14": 1.2573007548464532
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺"
+      ],
+      "rank": 16
+    },
+    {
+      "code": "600111",
+      "name": "北方稀土",
+      "industry": "小金属",
+      "themes": [
+        "稀土",
+        "稀土永磁",
+        "新材料"
+      ],
+      "data_date": "2026-08-20",
+      "source": [
+        "东方财富日线",
+        "腾讯行情"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 39.78,
+      "pct_change": -3.14,
+      "score": 42.3,
+      "rating": "D",
+      "daily_trend": "空头",
+      "weekly_trend": "强势空头",
+      "trend_60m": "空头",
+      "conclusion": "空头/强势空头，60分钟空头；目前只适合观察，等待结构改善。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 40.5,
+        "pullback_high": 40.18,
+        "breakout_trigger": 45.24,
+        "no_chase_above": 46.48,
+        "invalidation": 40.03,
+        "target_1": 45.24,
+        "target_2": 54.15,
+        "risk_reward_1": 6.29,
+        "risk_reward_2": 17.73,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-08-20",
+          "title": "北方稀土:包钢集团财务有限责任公司风险持续评估报告",
+          "art_code": "AN202608191828159806",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "北方稀土:北方稀土2026年半年度报告摘要",
+          "art_code": "AN202608191828159804",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "北方稀土:北方稀土第九届董事会第十五次会议决议公告",
+          "art_code": "AN202608191828159808",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "北方稀土:北方稀土董事会秘书工作规则(2026年8月修订)",
+          "art_code": "AN202608191828159807",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "北方稀土:北方稀土关于召开2026年半年度业绩说明会的公告",
+          "art_code": "AN202608191828159818",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "北方稀土:北方稀土2026年半年度报告全文",
+          "art_code": "AN202608191828159811",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "北方稀土:北方稀土独立董事2026年第二次专门会议决议",
+          "art_code": "AN202608191828159814",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-10",
+          "title": "北方稀土:投资者关系活动记录表(2026年7月)",
+          "art_code": "AN202608101827805298",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-21",
+          "title": "北方稀土:投资者关系活动记录表(2026年6月)",
+          "art_code": "AN202607211827206885",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-15",
+          "title": "北方稀土:北方稀土2026年半年度业绩预增公告",
+          "art_code": "AN202607141826956359",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-10",
+          "title": "北方稀土:北方稀土关于2026年第三季度稀土精矿交易价格的公告",
+          "art_code": "AN202607091826843576",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-10",
+          "title": "北方稀土:北方稀土高级管理人员离任公告",
+          "art_code": "AN202607091826843580",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {},
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 13.4,
+        "trend": 4.1,
+        "structure": 3.8,
+        "events": 5.0
+      },
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-08-20"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": true,
+          "date": "2026-08-20 15:00:00"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 6951
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-08-20",
+          "rows": 360
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.600111&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        }
+      ],
+      "metrics": {
+        "open": 41.4,
+        "high": 41.68,
+        "low": 39.65,
+        "close": 39.78,
+        "pct_change": -3.14,
+        "volume": 623777.0,
+        "amount": 2528186366.0,
+        "turnover_rate": 1.73,
+        "rel_volume_20": 0.9389401476589755,
+        "ma_5": 41.67,
+        "ma_10": 42.098,
+        "ma_20": 41.043,
+        "ma_50": 43.7792,
+        "ma_100": 47.0237,
+        "ma_200": 48.138850000000005,
+        "ema_5": 41.1595754386679,
+        "ema_10": 41.446646146958706,
+        "ema_20": 41.5573309879371,
+        "ema_50": 43.34496460427006,
+        "rsi_14": 41.240363262304484,
+        "macd_dif": -0.36312896948410867,
+        "macd_dea": -0.4914928191902567,
+        "macd_hist": 0.2567276994122961,
+        "kdj_k": 21.43609788781988,
+        "kdj_d": 37.0138603627561,
+        "kdj_j": -9.71942706205256,
+        "stoch_rsi_k": 29.910241770806078,
+        "stoch_rsi_d": 50.652807462464146,
+        "adx_14": 17.283360952141393,
+        "plus_di_14": 20.062565079254625,
+        "minus_di_14": 25.49592520796133,
+        "obv": 351601816.0,
+        "high_20": 45.1,
+        "low_20": 38.11,
+        "atr_14": 1.5583645774055472
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "板块实时强弱暂缺"
+      ],
+      "rank": 17
+    }
+  ],
+  "top5": [
+    "603228",
+    "600584",
+    "600183",
+    "603920",
+    "002436"
+  ],
+  "comparison": {
+    "baseline": true,
+    "new_top5": [
+      "603228",
+      "600584",
+      "600183",
+      "603920",
+      "002436"
+    ],
+    "material": true
+  },
+  "alerts": [
+    "景旺电子已进入回踩观察区84.58—89.72",
+    "长电科技已进入回踩观察区76.88—80.27",
+    "生益科技已进入回踩观察区122.03—127.54",
+    "世运电路已进入回踩观察区36.64—38.27",
+    "兴森科技已进入回踩观察区33.38—34.15",
+    "Top5发生变化：新进603228、600584、600183、603920、002436；调出无"
+  ],
+  "source_policy": {
+    "daily": [
+      "东方财富日线",
+      "腾讯日线",
+      "网易日线"
+    ],
+    "close_cross_check": "腾讯15:00收盘快照",
+    "intraday": "东方财富60分钟",
+    "enrichment": [
+      "东方财富财务",
+      "东方财富公告",
+      "东方财富资金流"
+    ]
+  }
+}
