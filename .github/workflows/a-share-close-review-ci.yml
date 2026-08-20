@@ -1,0 +1,54 @@
+name: A-share close review engine CI
+
+on:
+  push:
+    paths:
+      - "close_review_engine/**"
+      - ".github/workflows/a-share-close-review*.yml"
+  pull_request:
+    paths:
+      - "close_review_engine/**"
+      - ".github/workflows/a-share-close-review*.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: close_review_engine
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: close_review_engine/pyproject.toml
+
+      - name: Install package and test dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Run unit tests
+        run: python -m pytest -q
+
+      - name: Run static checks
+        run: python -m ruff check . && python -m compileall -q src scripts tests
+
+      - name: Check CLI
+        run: ashare-review --help
+
+      - name: Run deterministic 17-stock end-to-end fixture
+        run: |
+          rm -rf /tmp/a-share-close-review-ci
+          ashare-review run \
+            --as-of 2026-08-20 \
+            --force \
+            --fixture config/review_fixture.yml \
+            --output-root /tmp/a-share-close-review-ci
+          python scripts/verify_outputs.py /tmp/a-share-close-review-ci 2026-08-20

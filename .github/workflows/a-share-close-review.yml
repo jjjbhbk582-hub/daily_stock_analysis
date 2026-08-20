@@ -1,0 +1,220 @@
+name: 17只A股收盘复盘
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "close_review_engine/src/**"
+      - "close_review_engine/config/**"
+      - "close_review_engine/scripts/**"
+      - "close_review_engine/pyproject.toml"
+      - ".github/workflows/a-share-close-review.yml"
+  schedule:
+    # Beijing time (UTC+8): 15:05, 15:15 and 15:30, Monday-Friday.
+    - cron: "5 7 * * 1-5"
+    - cron: "15 7 * * 1-5"
+    - cron: "30 7 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      as_of:
+        description: "目标日期（YYYY-MM-DD），留空则使用北京时间当天"
+        required: false
+        type: string
+      force:
+        description: "跳过当前时钟限制；只用于历史日期或人工验收"
+        required: false
+        default: false
+        type: boolean
+      publish_issue:
+        description: "人工运行后发布/更新当日Issue"
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: a-share-close-review-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: close_review_engine
+    env:
+      TZ: Asia/Shanghai
+      PYTHONUNBUFFERED: "1"
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+    steps:
+      - name: Checkout latest default branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: close_review_engine/pyproject.toml
+
+      - name: Install review engine
+        run: python -m pip install --upgrade pip && python -m pip install -e .
+
+      - name: Resolve target date and publication mode
+        id: target
+        shell: bash
+        env:
+          INPUT_AS_OF: ${{ inputs.as_of }}
+          INPUT_PUBLISH: ${{ inputs.publish_issue }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          set -euo pipefail
+          target_date="${INPUT_AS_OF:-}"
+          if [[ -z "$target_date" ]]; then
+            target_date="$(date +%F)"
+          fi
+          publish=false
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            publish="${INPUT_PUBLISH:-true}"
+          elif [[ "${{ github.event_name }}" == "push" ]]; then
+            publish=true
+          elif [[ "${EVENT_SCHEDULE:-}" == "30 7 * * 1-5" ]]; then
+            publish=true
+          fi
+          echo "date=$target_date" >> "$GITHUB_OUTPUT"
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+
+      - name: Run post-close review
+        id: review
+        shell: bash
+        env:
+          TARGET_DATE: ${{ steps.target.outputs.date }}
+          INPUT_FORCE: ${{ inputs.force }}
+        run: |
+          set -o pipefail
+          args=(run --as-of "$TARGET_DATE" --output-root .)
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${INPUT_FORCE:-false}" == "true" ]]; then
+            args+=(--force)
+          fi
+          set +e
+          ashare-review "${args[@]}" 2>&1 | tee /tmp/review-output.log
+          review_code=${PIPESTATUS[0]}
+          set -e
+          report_path="$(sed -n 's/^REPORT_PATH=//p' /tmp/review-output.log | head -n 1)"
+          snapshot_path="$(sed -n 's/^SNAPSHOT_PATH=//p' /tmp/review-output.log | head -n 1)"
+          status="$(sed -n 's/^STATUS=//p' /tmp/review-output.log | head -n 1)"
+          valid_count="$(sed -n 's/^VALID_COUNT=//p' /tmp/review-output.log | head -n 1)"
+          echo "report_path=$report_path" >> "$GITHUB_OUTPUT"
+          echo "snapshot_path=$snapshot_path" >> "$GITHUB_OUTPUT"
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          echo "valid_count=$valid_count" >> "$GITHUB_OUTPUT"
+          echo "exit_code=$review_code" >> "$GITHUB_OUTPUT"
+          exit "$review_code"
+
+      - name: Verify generated outputs
+        if: ${{ steps.review.outputs.report_path != '' }}
+        run: python scripts/verify_outputs.py . "${{ steps.target.outputs.date }}"
+
+      - name: Write Actions summary
+        if: always()
+        shell: bash
+        env:
+          REPORT_PATH: ${{ steps.review.outputs.report_path }}
+        run: |
+          set -euo pipefail
+          {
+            echo "# 17只A股收盘复盘"
+            echo
+            echo "- 目标日期：${{ steps.target.outputs.date }}"
+            echo "- 触发方式：${{ github.event_name }}"
+            echo "- 核心有效股票：${{ steps.review.outputs.valid_count || '未生成' }}/17"
+            echo "- 报告状态：${{ steps.review.outputs.status || '未生成' }}"
+            echo
+            if [[ -n "${REPORT_PATH:-}" && -f "$REPORT_PATH" ]]; then
+              cat "$REPORT_PATH"
+            elif [[ -f /tmp/review-output.log ]]; then
+              echo '```text'
+              cat /tmp/review-output.log
+              echo '```'
+            else
+              echo "本次执行未生成报告或日志。"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit report and state
+        if: ${{ steps.review.outputs.report_path != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f -- data/processed data/state reports
+          if git diff --cached --quiet; then
+            echo "No report changes to commit."
+            exit 0
+          fi
+          git commit -m "data: update A-share close review ${{ steps.target.outputs.date }}"
+          git pull --rebase origin "${{ github.event.repository.default_branch }}"
+          git push origin "HEAD:${{ github.event.repository.default_branch }}"
+
+      - name: Prepare daily Issue body
+        if: ${{ always() && steps.target.outputs.publish == 'true' }}
+        id: issue_body
+        shell: bash
+        env:
+          REPORT_PATH: ${{ steps.review.outputs.report_path }}
+          REVIEW_OUTCOME: ${{ steps.review.outcome }}
+        run: |
+          set -u
+          target_date="${{ steps.target.outputs.date }}"
+          body_file=/tmp/review-output.log
+          title="[A股复盘失败] $target_date"
+          if [[ -n "${REPORT_PATH:-}" && -f "$REPORT_PATH" ]]; then
+            body_file="$REPORT_PATH"
+            title="[A股收盘复盘] $target_date"
+          elif [[ -f "$body_file" ]] && grep -qx '今日A股休市，不进行重新排名' "$body_file"; then
+            title="[A股收盘复盘] $target_date"
+          elif [[ ! -f "$body_file" ]]; then
+            printf '工作流未生成报告或执行日志，请检查Actions运行记录。\n' > "$body_file"
+          fi
+          cp "$body_file" issue-body.md
+          echo "title=$title" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update daily Issue notification
+        if: ${{ always() && steps.target.outputs.publish == 'true' }}
+        continue-on-error: true
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_TITLE: ${{ steps.issue_body.outputs.title }}
+        run: |
+          set -euo pipefail
+          issue_number="$(gh issue list --state all --limit 100 --json number,title \
+            --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .number" | head -n 1)"
+          if [[ -n "$issue_number" ]]; then
+            gh issue edit "$issue_number" --title "$ISSUE_TITLE" --body-file issue-body.md
+          else
+            gh issue create --title "$ISSUE_TITLE" --body-file issue-body.md --label "automated-review" 2>/dev/null \
+              || gh issue create --title "$ISSUE_TITLE" --body-file issue-body.md
+          fi
+
+      - name: Upload run evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a-share-close-review-${{ steps.target.outputs.date }}-${{ github.run_attempt }}
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            close_review_engine/reports/${{ steps.target.outputs.date }}.md
+            close_review_engine/data/processed/${{ steps.target.outputs.date }}/
+            close_review_engine/data/state/latest.json
+            /tmp/review-output.log
+            close_review_engine/issue-body.md

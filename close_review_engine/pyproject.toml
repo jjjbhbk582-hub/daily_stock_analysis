@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "a-share-close-review"
+version = "0.1.0"
+description = "Deterministic post-close review engine for a fixed A-share universe"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "exchange-calendars>=4.8,<5",
+  "numpy>=1.26,<3",
+  "pandas>=2.2,<3",
+  "PyYAML>=6,<7",
+  "requests>=2.32,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<10",
+  "ruff>=0.9,<1",
+]
+
+[project.scripts]
+ashare-review = "ashare_review.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
