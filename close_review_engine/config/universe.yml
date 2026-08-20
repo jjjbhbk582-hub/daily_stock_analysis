@@ -1,0 +1,18 @@
+stocks:
+  - {code: "601138", name: 工业富联, exchange: SH, industry: 消费电子, themes: [AI算力, 服务器], industry_logic: 91}
+  - {code: "600183", name: 生益科技, exchange: SH, industry: 电子元件, themes: [PCB, 覆铜板, AI算力], industry_logic: 92}
+  - {code: "000988", name: 华工科技, exchange: SZ, industry: 通信设备, themes: [CPO, 光模块, AI算力], industry_logic: 94}
+  - {code: "600584", name: 长电科技, exchange: SH, industry: 半导体, themes: [半导体, 先进封装, 存储], industry_logic: 86}
+  - {code: "002916", name: 深南电路, exchange: SZ, industry: 电子元件, themes: [PCB, AI算力, 先进封装], industry_logic: 93}
+  - {code: "002281", name: 光迅科技, exchange: SZ, industry: 通信设备, themes: [CPO, 光模块, AI算力], industry_logic: 93}
+  - {code: "002463", name: 沪电股份, exchange: SZ, industry: 电子元件, themes: [PCB, AI算力, 服务器], industry_logic: 95}
+  - {code: "002602", name: 世纪华通, exchange: SZ, industry: 游戏, themes: [游戏, 数据中心, AI应用], industry_logic: 77}
+  - {code: "600111", name: 北方稀土, exchange: SH, industry: 小金属, themes: [稀土, 稀土永磁, 新材料], industry_logic: 76}
+  - {code: "603986", name: 兆易创新, exchange: SH, industry: 半导体, themes: [存储, 半导体, MCU], industry_logic: 87}
+  - {code: "002436", name: 兴森科技, exchange: SZ, industry: 电子元件, themes: [PCB, 先进封装, 半导体], industry_logic: 86}
+  - {code: "002371", name: 北方华创, exchange: SZ, industry: 半导体, themes: [半导体设备, 国产替代, 先进封装], industry_logic: 94}
+  - {code: "002484", name: 江海股份, exchange: SZ, industry: 电子元件, themes: [被动元件, 超级电容, 新能源], industry_logic: 75}
+  - {code: "603228", name: 景旺电子, exchange: SH, industry: 电子元件, themes: [PCB, AI算力, 汽车电子], industry_logic: 89}
+  - {code: "002179", name: 中航光电, exchange: SZ, industry: 电子元件, themes: [军工连接器, 商业航天, 新能源汽车], industry_logic: 80}
+  - {code: "002938", name: 鹏鼎控股, exchange: SZ, industry: 电子元件, themes: [PCB, 消费电子, AI终端], industry_logic: 84}
+  - {code: "603920", name: 世运电路, exchange: SH, industry: 电子元件, themes: [PCB, 汽车电子, AI算力], industry_logic: 86}
