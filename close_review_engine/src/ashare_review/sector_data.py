@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 from collections.abc import Iterable
 from datetime import date, datetime
+from math import ceil
 from typing import Any
 from zoneinfo import ZoneInfo
 
@@ -25,6 +27,16 @@ BOARD_CONSTITUENT_HOSTS = (
     "https://29.push2.eastmoney.com/api/qt/clist/get",
     "https://push2.eastmoney.com/api/qt/clist/get",
 )
+SINA_BOARD_LIST_URL = "https://money.finance.sina.com.cn/q/view/newFLJK.php"
+SINA_NODE_DATA_URL = (
+    "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/"
+    "Market_Center.getHQNodeData"
+)
+SINA_NODE_COUNT_URL = (
+    "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/"
+    "Market_Center.getHQNodeStockCount"
+)
+SINA_PAGE_SIZE = 80
 
 
 def _as_int(value: Any) -> int:
@@ -150,6 +162,73 @@ def _fetch_paginated(
     return []
 
 
+def _sina_board_parameter(board_type: str) -> str:
+    if board_type == "industry":
+        return "industry"
+    if board_type == "concept":
+        return "class"
+    raise ValueError(f"unsupported board type: {board_type}")
+
+
+def _fetch_sina_board_overview(
+    client: HttpClient,
+    board_type: str,
+    target_date: date,
+) -> list[dict[str, Any]]:
+    response = client.session.get(
+        SINA_BOARD_LIST_URL,
+        params={"param": _sina_board_parameter(board_type)},
+        headers={"Referer": "https://money.finance.sina.com.cn/"},
+        timeout=client.timeout,
+    )
+    response.raise_for_status()
+    response.encoding = "gbk"
+    text = response.text
+    start = text.find("{")
+    end = text.rfind("}")
+    if start < 0 or end <= start:
+        return []
+    payload = json.loads(text[start : end + 1])
+    if not isinstance(payload, dict):
+        return []
+    rows: list[dict[str, Any]] = []
+    for raw in payload.values():
+        fields = str(raw).split(",")
+        if len(fields) < 13:
+            continue
+        label = fields[0].strip()
+        name = fields[1].strip()
+        if not label or not name:
+            continue
+        rows.append(
+            {
+                "board_code": label,
+                "board_name": name,
+                "board_type": board_type,
+                "latest": finite(fields[3]),
+                "pct_change": finite(fields[5]),
+                "amount": finite(fields[7]),
+                "turnover_rate": None,
+                "market_cap": None,
+                "up_count": 0,
+                "down_count": 0,
+                "limit_up_count": 0,
+                "leader_name": fields[12].strip(),
+                "leader_pct_change": finite(fields[9]),
+                "data_date": target_date.isoformat(),
+                "source": "新浪板块行情",
+            }
+        )
+    return sorted(
+        rows,
+        key=lambda row: (
+            float(row.get("pct_change") or -999),
+            float(row.get("amount") or 0),
+        ),
+        reverse=True,
+    )
+
+
 def fetch_board_overview(
     client: HttpClient,
     board_type: str,
@@ -158,24 +237,46 @@ def fetch_board_overview(
     if board_type not in {"industry", "concept"}:
         raise ValueError(f"unsupported board type: {board_type}")
     board_filter = "m:90 t:2 f:!50" if board_type == "industry" else "m:90 t:3 f:!50"
-    rows = _fetch_paginated(
-        client,
-        BOARD_LIST_HOSTS,
-        {
-            "pz": 100,
-            "po": 1,
-            "np": 1,
-            "fltt": 2,
-            "invt": 2,
-            "fid": "f12",
-            "fs": board_filter,
-            "fields": "f2,f3,f6,f8,f12,f14,f20,f104,f105,f124,f128,f136",
-            "ut": "bd1d9ddb04089700cf9c27f6f7426281",
-        },
-        max_pages=8,
-    )
-    normalized = normalize_board_overview(rows, board_type, target_date)
-    return [row for row in normalized if row.get("data_date") == target_date.isoformat()]
+    eastmoney_error: Exception | None = None
+    try:
+        rows = _fetch_paginated(
+            client,
+            BOARD_LIST_HOSTS,
+            {
+                "pz": 100,
+                "po": 1,
+                "np": 1,
+                "fltt": 2,
+                "invt": 2,
+                "fid": "f12",
+                "fs": board_filter,
+                "fields": "f2,f3,f6,f8,f12,f14,f20,f104,f105,f124,f128,f136",
+                "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+            },
+            max_pages=8,
+        )
+        normalized = normalize_board_overview(rows, board_type, target_date)
+        completed = [
+            row for row in normalized if row.get("data_date") == target_date.isoformat()
+        ]
+        if completed:
+            return completed
+    except Exception as exc:  # noqa: BLE001
+        eastmoney_error = exc
+
+    try:
+        fallback = _fetch_sina_board_overview(client, board_type, target_date)
+        if fallback:
+            return fallback
+    except Exception as exc:  # noqa: BLE001
+        if eastmoney_error is not None:
+            raise RuntimeError(
+                f"东方财富板块列表失败：{eastmoney_error}; 新浪板块列表失败：{exc}"
+            ) from exc
+        raise
+    if eastmoney_error is not None:
+        raise eastmoney_error
+    return []
 
 
 def _parse_board_history_rows(rows: Iterable[Any]) -> pd.DataFrame:
@@ -210,6 +311,10 @@ def fetch_board_history(
     *,
     limit: int = 45,
 ) -> pd.DataFrame:
+    # Sina labels are not Eastmoney BK identifiers. Their 5/20-day persistence
+    # remains explicitly unverified instead of issuing invalid Eastmoney calls.
+    if not str(board_code).upper().startswith("BK"):
+        return pd.DataFrame()
     last_error: Exception | None = None
     for host in BOARD_HISTORY_HOSTS:
         try:
@@ -239,27 +344,119 @@ def fetch_board_history(
     return pd.DataFrame()
 
 
+def _sina_node_count(client: HttpClient, board_code: str) -> int:
+    response = client.session.get(
+        SINA_NODE_COUNT_URL,
+        params={"node": board_code},
+        headers={"Referer": "https://vip.stock.finance.sina.com.cn/"},
+        timeout=client.timeout,
+    )
+    response.raise_for_status()
+    try:
+        payload = response.json()
+    except Exception:  # noqa: BLE001
+        payload = response.text
+    text = str(payload).strip().strip('"')
+    return int(text) if text.isdigit() else 0
+
+
+def _fetch_sina_board_constituents(
+    client: HttpClient,
+    board_code: str,
+) -> list[dict[str, Any]]:
+    total = _sina_node_count(client, board_code)
+    if total <= 0:
+        return []
+    rows: list[dict[str, Any]] = []
+    for page in range(1, ceil(total / SINA_PAGE_SIZE) + 1):
+        response = client.session.get(
+            SINA_NODE_DATA_URL,
+            params={
+                "page": page,
+                "num": SINA_PAGE_SIZE,
+                "sort": "symbol",
+                "asc": 1,
+                "node": board_code,
+                "symbol": "",
+                "_s_r_a": "page",
+            },
+            headers={"Referer": "https://vip.stock.finance.sina.com.cn/"},
+            timeout=client.timeout,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        if not isinstance(payload, list) or not payload:
+            break
+        for item in payload:
+            if not isinstance(item, dict):
+                continue
+            rows.append(
+                {
+                    "code": item.get("code") or item.get("symbol"),
+                    "name": item.get("name"),
+                    "close": item.get("trade", item.get("close")),
+                    "pct_change": item.get("changepercent", item.get("pct_change")),
+                    "volume": item.get("volume"),
+                    "amount": item.get("amount"),
+                    "turnover_rate": item.get("turnoverratio", item.get("turnover_rate")),
+                    "high": item.get("high"),
+                    "low": item.get("low"),
+                    "open": item.get("open"),
+                    "previous_close": item.get("settlement", item.get("previous_close")),
+                    "market_cap": item.get("mktcap", item.get("market_cap")),
+                    "float_market_cap": item.get("nmc", item.get("float_market_cap")),
+                    "source": "新浪板块成份",
+                }
+            )
+    for item in rows:
+        raw_code = str(item.get("code") or "").strip()
+        if raw_code.lower().startswith(("sh", "sz", "bj")):
+            item["code"] = raw_code[2:]
+    return normalize_board_constituents(rows)
+
+
 def fetch_board_constituents(
     client: HttpClient,
     board_code: str,
 ) -> list[dict[str, Any]]:
-    rows = _fetch_paginated(
-        client,
-        BOARD_CONSTITUENT_HOSTS,
-        {
-            "pz": 100,
-            "po": 1,
-            "np": 1,
-            "fltt": 2,
-            "invt": 2,
-            "fid": "f12",
-            "fs": f"b:{board_code} f:!50",
-            "fields": "f2,f3,f5,f6,f8,f12,f14,f15,f16,f17,f18,f20,f21",
-            "ut": "bd1d9ddb04089700cf9c27f6f7426281",
-        },
-        max_pages=12,
-    )
-    return normalize_board_constituents(rows)
+    eastmoney_error: Exception | None = None
+    if str(board_code).upper().startswith("BK"):
+        try:
+            rows = _fetch_paginated(
+                client,
+                BOARD_CONSTITUENT_HOSTS,
+                {
+                    "pz": 100,
+                    "po": 1,
+                    "np": 1,
+                    "fltt": 2,
+                    "invt": 2,
+                    "fid": "f12",
+                    "fs": f"b:{board_code} f:!50",
+                    "fields": "f2,f3,f5,f6,f8,f12,f14,f15,f16,f17,f18,f20,f21",
+                    "ut": "bd1d9ddb04089700cf9c27f6f7426281",
+                },
+                max_pages=12,
+            )
+            normalized = normalize_board_constituents(rows)
+            if normalized:
+                return normalized
+        except Exception as exc:  # noqa: BLE001
+            eastmoney_error = exc
+
+    try:
+        fallback = _fetch_sina_board_constituents(client, board_code)
+        if fallback:
+            return fallback
+    except Exception as exc:  # noqa: BLE001
+        if eastmoney_error is not None:
+            raise RuntimeError(
+                f"东方财富板块成份失败：{eastmoney_error}; 新浪板块成份失败：{exc}"
+            ) from exc
+        raise
+    if eastmoney_error is not None:
+        raise eastmoney_error
+    return []
 
 
 def _focus_match_score(board_name: str, focus: FocusConcept) -> int:
