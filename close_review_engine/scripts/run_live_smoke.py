@@ -6,6 +6,7 @@ from datetime import date, time
 
 from ashare_review.config import load_universe
 from ashare_review.engine import build_live_source
+from ashare_review.enhanced_data import fetch_sina_intraday_60m
 
 
 def _intraday_complete(frame, target_date: date) -> bool:
@@ -25,6 +26,7 @@ def main() -> int:
     parser.add_argument("--require-market", action="store_true")
     parser.add_argument("--require-daily", action="store_true")
     parser.add_argument("--require-60m", action="store_true")
+    parser.add_argument("--require-sina-60m", action="store_true")
     args = parser.parse_args()
     stocks = load_universe(args.universe)[: max(1, min(args.stocks, 17))]
     source = build_live_source()
@@ -53,7 +55,33 @@ def main() -> int:
                 "source_status": bundle.source_status,
             }
         )
-    output = {"market": market, "stocks": rows}
+
+    sina_probe: dict | None = None
+    if args.require_sina_60m:
+        probe_stock = stocks[0]
+        try:
+            frame = fetch_sina_intraday_60m(
+                source.client,
+                probe_stock.symbol,
+                target_date=args.as_of,
+            )
+            sina_probe = {
+                "code": probe_stock.code,
+                "rows": len(frame),
+                "complete": _intraday_complete(frame, args.as_of),
+                "last_intraday": None if frame.empty else str(frame["date"].max()),
+                "source": "新浪60分钟",
+            }
+        except Exception as exc:  # noqa: BLE001
+            sina_probe = {
+                "code": probe_stock.code,
+                "rows": 0,
+                "complete": False,
+                "source": "新浪60分钟",
+                "error": f"{type(exc).__name__}: {exc}",
+            }
+
+    output = {"market": market, "stocks": rows, "sina_60m_probe": sina_probe}
     print(json.dumps(output, ensure_ascii=False, indent=2, default=str))
 
     errors: list[str] = []
@@ -76,6 +104,8 @@ def main() -> int:
         incomplete = [row["code"] for row in rows if not row["intraday_complete"]]
         if incomplete:
             errors.append(f"60分钟完成K线不足：{','.join(incomplete)}")
+    if args.require_sina_60m and not (sina_probe or {}).get("complete"):
+        errors.append("新浪60分钟强制探针未返回目标日15:00完成K线")
     if errors:
         print("LIVE_SMOKE_ERRORS=" + "；".join(errors))
         return 1
