@@ -6,6 +6,9 @@ on:
       - feat/sector-2plus2-monitoring
     paths:
       - ".github/workflows/sector-source-bundle.yml"
+  pull_request:
+    paths:
+      - ".github/workflows/sector-source-bundle.yml"
 
 permissions:
   contents: read
