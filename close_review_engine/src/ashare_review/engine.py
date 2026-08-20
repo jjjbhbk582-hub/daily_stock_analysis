@@ -16,6 +16,8 @@ from ashare_review.config import StockConfig
 from ashare_review.data import StockBundle
 from ashare_review.enhanced_data import ResilientLiveDataSource
 from ashare_review.fixture import FixtureDataSource as FixtureDataSource
+from ashare_review.sector_link import apply_sector_scores_to_fixed_rows
+from ashare_review.sector_runtime import build_sector_review
 
 
 class ReviewDataSource(Protocol):
@@ -59,16 +61,8 @@ def run_review(
                         }
                     ],
                 )
+
     rows = [analyze_stock(bundles[stock.code], market, target_date) for stock in stocks]
-    rows.sort(
-        key=lambda row: (bool(row.get("data_valid")), float(row.get("score", 0))),
-        reverse=True,
-    )
-    for index, row in enumerate(rows, start=1):
-        row["rank"] = index
-    market = _market_summary(market, rows)
-    comparison = _compare(previous_snapshot, rows)
-    alerts = _alerts(rows, comparison)
     valid_count = sum(bool(row.get("data_valid")) for row in rows)
     if valid_count == 0:
         return RunResult(
@@ -79,15 +73,37 @@ def run_review(
             ),
             snapshot=None,
         )
+
+    preliminary_market = _market_summary(market, rows)
+    sectors = build_sector_review(
+        source,
+        preliminary_market,
+        target_date=target_date,
+        previous_snapshot=previous_snapshot,
+        max_workers=max_workers,
+    )
+
+    rows = apply_sector_scores_to_fixed_rows(rows, stocks, sectors)
+    rows.sort(
+        key=lambda row: (bool(row.get("data_valid")), float(row.get("score", 0))),
+        reverse=True,
+    )
+    for index, row in enumerate(rows, start=1):
+        row["rank"] = index
+
+    market = _market_summary(market, rows)
+    comparison = _compare(previous_snapshot, rows)
+    alerts = _alerts(rows, comparison)
     status = "success" if valid_count == len(stocks) else "partial"
     snapshot = {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": status,
         "target_date": target_date.isoformat(),
         "generated_at": generated_at.isoformat(),
         "valid_count": valid_count,
         "universe_count": len(stocks),
         "market": market,
+        "sectors": sectors,
         "stocks": rows,
         "top5": [row["code"] for row in rows[:5]],
         "comparison": comparison,
@@ -95,12 +111,22 @@ def run_review(
         "source_policy": {
             "daily": ["东方财富日线", "腾讯日线", "网易日线"],
             "close_cross_check": "腾讯15:00收盘快照",
-            "intraday": ["东方财富60分钟", "腾讯60分钟"],
+            "intraday": ["东方财富60分钟", "腾讯60分钟", "新浪60分钟"],
             "market": ["东方财富全市场行情", "腾讯指数行情", "新浪全市场行情"],
+            "sectors": [
+                "东方财富行业/概念板块",
+                "新浪行业/概念板块",
+                "东方财富/新浪板块成份",
+                "东方财富板块历史K线（可用时）",
+            ],
             "enrichment": ["东方财富财务", "东方财富公告", "东方财富资金流"],
         },
     }
-    message = f"{target_date.isoformat()}：{valid_count}/{len(stocks)}只股票通过当日完整日线校验。"
+    message = (
+        f"{target_date.isoformat()}：{valid_count}/{len(stocks)}只股票通过当日完整日线校验；"
+        f"板块排名{len(sectors.get('industry_ranking', []))}+"
+        f"{len(sectors.get('concept_ranking', []))}。"
+    )
     return RunResult(status=status, message=message, snapshot=_clean(snapshot))
 
 

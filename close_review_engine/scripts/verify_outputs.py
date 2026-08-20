@@ -5,6 +5,14 @@ import json
 import sys
 from pathlib import Path
 
+ALLOWED_PREFIXES = ("600", "601", "603", "605", "000", "001", "002", "003")
+ROLE_KEYS = {
+    "capacity_leader",
+    "momentum_leader",
+    "pullback_potential",
+    "breakout_potential",
+}
+
 
 def verify(root: Path, target_date: str) -> None:
     snapshot_path = root / "data" / "processed" / target_date / "snapshot.json"
@@ -20,24 +28,79 @@ def verify(root: Path, target_date: str) -> None:
     report = report_path.read_text(encoding="utf-8")
     if snapshot.get("target_date") != target_date or latest.get("target_date") != target_date:
         raise SystemExit("target date mismatch")
+    if int(snapshot.get("schema_version") or 0) != 2:
+        raise SystemExit("snapshot schema_version must be 2")
     if len(snapshot.get("stocks") or []) != 17 or len(rows) != 17:
-        raise SystemExit("output must contain exactly 17 stocks")
+        raise SystemExit("output must contain exactly 17 fixed stocks")
     if len(snapshot.get("top5") or []) != 5:
-        raise SystemExit("output must contain exactly five Top5 codes")
+        raise SystemExit("output must contain exactly five fixed-pool Top5 codes")
     if len({row.get("code") for row in snapshot["stocks"]}) != 17:
-        raise SystemExit("duplicate or missing stock codes")
+        raise SystemExit("duplicate or missing fixed stock codes")
+
+    sectors = snapshot.get("sectors") or {}
+    for key in (
+        "industry_ranking",
+        "concept_ranking",
+        "focus_concepts",
+        "top_boards",
+        "rising_boards",
+        "weak_boards",
+        "detailed_boards",
+        "dynamic_candidates",
+        "comparison",
+        "source_status",
+    ):
+        if key not in sectors:
+            raise SystemExit(f"sectors missing key: {key}")
+    if not sectors["industry_ranking"] or not sectors["concept_ranking"]:
+        raise SystemExit("fixture must produce non-empty industry and concept rankings")
+    if len(sectors["top_boards"]) != 5:
+        raise SystemExit("sector output must contain five top boards")
+    if len(sectors["detailed_boards"]) > 7:
+        raise SystemExit("detailed boards must not exceed seven")
+    if len(sectors["focus_concepts"]) < 12:
+        raise SystemExit("focus concepts are incomplete")
+    for board in sectors["detailed_boards"]:
+        picks = board.get("picks") or {}
+        if set(picks) != ROLE_KEYS:
+            raise SystemExit(f"board roles incomplete: {board.get('board_name')}")
+        chosen = []
+        for item in picks.values():
+            code = item.get("code")
+            if not code:
+                continue
+            code = str(code)
+            chosen.append(code)
+            if not code.startswith(ALLOWED_PREFIXES):
+                raise SystemExit(f"dynamic pick is not main-board A-share: {code}")
+            close = float(item.get("close"))
+            if not 0 < close <= 100:
+                raise SystemExit(f"dynamic pick violates CNY 100 cap: {code} {close}")
+            name = str(item.get("name") or "")
+            if "ST" in name.upper() or "退" in name:
+                raise SystemExit(f"dynamic pick has risk name: {code} {name}")
+        if len(chosen) != len(set(chosen)):
+            raise SystemExit(f"duplicate role stock in board: {board.get('board_name')}")
+
     for heading in (
         "第一部分：市场环境",
-        "第二部分：17只股票完整排名",
-        "第三部分：Top5重点分析",
-        "第四部分：和上一次排名对比",
-        "第五部分：买点变化提醒",
-        "最终操作结论",
+        "第二部分：行业板块完整排名",
+        "第三部分：重点概念板块",
+        "第四部分：强势、上升与退潮板块",
+        "第五部分：重点板块2+2",
+        "第六部分：17只固定股票完整排名",
+        "第七部分：固定池Top5重点分析",
+        "第八部分：动态候选买点",
+        "第九部分：与上一次排名对比",
+        "第十部分：最终操作结论",
     ):
         if heading not in report:
             raise SystemExit(f"report missing section: {heading}")
-    if report.count("### ") < 6:
-        raise SystemExit("report missing Top5 detail blocks")
+    for label in ("资金容量龙头", "弹性龙头", "缩量回踩潜力", "放量突破潜力"):
+        if label not in report:
+            raise SystemExit(f"report missing 2+2 role: {label}")
+    if report.count("最理想回踩买入区间") < 5:
+        raise SystemExit("report missing fixed Top5 level details")
     print(
         json.dumps(
             {
@@ -46,6 +109,10 @@ def verify(root: Path, target_date: str) -> None:
                 "valid_count": snapshot.get("valid_count"),
                 "ranking_rows": len(rows),
                 "top5": snapshot.get("top5"),
+                "industry_boards": len(sectors["industry_ranking"]),
+                "concept_boards": len(sectors["concept_ranking"]),
+                "detailed_boards": len(sectors["detailed_boards"]),
+                "dynamic_candidates": len(sectors["dynamic_candidates"]),
             },
             ensure_ascii=False,
         )

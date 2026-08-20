@@ -98,3 +98,45 @@ jobs:
           path: /tmp/a-share-market-completeness-live-smoke.json
           if-no-files-found: warn
           retention-days: 14
+
+  sector-live-smoke:
+    if: >-
+      github.ref == 'refs/heads/feat/sector-2plus2-monitoring' ||
+      github.head_ref == 'feat/sector-2plus2-monitoring'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    defaults:
+      run:
+        working-directory: close_review_engine
+    env:
+      TZ: Asia/Shanghai
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: close_review_engine/pyproject.toml
+
+      - name: Install review engine
+        run: python -m pip install --upgrade pip && python -m pip install -e .
+
+      - name: Verify live sector panorama and 2+2 candidates
+        run: |
+          set -o pipefail
+          python scripts/run_sector_live_smoke.py \
+            --workers 8 \
+            | tee /tmp/a-share-sector-live-smoke.json
+
+      - name: Upload live evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a-share-sector-live-smoke-${{ github.run_attempt }}
+          path: /tmp/a-share-sector-live-smoke.json
+          if-no-files-found: warn
+          retention-days: 14
