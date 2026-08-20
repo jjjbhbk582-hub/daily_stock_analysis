@@ -6,9 +6,10 @@ import pandas as pd
 
 import ashare_review.fallbacks as fallback_module
 from ashare_review.config import StockConfig
-from ashare_review.data import fetch_tencent_quote
+from ashare_review.data import StockBundle, fetch_tencent_quote
 from ashare_review.fallbacks import (
     ResilientLiveDataSource,
+    fetch_sina_intraday,
     fetch_tencent_intraday,
     fetch_tencent_market_indices,
     parse_sina_industry_payload,
@@ -70,6 +71,24 @@ def test_tencent_intraday_parser_returns_60m_ohlcv() -> None:
     assert frame.iloc[-1]["date"].isoformat() == "2026-08-20T14:00:00"
     assert frame.iloc[-1]["close"] == 62.15
     assert frame.iloc[-1]["amount"] == 1_120_000
+
+
+class FakeSinaMinuteClient:
+    def get_text(self, url, *, params=None, encoding=None):
+        return (
+            'callback=([{"day":"2026-08-20 10:30:00","open":"61.00","high":"62.00",'
+            '"low":"60.90","close":"61.80","volume":"12000","amount":"742000"},'
+            '{"day":"2026-08-20 11:30:00","open":"61.80","high":"62.20",'
+            '"low":"61.70","close":"62.05","volume":"15000","amount":"930000"}]);'
+        )
+
+
+def test_sina_intraday_parser_returns_60m_ohlcv() -> None:
+    frame = fetch_sina_intraday(FakeSinaMinuteClient(), "sh601138", limit=1970)
+    assert list(frame.columns[:7]) == ["date", "open", "high", "low", "close", "volume", "amount"]
+    assert len(frame) == 2
+    assert frame.iloc[-1]["date"].isoformat() == "2026-08-20T11:30:00"
+    assert frame.iloc[-1]["close"] == 62.05
 
 
 def _tencent_line(
@@ -158,18 +177,53 @@ def test_sina_market_rows_normalize_numeric_fields() -> None:
     assert int((frame["pct_change"] < 0).sum()) == 1
 
 
-def test_load_market_uses_tencent_and_sina_fallbacks(monkeypatch) -> None:
+def test_load_stock_uses_sina_when_tencent_60m_is_unavailable(monkeypatch) -> None:
+    config = StockConfig("600183", "生益科技", "SH", "元件", ("PCB",), 88)
+    base_bundle = StockBundle(config=config)
+    monkeypatch.setattr(
+        fallback_module.LiveDataSource,
+        "load_stock",
+        lambda self, stock, target_date: base_bundle,
+    )
+    monkeypatch.setattr(
+        fallback_module,
+        "fetch_tencent_intraday",
+        lambda *args, **kwargs: (_ for _ in ()).throw(ConnectionError("unavailable")),
+    )
+    sina_frame = pd.DataFrame(
+        {
+            "date": pd.date_range("2026-08-13 10:30:00", periods=30, freq="h"),
+            "open": [10.0] * 30,
+            "high": [10.4] * 30,
+            "low": [9.8] * 30,
+            "close": [10.2] * 30,
+            "volume": [1000] * 30,
+            "amount": [10_200] * 30,
+        }
+    )
+    monkeypatch.setattr(fallback_module, "fetch_sina_intraday", lambda *args, **kwargs: sina_frame)
+
+    source = ResilientLiveDataSource()
+    source.client = object()
+    bundle = source.load_stock(config, date(2026, 8, 20))
+    assert len(bundle.intraday_60m) == 30
+    assert any(item["source"] == "新浪60分钟" and item["ok"] for item in bundle.source_status)
+
+
+def test_load_market_rejects_incomplete_eastmoney_spot_and_uses_fallbacks(monkeypatch) -> None:
     monkeypatch.setattr(
         fallback_module.LiveDataSource,
         "load_market",
         lambda self, stocks, target_date: {
             "data_date": target_date.isoformat(),
             "indices": [],
-            "total_amount": None,
-            "breadth": {},
-            "industry_table": [],
+            "total_amount": 80e9,
+            "breadth": {"up": 100, "down": 0, "flat": 0, "median_pct": 10.0},
+            "industry_table": [
+                {"industry": "错误样本", "pct_change": 20.0, "amount": 80e9, "count": 100}
+            ],
             "source_status": [
-                {"source": "东方财富全市场行情", "ok": False, "error": "blocked"}
+                {"source": "东方财富全市场行情", "ok": True, "rows": 100}
             ],
         },
     )
@@ -220,3 +274,4 @@ def test_load_market_uses_tencent_and_sina_fallbacks(monkeypatch) -> None:
     assert result["total_amount"] == 6e9
     assert result["breadth"] == {"up": 1, "down": 1, "flat": 1, "median_pct": 0.0}
     assert result["industry_table"][0]["industry"] == "半导体"
+    assert any(item["source"] == "东方财富全市场完整性校验" and not item["ok"] for item in result["source_status"])
