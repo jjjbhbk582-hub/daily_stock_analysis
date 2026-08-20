@@ -60,6 +60,12 @@ def run_review(
     comparison = _compare(previous_snapshot, rows)
     alerts = _alerts(rows, comparison)
     valid_count = sum(bool(row.get("data_valid")) for row in rows)
+    if valid_count == 0:
+        return RunResult(
+            status="failure",
+            message=f"{target_date.isoformat()}：多个独立行情源均未能确认当日完整日线，未生成伪排名。",
+            snapshot=None,
+        )
     status = "success" if valid_count == len(stocks) else "partial"
     snapshot = {
         "schema_version": 1,
