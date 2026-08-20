@@ -46,6 +46,23 @@ def load_same_day_snapshot(root: str | Path, *, target_date: str) -> dict[str, A
         return None
 
 
+def _sector_completeness(snapshot: dict[str, Any]) -> tuple[int, int]:
+    sectors = snapshot.get("sectors") or {}
+    historical = sum(
+        1
+        for key in ("industry_ranking", "concept_ranking")
+        for row in sectors.get(key, [])
+        if row.get("confidence") == "high"
+    )
+    picks = sum(
+        1
+        for board in sectors.get("detailed_boards", [])
+        for item in (board.get("picks") or {}).values()
+        if item.get("status") == "ready" and item.get("code")
+    )
+    return historical, picks
+
+
 def should_preserve(existing: dict[str, Any] | None, current: dict[str, Any]) -> bool:
     if not existing:
         return False
@@ -57,7 +74,70 @@ def should_preserve(existing: dict[str, Any] | None, current: dict[str, Any]) ->
         return False
     old_high = sum(1 for row in existing.get("stocks", []) if row.get("data_confidence") == "high")
     new_high = sum(1 for row in current.get("stocks", []) if row.get("data_confidence") == "high")
-    return old_high > new_high
+    if old_high > new_high:
+        return True
+    if old_high < new_high:
+        return False
+    return _sector_completeness(existing) > _sector_completeness(current)
+
+
+def _compact_sectors(snapshot: dict[str, Any]) -> dict[str, Any]:
+    sectors = snapshot.get("sectors") or {}
+    rankings: dict[str, list[dict[str, Any]]] = {}
+    for key in ("industry_ranking", "concept_ranking"):
+        rankings[key] = [
+            {
+                "rank": row.get("rank"),
+                "board_type": row.get("board_type"),
+                "board_code": row.get("board_code"),
+                "board_name": row.get("board_name"),
+                "score": row.get("score"),
+                "pct_change": row.get("pct_change"),
+                "confidence": row.get("confidence"),
+            }
+            for row in sectors.get(key, [])
+        ]
+    return {
+        **rankings,
+        "top_boards": [
+            {
+                "board_type": row.get("board_type"),
+                "board_code": row.get("board_code"),
+                "board_name": row.get("board_name"),
+                "rank": row.get("rank"),
+                "score": row.get("score"),
+            }
+            for row in sectors.get("top_boards", [])
+        ],
+        "focus_concepts": [
+            {
+                "focus_label": row.get("focus_label"),
+                "board_code": row.get("board_code"),
+                "rank": row.get("rank"),
+                "score": row.get("score"),
+                "pct_change": row.get("pct_change"),
+                "status": row.get("status"),
+            }
+            for row in sectors.get("focus_concepts", [])
+        ],
+        "detailed_boards": [
+            {
+                "board_type": board.get("board_type"),
+                "board_code": board.get("board_code"),
+                "board_name": board.get("board_name"),
+                "score": board.get("score"),
+                "picks": {
+                    role: {
+                        "code": item.get("code"),
+                        "name": item.get("name"),
+                        "status": item.get("status"),
+                    }
+                    for role, item in (board.get("picks") or {}).items()
+                },
+            }
+            for board in sectors.get("detailed_boards", [])
+        ],
+    }
 
 
 def write_outputs(
@@ -130,6 +210,7 @@ def write_outputs(
         "generated_at": snapshot.get("generated_at"),
         "valid_count": snapshot.get("valid_count"),
         "top5": snapshot.get("top5"),
+        "sectors": _compact_sectors(snapshot),
         "stocks": [
             {
                 "rank": row.get("rank"),

@@ -62,7 +62,7 @@ def test_shortlist_applies_hard_filter_and_limit() -> None:
         _constituent("002156", "弹性股", amount=6_000_000_000, pct_change=6.0),
         _constituent("300308", "创业板股", amount=10_000_000_000),
         _constituent("600002", "高价股", close=101.0),
-        _constituent("600003", "ST风险", name="ST风险"),
+        _constituent("600003", "ST风险"),
     ]
     shortlist = shortlist_constituents(rows, config)
     assert [row["code"] for row in shortlist] == ["600001", "002156"]

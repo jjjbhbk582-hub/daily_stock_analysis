@@ -16,6 +16,7 @@ from ashare_review.config import StockConfig
 from ashare_review.data import StockBundle
 from ashare_review.enhanced_data import ResilientLiveDataSource
 from ashare_review.fixture import FixtureDataSource as FixtureDataSource
+from ashare_review.sector_review import build_sector_review
 
 
 class ReviewDataSource(Protocol):
@@ -79,15 +80,23 @@ def run_review(
             ),
             snapshot=None,
         )
+    sectors = build_sector_review(
+        source,
+        market,
+        target_date=target_date,
+        previous_snapshot=previous_snapshot,
+        max_workers=max_workers,
+    )
     status = "success" if valid_count == len(stocks) else "partial"
     snapshot = {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": status,
         "target_date": target_date.isoformat(),
         "generated_at": generated_at.isoformat(),
         "valid_count": valid_count,
         "universe_count": len(stocks),
         "market": market,
+        "sectors": sectors,
         "stocks": rows,
         "top5": [row["code"] for row in rows[:5]],
         "comparison": comparison,
@@ -97,10 +106,14 @@ def run_review(
             "close_cross_check": "腾讯15:00收盘快照",
             "intraday": ["东方财富60分钟", "腾讯60分钟"],
             "market": ["东方财富全市场行情", "腾讯指数行情", "新浪全市场行情"],
+            "sectors": ["东方财富行业/概念板块", "板块历史K线", "板块成份"],
             "enrichment": ["东方财富财务", "东方财富公告", "东方财富资金流"],
         },
     }
-    message = f"{target_date.isoformat()}：{valid_count}/{len(stocks)}只股票通过当日完整日线校验。"
+    message = (
+        f"{target_date.isoformat()}：{valid_count}/{len(stocks)}只股票通过当日完整日线校验；"
+        f"板块排名{len(sectors.get('industry_ranking', []))}+{len(sectors.get('concept_ranking', []))}。"
+    )
     return RunResult(status=status, message=message, snapshot=_clean(snapshot))
 
 
