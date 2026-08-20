@@ -52,3 +52,49 @@ jobs:
             --fixture config/review_fixture.yml \
             --output-root /tmp/a-share-close-review-ci
           python scripts/verify_outputs.py /tmp/a-share-close-review-ci 2026-08-20
+
+  market-completeness-live-smoke:
+    if: >-
+      github.ref == 'refs/heads/fix/a-share-market-completeness' ||
+      github.head_ref == 'fix/a-share-market-completeness'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: close_review_engine
+    env:
+      TZ: Asia/Shanghai
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: close_review_engine/pyproject.toml
+
+      - name: Install review engine
+        run: python -m pip install --upgrade pip && python -m pip install -e .
+
+      - name: Verify live market and 60-minute completeness
+        run: |
+          set -o pipefail
+          python scripts/run_live_smoke.py \
+            --as-of 2026-08-20 \
+            --stocks 3 \
+            --require-market \
+            --require-daily \
+            --require-60m \
+            | tee /tmp/a-share-market-completeness-live-smoke.json
+
+      - name: Upload live evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a-share-market-completeness-live-smoke-${{ github.run_attempt }}
+          path: /tmp/a-share-market-completeness-live-smoke.json
+          if-no-files-found: warn
+          retention-days: 14
