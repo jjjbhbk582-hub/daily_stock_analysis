@@ -9,6 +9,7 @@ from ashare_review.data import HttpClient
 from ashare_review.engine import build_live_source
 from ashare_review.fallbacks import (
     fetch_sina_industries,
+    fetch_sina_intraday,
     fetch_sina_market_spot,
     fetch_tencent_intraday,
     fetch_tencent_market_indices,
@@ -47,7 +48,8 @@ def _fallback_only(stocks, target_date: date) -> dict:
         spot = fetch_sina_market_spot(client)
         valid = spot["pct_change"].dropna() if not spot.empty else None
         if valid is not None:
-            market["total_amount"] = float(spot["amount"].fillna(0).sum())
+            if market["total_amount"] in (None, 0):
+                market["total_amount"] = float(spot["amount"].fillna(0).sum())
             market["breadth"] = {
                 "up": int((valid > 0).sum()),
                 "down": int((valid < 0).sum()),
@@ -75,29 +77,57 @@ def _fallback_only(stocks, target_date: date) -> dict:
 
     rows = []
     for stock in stocks:
-        try:
-            intraday = fetch_tencent_intraday(client, stock.symbol, limit=320)
-            intraday = intraday[intraday["date"].dt.date <= target_date].reset_index(drop=True)
-            rows.append(
-                {
-                    "code": stock.code,
-                    "intraday_rows": len(intraday),
-                    "last_intraday": None if intraday.empty else str(intraday["date"].max()),
-                    "source": "腾讯60分钟",
-                    "ok": len(intraday) >= 26,
-                }
-            )
-        except Exception as exc:  # noqa: BLE001
-            rows.append(
-                {
-                    "code": stock.code,
-                    "intraday_rows": 0,
-                    "last_intraday": None,
-                    "source": "腾讯60分钟",
-                    "ok": False,
-                    "error": f"{type(exc).__name__}: {exc}",
-                }
-            )
+        attempts: list[dict] = []
+        chosen = None
+        for source_name, loader in (
+            (
+                "腾讯60分钟",
+                lambda symbol=stock.symbol: fetch_tencent_intraday(client, symbol, limit=320),
+            ),
+            (
+                "新浪60分钟",
+                lambda symbol=stock.symbol: fetch_sina_intraday(client, symbol, limit=1_970),
+            ),
+        ):
+            try:
+                intraday = loader()
+                intraday = intraday[
+                    intraday["date"].dt.date <= target_date
+                ].reset_index(drop=True)
+                usable = len(intraday) >= 26
+                attempts.append(
+                    {
+                        "source": source_name,
+                        "ok": usable,
+                        "rows": len(intraday),
+                        "last_intraday": None
+                        if intraday.empty
+                        else str(intraday["date"].max()),
+                    }
+                )
+                if usable:
+                    chosen = attempts[-1]
+                    break
+            except Exception as exc:  # noqa: BLE001
+                attempts.append(
+                    {
+                        "source": source_name,
+                        "ok": False,
+                        "rows": 0,
+                        "error": f"{type(exc).__name__}: {exc}",
+                    }
+                )
+        selected = chosen or attempts[-1]
+        rows.append(
+            {
+                "code": stock.code,
+                "intraday_rows": int(selected.get("rows") or 0),
+                "last_intraday": selected.get("last_intraday"),
+                "source": selected.get("source"),
+                "ok": bool(chosen),
+                "attempts": attempts,
+            }
+        )
     return {"market": market, "stocks": rows}
 
 
