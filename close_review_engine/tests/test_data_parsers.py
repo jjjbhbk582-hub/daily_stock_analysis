@@ -4,20 +4,20 @@ from datetime import date
 
 import pandas as pd
 
-import ashare_review.data as data_module
+import ashare_review.fallbacks as fallback_module
 from ashare_review.config import StockConfig
-from ashare_review.data import (
-    LiveDataSource,
+from ashare_review.data import fetch_tencent_quote
+from ashare_review.fallbacks import (
+    ResilientLiveDataSource,
     fetch_tencent_intraday,
     fetch_tencent_market_indices,
-    fetch_tencent_quote,
     parse_sina_industry_payload,
     parse_sina_market_rows,
 )
 
 
 class FakeClient:
-    def get_text(self, url, *, params=None, encoding=None, headers=None):
+    def get_text(self, url, *, params=None, encoding=None):
         fields = [""] * 50
         fields[1] = "工业富联"
         fields[3] = "62.15"
@@ -48,7 +48,7 @@ def test_tencent_quote_parser_keeps_close_timestamp_and_units() -> None:
 
 
 class FakeTencentMinuteClient:
-    def get_json(self, url, *, params=None, headers=None):
+    def get_json(self, url, *, params=None):
         symbol = str(params["param"]).split(",", maxsplit=1)[0]
         return {
             "data": {
@@ -99,7 +99,7 @@ def _tencent_line(
 
 
 class FakeTencentIndexClient:
-    def get_text(self, url, *, params=None, encoding=None, headers=None):
+    def get_text(self, url, *, params=None, encoding=None):
         return "\n".join(
             [
                 _tencent_line("sh000001", "上证指数", "000001", 4100.0, 4090.0, 620_000_000_000),
@@ -159,18 +159,40 @@ def test_sina_market_rows_normalize_numeric_fields() -> None:
 
 
 def test_load_market_uses_tencent_and_sina_fallbacks(monkeypatch) -> None:
-    monkeypatch.setattr(data_module, "fetch_eastmoney_kline", lambda *args, **kwargs: (_ for _ in ()).throw(ConnectionError("blocked")))
-    monkeypatch.setattr(data_module, "fetch_market_spot", lambda *args, **kwargs: (_ for _ in ()).throw(ConnectionError("blocked")))
     monkeypatch.setattr(
-        data_module,
+        fallback_module.LiveDataSource,
+        "load_market",
+        lambda self, stocks, target_date: {
+            "data_date": target_date.isoformat(),
+            "indices": [],
+            "total_amount": None,
+            "breadth": {},
+            "industry_table": [],
+            "source_status": [
+                {"source": "东方财富全市场行情", "ok": False, "error": "blocked"}
+            ],
+        },
+    )
+    monkeypatch.setattr(
+        fallback_module,
         "fetch_tencent_market_indices",
         lambda *args, **kwargs: {
-            "indices": [{"code": "000001", "name": "上证指数", "date": "2026-08-20", "close": 4100.0, "pct_change": 0.2, "amount": 620e9, "source": "腾讯行情"}],
+            "indices": [
+                {
+                    "code": "000001",
+                    "name": "上证指数",
+                    "date": "2026-08-20",
+                    "close": 4100.0,
+                    "pct_change": 0.2,
+                    "amount": 620e9,
+                    "source": "腾讯行情",
+                }
+            ],
             "total_amount": 1.15e12,
         },
     )
     monkeypatch.setattr(
-        data_module,
+        fallback_module,
         "fetch_sina_market_spot",
         lambda *args, **kwargs: pd.DataFrame(
             {
@@ -184,12 +206,14 @@ def test_load_market_uses_tencent_and_sina_fallbacks(monkeypatch) -> None:
         ),
     )
     monkeypatch.setattr(
-        data_module,
+        fallback_module,
         "fetch_sina_industries",
-        lambda *args, **kwargs: [{"industry": "半导体", "pct_change": 2.0, "amount": 3e10, "count": 100}],
+        lambda *args, **kwargs: [
+            {"industry": "半导体", "pct_change": 2.0, "amount": 3e10, "count": 100}
+        ],
     )
 
-    source = LiveDataSource()
+    source = ResilientLiveDataSource()
     source.client = object()
     result = source.load_market([], date(2026, 8, 20))
     assert result["indices"][0]["source"] == "腾讯行情"
