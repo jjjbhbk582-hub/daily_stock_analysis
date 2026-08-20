@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import json
+import re
 from datetime import date, time
+from math import ceil
 from typing import Any
 
 import numpy as np
@@ -18,10 +21,39 @@ from ashare_review.data import (
 from ashare_review.indicators import normalize_ohlcv
 
 TENCENT_MINUTE_URL = "https://ifzq.gtimg.cn/appstock/app/kline/mkline"
+SINA_MINUTE_URL = (
+    "https://quotes.sina.cn/cn/api/jsonp_v2.php/=/"
+    "CN_MarketDataService.getKLineData"
+)
 SINA_MARKET_URL = (
     "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/"
     "Market_Center.getHQNodeData"
 )
+SINA_MARKET_COUNT_URL = (
+    "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/"
+    "Market_Center.getHQNodeStockCount"
+)
+SINA_INDUSTRY_URL = "https://money.finance.sina.com.cn/q/view/newFLJK.php"
+SINA_MARKET_PAGE_SIZE = 80
+MIN_FULL_MARKET_ROWS = 3_000
+
+
+def _ordered_intraday(frame: pd.DataFrame) -> pd.DataFrame:
+    if frame.empty:
+        return frame
+    normalized = normalize_ohlcv(frame)
+    order = [
+        "date",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "amount",
+        "turnover_rate",
+        "pct_change",
+    ]
+    return normalized[[column for column in order if column in normalized.columns]]
 
 
 def fetch_tencent_intraday_60m(
@@ -62,28 +94,91 @@ def fetch_tencent_intraday_60m(
             {
                 "date": row[0],
                 "open": open_price,
-                "close": close_price,
                 "high": high_price,
                 "low": low_price,
+                "close": close_price,
                 "volume": volume,
                 "amount": volume * typical_price,
                 "turnover_rate": turnover_rate,
             }
         )
-    frame = pd.DataFrame(records)
+    frame = _ordered_intraday(pd.DataFrame(records))
     if frame.empty:
         return frame
-    frame = normalize_ohlcv(frame)
-    frame = frame[frame["date"].dt.date <= target_date].reset_index(drop=True)
-    return frame
+    return frame[frame["date"].dt.date <= target_date].reset_index(drop=True)
 
 
-def fetch_sina_market_snapshot(client: HttpClient) -> pd.DataFrame:
+def fetch_sina_intraday_60m(
+    client: HttpClient,
+    symbol: str,
+    *,
+    target_date: date,
+    limit: int = 1_970,
+) -> pd.DataFrame:
+    response = client.session.get(
+        SINA_MINUTE_URL,
+        params={
+            "symbol": symbol,
+            "scale": "60",
+            "ma": "no",
+            "datalen": str(limit),
+        },
+        headers={"Referer": f"https://finance.sina.com.cn/realstock/company/{symbol}/nc.shtml"},
+        timeout=client.timeout,
+    )
+    response.raise_for_status()
+    text = response.text
+    start = text.find("[")
+    end = text.rfind("]")
+    if start < 0 or end <= start:
+        raise ValueError("新浪60分钟响应缺少JSON数组")
+    payload = json.loads(text[start : end + 1])
+    if not isinstance(payload, list):
+        raise ValueError("新浪60分钟响应不是列表")
+    records: list[dict[str, Any]] = []
+    for item in payload:
+        if not isinstance(item, dict):
+            continue
+        records.append(
+            {
+                "date": item.get("day") or item.get("date"),
+                "open": item.get("open"),
+                "high": item.get("high"),
+                "low": item.get("low"),
+                "close": item.get("close"),
+                "volume": item.get("volume"),
+                "amount": item.get("amount"),
+            }
+        )
+    frame = _ordered_intraday(pd.DataFrame(records))
+    if frame.empty:
+        return frame
+    return frame[frame["date"].dt.date <= target_date].reset_index(drop=True)
+
+
+def _sina_market_count(client: HttpClient) -> int | None:
+    response = client.session.get(
+        SINA_MARKET_COUNT_URL,
+        params={"node": "hs_a"},
+        headers={"Referer": "https://vip.stock.finance.sina.com.cn/"},
+        timeout=client.timeout,
+    )
+    response.raise_for_status()
+    match = re.fullmatch(r"\s*(\d+)\s*", response.text)
+    return int(match.group(1)) if match else None
+
+
+def _fetch_sina_market_page(
+    client: HttpClient,
+    *,
+    page: int,
+    page_size: int,
+) -> list[dict[str, Any]]:
     response = client.session.get(
         SINA_MARKET_URL,
         params={
-            "page": 1,
-            "num": 5000,
+            "page": page,
+            "num": page_size,
             "sort": "symbol",
             "asc": 1,
             "node": "hs_a",
@@ -95,8 +190,46 @@ def fetch_sina_market_snapshot(client: HttpClient) -> pd.DataFrame:
     )
     response.raise_for_status()
     rows = response.json()
-    if not isinstance(rows, list):
-        return pd.DataFrame()
+    return rows if isinstance(rows, list) else []
+
+
+def fetch_sina_market_snapshot(
+    client: HttpClient,
+    *,
+    minimum_rows: int = MIN_FULL_MARKET_ROWS,
+) -> pd.DataFrame:
+    total_count: int | None
+    try:
+        total_count = _sina_market_count(client)
+    except Exception:  # noqa: BLE001
+        total_count = None
+
+    pages: list[list[dict[str, Any]]] = []
+    if total_count is not None and total_count > 0:
+        page_count = ceil(total_count / SINA_MARKET_PAGE_SIZE)
+        for page in range(1, page_count + 1):
+            rows = _fetch_sina_market_page(
+                client,
+                page=page,
+                page_size=SINA_MARKET_PAGE_SIZE,
+            )
+            if not rows:
+                break
+            pages.append(rows)
+    else:
+        for page in range(1, 81):
+            rows = _fetch_sina_market_page(
+                client,
+                page=page,
+                page_size=SINA_MARKET_PAGE_SIZE,
+            )
+            if not rows:
+                break
+            pages.append(rows)
+            if len(rows) < SINA_MARKET_PAGE_SIZE:
+                break
+
+    rows = [item for page_rows in pages for item in page_rows]
     frame = pd.DataFrame(rows)
     if frame.empty:
         return frame
@@ -110,7 +243,61 @@ def fetch_sina_market_snapshot(client: HttpClient) -> pd.DataFrame:
     for column in ("close", "pct_change", "amount", "turnover_rate"):
         if column in frame.columns:
             frame[column] = pd.to_numeric(frame[column], errors="coerce")
+    if "code" not in frame.columns and "symbol" in frame.columns:
+        frame["code"] = frame["symbol"].astype(str).str.replace(
+            r"^(?:sh|sz|bj)",
+            "",
+            regex=True,
+        )
+    if "code" in frame.columns:
+        frame = frame.drop_duplicates("code", keep="last").reset_index(drop=True)
+
+    expected_rows = minimum_rows
+    if total_count is not None:
+        expected_rows = max(minimum_rows, int(total_count * 0.9))
+    if len(frame) < expected_rows:
+        raise ValueError(
+            f"新浪全市场仅返回{len(frame)}行，低于完整性要求{expected_rows}行"
+        )
     return frame
+
+
+def fetch_sina_industries(client: HttpClient) -> list[dict[str, Any]]:
+    response = client.session.get(
+        SINA_INDUSTRY_URL,
+        params={"param": "industry"},
+        headers={"Referer": "https://money.finance.sina.com.cn/"},
+        timeout=client.timeout,
+    )
+    response.raise_for_status()
+    response.encoding = "gbk"
+    text = response.text
+    start = text.find("{")
+    end = text.rfind("}")
+    if start < 0 or end <= start:
+        return []
+    payload = json.loads(text[start : end + 1])
+    if not isinstance(payload, dict):
+        return []
+    rows: list[dict[str, Any]] = []
+    for raw in payload.values():
+        fields = str(raw).split(",")
+        if len(fields) < 8:
+            continue
+        industry = fields[1].strip()
+        pct_change = _number(fields[5])
+        if not industry or pct_change is None:
+            continue
+        rows.append(
+            {
+                "industry": industry,
+                "pct_change": pct_change,
+                "amount": _number(fields[7]),
+                "count": int(_number(fields[2]) or 0),
+                "source": "新浪行业行情",
+            }
+        )
+    return sorted(rows, key=lambda item: float(item["pct_change"]), reverse=True)
 
 
 def _completed_intraday(frame: pd.DataFrame, target_date: date) -> bool:
@@ -151,38 +338,96 @@ def _fill_daily_quote_fields(bundle: StockBundle, target_date: date) -> None:
         )
 
 
+def _market_sample_rows(result: dict[str, Any]) -> int | None:
+    counts: list[int] = []
+    for item in result.get("source_status", []):
+        if item.get("source") != "东方财富全市场行情":
+            continue
+        try:
+            counts.append(int(item.get("rows") or 0))
+        except (TypeError, ValueError):
+            continue
+    breadth = result.get("breadth") or {}
+    try:
+        breadth_count = sum(int(breadth.get(key) or 0) for key in ("up", "down", "flat"))
+    except (TypeError, ValueError):
+        breadth_count = 0
+    if breadth_count:
+        counts.append(breadth_count)
+    return max(counts) if counts else None
+
+
+def _invalidate_incomplete_market_sample(result: dict[str, Any]) -> None:
+    row_count = _market_sample_rows(result)
+    if row_count is None or row_count >= MIN_FULL_MARKET_ROWS:
+        return
+    result["total_amount"] = None
+    result["breadth"] = {}
+    result["industry_table"] = []
+    result.setdefault("source_status", []).append(
+        {
+            "source": "东方财富全市场完整性校验",
+            "ok": False,
+            "rows": row_count,
+            "error": (
+                f"仅返回{row_count}只股票，低于完整性阈值{MIN_FULL_MARKET_ROWS}；"
+                "未将局部样本冒充全市场"
+            ),
+        }
+    )
+
+
 class ResilientLiveDataSource(LiveDataSource):
     def load_stock(self, config: StockConfig, target_date: date) -> StockBundle:
         bundle = super().load_stock(config, target_date)
         _fill_daily_quote_fields(bundle, target_date)
         if _completed_intraday(bundle.intraday_60m, target_date):
             return bundle
-        try:
-            fallback = fetch_tencent_intraday_60m(
-                self.client,
-                config.symbol,
-                target_date=target_date,
-            )
-            complete = _completed_intraday(fallback, target_date)
-            bundle.source_status.append(
-                {
-                    "source": "腾讯60分钟",
-                    "ok": complete,
-                    "rows": len(fallback),
-                    "date": None if fallback.empty else str(fallback["date"].max()),
-                }
-            )
-            if complete:
-                bundle.intraday_60m = fallback
-                bundle.core_sources.append("腾讯60分钟")
-        except Exception as exc:  # noqa: BLE001
-            bundle.source_status.append(
-                {"source": "腾讯60分钟", "ok": False, "error": _short_error(exc)}
-            )
+
+        fallback_sources = (
+            (
+                "腾讯60分钟",
+                lambda: fetch_tencent_intraday_60m(
+                    self.client,
+                    config.symbol,
+                    target_date=target_date,
+                ),
+            ),
+            (
+                "新浪60分钟",
+                lambda: fetch_sina_intraday_60m(
+                    self.client,
+                    config.symbol,
+                    target_date=target_date,
+                ),
+            ),
+        )
+        for source_name, loader in fallback_sources:
+            try:
+                fallback = loader()
+                complete = _completed_intraday(fallback, target_date)
+                bundle.source_status.append(
+                    {
+                        "source": source_name,
+                        "ok": complete,
+                        "rows": len(fallback),
+                        "date": None if fallback.empty else str(fallback["date"].max()),
+                    }
+                )
+                if complete:
+                    bundle.intraday_60m = fallback
+                    bundle.core_sources.append(source_name)
+                    break
+            except Exception as exc:  # noqa: BLE001
+                bundle.source_status.append(
+                    {"source": source_name, "ok": False, "error": _short_error(exc)}
+                )
         return bundle
 
     def load_market(self, stocks: list[StockConfig], target_date: date) -> dict[str, Any]:
         result = super().load_market(stocks, target_date)
+        _invalidate_incomplete_market_sample(result)
+
         target = target_date.isoformat()
         valid_indices = {
             str(item.get("code")): item
@@ -231,8 +476,6 @@ class ResilientLiveDataSource(LiveDataSource):
         if need_spot:
             try:
                 spot = fetch_sina_market_snapshot(self.client)
-                if len(spot) < 500:
-                    raise ValueError(f"新浪全市场仅返回{len(spot)}行，拒绝冒充全市场")
                 if result.get("total_amount") is None and "amount" in spot:
                     result["total_amount"] = float(spot["amount"].fillna(0).sum())
                 if not result.get("breadth") and "pct_change" in spot:
@@ -249,6 +492,23 @@ class ResilientLiveDataSource(LiveDataSource):
             except Exception as exc:  # noqa: BLE001
                 result["source_status"].append(
                     {"source": "新浪全市场行情", "ok": False, "error": _short_error(exc)}
+                )
+
+        if not result.get("industry_table"):
+            try:
+                industries = fetch_sina_industries(self.client)
+                if industries:
+                    result["industry_table"] = industries
+                result["source_status"].append(
+                    {
+                        "source": "新浪行业行情",
+                        "ok": bool(industries),
+                        "rows": len(industries),
+                    }
+                )
+            except Exception as exc:  # noqa: BLE001
+                result["source_status"].append(
+                    {"source": "新浪行业行情", "ok": False, "error": _short_error(exc)}
                 )
 
         if result.get("total_amount") is None:
