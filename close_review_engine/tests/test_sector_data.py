@@ -1,13 +1,14 @@
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
 
+from ashare_review.sector_config import load_sector_monitor
 from ashare_review.sector_data import (
     match_focus_concepts,
     normalize_board_constituents,
     normalize_board_overview,
 )
-from ashare_review.sector_config import load_sector_monitor
 
 
 def test_board_overview_normalizes_eastmoney_fields() -> None:
@@ -36,6 +37,17 @@ def test_board_overview_normalizes_eastmoney_fields() -> None:
     assert rows[0]["up_count"] == 70
     assert rows[0]["down_count"] == 20
     assert rows[0]["data_date"] == "2026-08-20"
+
+
+def test_board_overview_uses_exchange_timestamp_instead_of_requested_date() -> None:
+    shanghai = ZoneInfo("Asia/Shanghai")
+    source_time = datetime(2026, 8, 19, 15, 0, tzinfo=shanghai)
+    rows = normalize_board_overview(
+        [{"f12": "BK0001", "f14": "通信设备", "f3": 1.0, "f124": source_time.timestamp()}],
+        board_type="industry",
+        target_date=date(2026, 8, 20),
+    )
+    assert rows[0]["data_date"] == "2026-08-19"
 
 
 def test_constituents_are_normalized_for_candidate_filtering() -> None:
