@@ -1,0 +1,31 @@
+max_price: 100.0
+min_amount: 300000000
+max_detailed_boards: 7
+shortlist_per_board: 8
+max_dynamic_stocks: 48
+history_candidates_per_type: 15
+focus_concepts:
+  - label: AI算力
+    aliases: [AI算力, 算力概念, 东数西算, AI服务器, 智算中心, 数据中心]
+  - label: CPO
+    aliases: [CPO, CPO概念, 共封装光学, 光模块]
+  - label: PCB
+    aliases: [PCB, PCB概念, 印制电路板, 覆铜板]
+  - label: 半导体
+    aliases: [半导体, 芯片概念, 国产芯片, 半导体设备]
+  - label: 存储芯片
+    aliases: [存储芯片, 存储器, DRAM, NAND]
+  - label: 稀土
+    aliases: [稀土, 稀土永磁, 小金属]
+  - label: 人形机器人
+    aliases: [人形机器人, 机器人概念, 减速器, 机器视觉]
+  - label: 创新药
+    aliases: [创新药, CRO, 生物医药, 医药商业]
+  - label: 液冷服务器
+    aliases: [液冷服务器, 液冷概念, 数据中心]
+  - label: 消费电子
+    aliases: [消费电子, 苹果概念, AI手机, AI眼镜]
+  - label: 军工
+    aliases: [军工, 国防军工, 军民融合, 商业航天]
+  - label: 有色金属
+    aliases: [有色金属, 黄金概念, 铜, 铝]
