@@ -4,6 +4,7 @@ import argparse
 import json
 from datetime import date
 
+from ashare_review.calendar import last_completed_trading_day
 from ashare_review.config import load_universe
 from ashare_review.engine import build_live_source
 from ashare_review.sector_review import build_sector_review
@@ -13,20 +14,26 @@ ALLOWED_PREFIXES = ("600", "601", "603", "605", "000", "001", "002", "003")
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="联网验证板块全景与2+2动态候选")
-    parser.add_argument("--as-of", type=date.fromisoformat, required=True)
+    parser.add_argument(
+        "--as-of",
+        type=date.fromisoformat,
+        default=None,
+        help="目标交易日；默认使用北京时间最近一个已完成的沪深交易日",
+    )
     parser.add_argument("--universe", default="config/universe.yml")
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--min-industries", type=int, default=50)
     parser.add_argument("--min-concepts", type=int, default=100)
     args = parser.parse_args()
+    target_date = args.as_of or last_completed_trading_day()
 
     source = build_live_source()
     universe = load_universe(args.universe)
-    market = source.load_market(universe[:3], args.as_of)
+    market = source.load_market(universe[:3], target_date)
     sectors = build_sector_review(
         source,
         market,
-        target_date=args.as_of,
+        target_date=target_date,
         previous_snapshot=None,
         max_workers=max(1, min(args.workers, 8)),
     )
@@ -50,7 +57,7 @@ def main() -> int:
     if not dynamic:
         errors.append("未生成任何动态2+2候选")
 
-    target = args.as_of.isoformat()
+    target = target_date.isoformat()
     for row in [*industry, *concept]:
         if row.get("data_date") != target:
             errors.append(
@@ -72,7 +79,9 @@ def main() -> int:
         "target_date": target,
         "industry_count": len(industry),
         "concept_count": len(concept),
-        "focus_ready": sum(row.get("status") == "ready" for row in sectors.get("focus_concepts", [])),
+        "focus_ready": sum(
+            row.get("status") == "ready" for row in sectors.get("focus_concepts", [])
+        ),
         "top_boards": [row.get("board_name") for row in sectors.get("top_boards", [])],
         "detailed_board_count": len(detailed),
         "dynamic_candidate_count": len(dynamic),
