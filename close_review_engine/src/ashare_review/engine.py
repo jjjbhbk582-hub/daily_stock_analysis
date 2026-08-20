@@ -14,7 +14,6 @@ from ashare_review.analysis import analyze_stock
 from ashare_review.comparison import _alerts, _compare, _market_summary
 from ashare_review.config import StockConfig
 from ashare_review.data import LiveDataSource, StockBundle
-from ashare_review.fixture import FixtureDataSource
 
 
 class ReviewDataSource(Protocol):
