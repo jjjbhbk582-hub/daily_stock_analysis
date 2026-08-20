@@ -44,7 +44,12 @@ def _parse_datetime(value: Any) -> pd.Timestamp | None:
     text = str(value or "").strip()
     if not text:
         return None
-    for pattern in ("%Y%m%d%H%M%S", "%Y%m%d%H%M", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M"):
+    for pattern in (
+        "%Y%m%d%H%M%S",
+        "%Y%m%d%H%M",
+        "%Y-%m-%d %H:%M:%S",
+        "%Y-%m-%d %H:%M",
+    ):
         try:
             return pd.Timestamp(datetime.strptime(text, pattern))
         except ValueError:
@@ -98,15 +103,29 @@ def fetch_tencent_intraday(
             {
                 "date": timestamp,
                 "open": row[1],
-                "close": row[2],
                 "high": row[3],
                 "low": row[4],
+                "close": row[2],
                 "volume": row[5],
                 "amount": row[6] if len(row) > 6 else None,
             }
         )
     frame = pd.DataFrame(records)
-    return normalize_ohlcv(frame) if not frame.empty else frame
+    if frame.empty:
+        return frame
+    normalized = normalize_ohlcv(frame)
+    preferred = [
+        "date",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "amount",
+        "turnover_rate",
+        "pct_change",
+    ]
+    return normalized[[column for column in preferred if column in normalized.columns]]
 
 
 def fetch_tencent_market_indices(
@@ -138,7 +157,7 @@ def fetch_tencent_market_indices(
         indices.append(
             {
                 "code": code,
-                "name": (fields[1] if len(fields) > 1 and fields[1] else fallback_name),
+                "name": fields[1] if len(fields) > 1 and fields[1] else fallback_name,
                 "date": target_date.isoformat(),
                 "close": close,
                 "pct_change": None if pct_change is None else round(pct_change, 4),
@@ -158,7 +177,11 @@ def fetch_tencent_market_indices(
         amount = _tencent_amount(fields)
         if amount is not None:
             turnover_amounts.append(amount)
-    total_amount = sum(turnover_amounts) if len(turnover_amounts) == len(_TENCENT_TURNOVER_SYMBOLS) else None
+    total_amount = (
+        sum(turnover_amounts)
+        if len(turnover_amounts) == len(_TENCENT_TURNOVER_SYMBOLS)
+        else None
+    )
     return {"indices": indices, "total_amount": total_amount}
 
 
@@ -337,14 +360,18 @@ class ResilientLiveDataSource(LiveDataSource):
     def load_market(self, stocks: list[StockConfig], target_date: date) -> dict[str, Any]:
         result = super().load_market(stocks, target_date)
         valid_indices = [
-            item for item in result.get("indices", []) if item.get("date") == target_date.isoformat()
+            item
+            for item in result.get("indices", [])
+            if item.get("date") == target_date.isoformat()
         ]
         result["indices"] = valid_indices
         if len(valid_indices) < 3 or result.get("total_amount") is None:
             try:
                 fallback = fetch_tencent_market_indices(self.client, target_date=target_date)
                 result["indices"] = _merge_indices(
-                    result.get("indices", []), fallback.get("indices", []), target_date=target_date
+                    result.get("indices", []),
+                    fallback.get("indices", []),
+                    target_date=target_date,
                 )
                 if result.get("total_amount") is None and fallback.get("total_amount") is not None:
                     result["total_amount"] = float(fallback["total_amount"])
@@ -358,7 +385,11 @@ class ResilientLiveDataSource(LiveDataSource):
                 )
             except Exception as exc:  # noqa: BLE001
                 result["source_status"].append(
-                    {"source": "腾讯指数与两市成交额", "ok": False, "error": _short_error(exc)}
+                    {
+                        "source": "腾讯指数与两市成交额",
+                        "ok": False,
+                        "error": _short_error(exc),
+                    }
                 )
 
         if not result.get("breadth") or result.get("total_amount") is None:
