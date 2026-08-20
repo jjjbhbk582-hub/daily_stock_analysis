@@ -13,7 +13,8 @@ import pandas as pd
 from ashare_review.analysis import analyze_stock
 from ashare_review.comparison import _alerts, _compare, _market_summary
 from ashare_review.config import StockConfig
-from ashare_review.data import LiveDataSource, StockBundle
+from ashare_review.data import StockBundle
+from ashare_review.enhanced_data import ResilientLiveDataSource
 from ashare_review.fixture import FixtureDataSource as FixtureDataSource
 
 
@@ -50,10 +51,19 @@ def run_review(
             except Exception as exc:  # noqa: BLE001
                 bundles[stock.code] = StockBundle(
                     config=stock,
-                    source_status=[{"source": "pipeline", "ok": False, "error": f"{type(exc).__name__}: {exc}"}],
+                    source_status=[
+                        {
+                            "source": "pipeline",
+                            "ok": False,
+                            "error": f"{type(exc).__name__}: {exc}",
+                        }
+                    ],
                 )
     rows = [analyze_stock(bundles[stock.code], market, target_date) for stock in stocks]
-    rows.sort(key=lambda row: (bool(row.get("data_valid")), float(row.get("score", 0))), reverse=True)
+    rows.sort(
+        key=lambda row: (bool(row.get("data_valid")), float(row.get("score", 0))),
+        reverse=True,
+    )
     for index, row in enumerate(rows, start=1):
         row["rank"] = index
     market = _market_summary(market, rows)
@@ -63,7 +73,10 @@ def run_review(
     if valid_count == 0:
         return RunResult(
             status="failure",
-            message=f"{target_date.isoformat()}：多个独立行情源均未能确认当日完整日线，未生成伪排名。",
+            message=(
+                f"{target_date.isoformat()}：多个独立行情源均未能确认当日完整日线，"
+                "未生成伪排名。"
+            ),
             snapshot=None,
         )
     status = "success" if valid_count == len(stocks) else "partial"
@@ -82,7 +95,8 @@ def run_review(
         "source_policy": {
             "daily": ["东方财富日线", "腾讯日线", "网易日线"],
             "close_cross_check": "腾讯15:00收盘快照",
-            "intraday": "东方财富60分钟",
+            "intraday": ["东方财富60分钟", "腾讯60分钟"],
+            "market": ["东方财富全市场行情", "腾讯指数行情", "新浪全市场行情"],
             "enrichment": ["东方财富财务", "东方财富公告", "东方财富资金流"],
         },
     }
@@ -104,8 +118,8 @@ def _clean(value: Any) -> Any:
     return value
 
 
-def build_live_source() -> LiveDataSource:
-    return LiveDataSource()
+def build_live_source() -> ResilientLiveDataSource:
+    return ResilientLiveDataSource()
 
 
 def dump_json(value: Any) -> str:
