@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import json
+import re
 from collections.abc import Iterable
 from datetime import date, datetime
+from difflib import SequenceMatcher
 from math import ceil
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -37,6 +39,18 @@ SINA_NODE_COUNT_URL = (
     "Market_Center.getHQNodeStockCount"
 )
 SINA_PAGE_SIZE = 80
+
+_BOARD_ALIASES: dict[str, tuple[str, ...]] = {
+    "医药生物": ("医药制造业", "生物制品", "医药"),
+    "医疗服务": ("医疗服务", "卫生"),
+    "生物制品": ("生物制品", "医药制造业"),
+    "贵金属": ("贵金属", "有色金属矿采选业"),
+    "通信设备": ("通信设备", "计算机通信和其他电子设备制造业"),
+    "电子元件": ("电子元件", "元件", "计算机通信和其他电子设备制造业"),
+    "半导体": ("半导体", "芯片", "计算机通信和其他电子设备制造业"),
+    "有色金属": ("有色金属", "有色金属冶炼和压延加工业"),
+    "小金属": ("小金属", "有色金属"),
+}
 
 
 def _as_int(value: Any) -> int:
@@ -311,8 +325,6 @@ def fetch_board_history(
     *,
     limit: int = 45,
 ) -> pd.DataFrame:
-    # Sina labels are not Eastmoney BK identifiers. Their 5/20-day persistence
-    # remains explicitly unverified instead of issuing invalid Eastmoney calls.
     if not str(board_code).upper().startswith("BK"):
         return pd.DataFrame()
     last_error: Exception | None = None
@@ -415,9 +427,67 @@ def _fetch_sina_board_constituents(
     return normalize_board_constituents(rows)
 
 
+def _normalise_board_name(value: Any) -> str:
+    text = str(value or "").strip().upper()
+    text = re.sub(r"(?:概念|行业|板块|指数|Ⅱ|II)$", "", text)
+    return re.sub(r"[^0-9A-Z\u4e00-\u9fff]+", "", text)
+
+
+def _board_name_candidates(board_name: str) -> tuple[str, ...]:
+    values = [board_name, *_BOARD_ALIASES.get(board_name, ())]
+    return tuple(dict.fromkeys(_normalise_board_name(value) for value in values if value))
+
+
+def _sina_name_score(requested_name: str, candidate_name: str) -> float:
+    requested = _board_name_candidates(requested_name)
+    candidate = _normalise_board_name(candidate_name)
+    if not requested or not candidate:
+        return 0.0
+    best = 0.0
+    for term in requested:
+        if candidate == term:
+            score = 120.0
+        elif len(term) >= 2 and term in candidate:
+            score = 92.0 + min(len(term), 12)
+        elif len(candidate) >= 2 and candidate in term:
+            score = 82.0 + min(len(candidate), 12)
+        else:
+            score = SequenceMatcher(None, term, candidate).ratio() * 75.0
+        best = max(best, score)
+    return best
+
+
+def _resolve_sina_board_label(
+    client: HttpClient,
+    *,
+    board_type: str,
+    board_name: str,
+    target_date: date,
+) -> str | None:
+    search_types = (board_type, "concept" if board_type == "industry" else "industry")
+    candidates: list[tuple[float, int, dict[str, Any]]] = []
+    for index, current_type in enumerate(search_types):
+        try:
+            rows = _fetch_sina_board_overview(client, current_type, target_date)
+        except Exception:  # noqa: BLE001
+            continue
+        for row in rows:
+            score = _sina_name_score(board_name, str(row.get("board_name") or ""))
+            if score >= 45:
+                candidates.append((score, -index, row))
+    if not candidates:
+        return None
+    _, _, selected = max(candidates, key=lambda item: (item[0], item[1]))
+    return str(selected.get("board_code") or "") or None
+
+
 def fetch_board_constituents(
     client: HttpClient,
     board_code: str,
+    *,
+    board_type: str | None = None,
+    board_name: str | None = None,
+    target_date: date | None = None,
 ) -> list[dict[str, Any]]:
     eastmoney_error: Exception | None = None
     if str(board_code).upper().startswith("BK"):
@@ -444,8 +514,24 @@ def fetch_board_constituents(
         except Exception as exc:  # noqa: BLE001
             eastmoney_error = exc
 
+    fallback_code = str(board_code)
+    if (
+        fallback_code.upper().startswith("BK")
+        and board_type in {"industry", "concept"}
+        and board_name
+        and target_date is not None
+    ):
+        mapped = _resolve_sina_board_label(
+            client,
+            board_type=str(board_type),
+            board_name=str(board_name),
+            target_date=target_date,
+        )
+        if mapped:
+            fallback_code = mapped
+
     try:
-        fallback = _fetch_sina_board_constituents(client, board_code)
+        fallback = _fetch_sina_board_constituents(client, fallback_code)
         if fallback:
             return fallback
     except Exception as exc:  # noqa: BLE001
