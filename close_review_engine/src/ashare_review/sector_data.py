@@ -141,6 +141,14 @@ def normalize_board_constituents(rows: Iterable[dict[str, Any]]) -> list[dict[st
     return output
 
 
+def _pagination_identity(item: dict[str, Any]) -> str:
+    for key in ("f12", "board_code", "code", "symbol"):
+        value = str(item.get(key) or "").strip()
+        if value:
+            return f"{key}:{value}"
+    return json.dumps(item, ensure_ascii=False, sort_keys=True, default=str)
+
+
 def _fetch_paginated(
     client: HttpClient,
     hosts: tuple[str, ...],
@@ -152,6 +160,7 @@ def _fetch_paginated(
     page_size = int(params["pz"])
     for host in hosts:
         collected: list[dict[str, Any]] = []
+        seen: set[str] = set()
         try:
             for page in range(1, max_pages + 1):
                 page_params = dict(params)
@@ -161,12 +170,25 @@ def _fetch_paginated(
                 rows = data.get("diff") if isinstance(data, dict) else None
                 if not isinstance(rows, list) or not rows:
                     break
-                collected.extend(item for item in rows if isinstance(item, dict))
+                new_rows: list[dict[str, Any]] = []
+                for item in rows:
+                    if not isinstance(item, dict):
+                        continue
+                    identity = _pagination_identity(item)
+                    if identity in seen:
+                        continue
+                    seen.add(identity)
+                    new_rows.append(item)
+                collected.extend(new_rows)
                 total = _as_int(data.get("total")) if isinstance(data, dict) else 0
                 if total > 0 and len(collected) >= total:
                     break
                 if total <= 0 and len(rows) < page_size:
                     break
+                if not new_rows:
+                    raise RuntimeError(
+                        f"pagination stalled on page {page}: no new rows before total {total}"
+                    )
             if collected:
                 return collected
         except Exception as exc:  # noqa: BLE001
@@ -243,6 +265,26 @@ def _fetch_sina_board_overview(
     )
 
 
+def _overview_semantically_valid(rows: list[dict[str, Any]], board_type: str) -> bool:
+    if not rows:
+        return False
+    codes = [str(row.get("board_code") or "").strip() for row in rows]
+    names = [str(row.get("board_name") or "").strip() for row in rows]
+    if any(not value for value in codes) or any(not value for value in names):
+        return False
+    if len(set(codes)) != len(codes) or len(set(names)) != len(names):
+        return False
+    # First-level/standard industry taxonomies are bounded. A result with
+    # hundreds of "industry" rows usually means the provider ignored the
+    # taxonomy filter or repeated pages, so it must fall back rather than be
+    # presented as a valid industry panorama.
+    if board_type == "industry" and len(rows) > 200:
+        return False
+    if board_type == "concept" and len(rows) > 1_500:
+        return False
+    return True
+
+
 def fetch_board_overview(
     client: HttpClient,
     board_type: str,
@@ -273,15 +315,23 @@ def fetch_board_overview(
         completed = [
             row for row in normalized if row.get("data_date") == target_date.isoformat()
         ]
-        if completed:
+        if completed and _overview_semantically_valid(completed, board_type):
             return completed
+        if completed:
+            eastmoney_error = RuntimeError(
+                f"{board_type} board taxonomy failed semantic validation: {len(completed)} rows"
+            )
     except Exception as exc:  # noqa: BLE001
         eastmoney_error = exc
 
     try:
         fallback = _fetch_sina_board_overview(client, board_type, target_date)
-        if fallback:
+        if fallback and _overview_semantically_valid(fallback, board_type):
             return fallback
+        if fallback:
+            raise RuntimeError(
+                f"Sina {board_type} taxonomy failed semantic validation: {len(fallback)} rows"
+            )
     except Exception as exc:  # noqa: BLE001
         if eastmoney_error is not None:
             raise RuntimeError(

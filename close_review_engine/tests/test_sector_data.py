@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import json
 from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
+import pytest
+
 from ashare_review.sector_config import load_sector_monitor
 from ashare_review.sector_data import (
+    _fetch_paginated,
     fetch_board_constituents,
     fetch_board_history,
     fetch_board_overview,
@@ -41,7 +45,9 @@ class FakeBoardClient:
                 }
             }
         page = int(params.get("pn", 1))
-        timestamp = datetime(2026, 8, 20, 15, 0, tzinfo=ZoneInfo("Asia/Shanghai")).timestamp()
+        timestamp = datetime(
+            2026, 8, 20, 15, 0, tzinfo=ZoneInfo("Asia/Shanghai")
+        ).timestamp()
         if page == 1:
             rows = [
                 {"f12": f"BK{i:04d}", "f14": f"概念{i}", "f3": 1.0, "f124": timestamp}
@@ -160,3 +166,74 @@ def test_focus_concepts_match_aliases_without_duplicates() -> None:
     labels = [item["focus_label"] for item in matched]
     assert labels.count("CPO") == 1
     assert "液冷服务器" in labels
+
+
+class RepeatingPageClient:
+    def get_json(self, url, *, params=None):
+        del url, params
+        rows = [
+            {"f12": f"BK{i:04d}", "f14": f"板块{i}", "f3": 1.0}
+            for i in range(100)
+        ]
+        return {"data": {"total": 496, "diff": rows}}
+
+
+def test_paginated_fetch_rejects_repeated_pages_before_reported_total() -> None:
+    client = RepeatingPageClient()
+    with pytest.raises(RuntimeError, match="pagination stalled"):
+        _fetch_paginated(
+            client,
+            ("https://example.invalid/clist/get",),
+            {"pz": 100, "pn": 1},
+            max_pages=8,
+        )
+
+
+class TextResponse:
+    encoding = "utf-8"
+
+    def __init__(self, text: str) -> None:
+        self.text = text
+
+    def raise_for_status(self) -> None:
+        return None
+
+
+class SemanticallyInvalidIndustryClient:
+    timeout = 1
+
+    class Session:
+        def get(self, url, *, params=None, headers=None, timeout=None):
+            del url, params, headers, timeout
+            payload = {
+                "a": "hangye_a,通信设备,80,20.0,0.6,3.2,1000000,90000000000,600001,9.8,50.0,4.5,容量龙头",
+                "b": "hangye_b,半导体,180,30.0,0.4,1.5,2000000,150000000000,600002,6.2,60.0,3.5,弹性股",
+            }
+            return TextResponse(
+                "var S_Finance_bankuai_sinaindustry = "
+                + json.dumps(payload, ensure_ascii=False)
+            )
+
+    def __init__(self):
+        self.session = self.Session()
+
+    def get_json(self, url, *, params=None):
+        del url, params
+        timestamp = datetime(
+            2026, 8, 20, 15, 0, tzinfo=ZoneInfo("Asia/Shanghai")
+        ).timestamp()
+        rows = [
+            {"f12": f"BK{i:04d}", "f14": f"伪行业{i}", "f3": 1.0, "f124": timestamp}
+            for i in range(250)
+        ]
+        return {"data": {"total": 250, "diff": rows}}
+
+
+def test_industry_overview_rejects_implausible_taxonomy_and_uses_sina() -> None:
+    rows = fetch_board_overview(
+        SemanticallyInvalidIndustryClient(),
+        "industry",
+        date(2026, 8, 20),
+    )
+    assert [row["board_name"] for row in rows] == ["通信设备", "半导体"]
+    assert all(row["source"] == "新浪板块行情" for row in rows)

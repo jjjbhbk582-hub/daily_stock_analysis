@@ -44,10 +44,20 @@ def main() -> int:
     detailed = sectors.get("detailed_boards") or []
     dynamic = sectors.get("dynamic_candidates") or []
 
+    industry_codes = {str(row.get("board_code") or "") for row in industry}
+    concept_codes = {str(row.get("board_code") or "") for row in concept}
+    industry_names = {str(row.get("board_name") or "") for row in industry}
+    concept_names = {str(row.get("board_name") or "") for row in concept}
     if len(industry) < args.min_industries:
         errors.append(f"行业板块不足：{len(industry)} < {args.min_industries}")
+    if len(industry) > 200:
+        errors.append(f"行业分类数量异常：{len(industry)} > 200")
     if len(concept) < args.min_concepts:
         errors.append(f"概念板块不足：{len(concept)} < {args.min_concepts}")
+    if len(industry_codes) != len(industry) or len(industry_names) != len(industry):
+        errors.append("行业板块存在重复代码或名称")
+    if len(concept_codes) != len(concept) or len(concept_names) != len(concept):
+        errors.append("概念板块存在重复代码或名称")
     if len(sectors.get("top_boards") or []) != 5:
         errors.append("强势板块Top5不完整")
     if not detailed or len(detailed) > 7:
@@ -78,7 +88,9 @@ def main() -> int:
     payload = {
         "target_date": target,
         "industry_count": len(industry),
+        "industry_unique_codes": len(industry_codes),
         "concept_count": len(concept),
+        "concept_unique_codes": len(concept_codes),
         "focus_ready": sum(
             row.get("status") == "ready" for row in sectors.get("focus_concepts", [])
         ),
