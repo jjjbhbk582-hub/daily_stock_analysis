@@ -5,10 +5,56 @@ from zoneinfo import ZoneInfo
 
 from ashare_review.sector_config import load_sector_monitor
 from ashare_review.sector_data import (
+    fetch_board_constituents,
+    fetch_board_history,
+    fetch_board_overview,
     match_focus_concepts,
     normalize_board_constituents,
     normalize_board_overview,
 )
+
+
+class FakeBoardClient:
+    def __init__(self) -> None:
+        self.calls: list[tuple[str, dict]] = []
+
+    def get_json(self, url, *, params=None):
+        params = dict(params or {})
+        self.calls.append((url, params))
+        if "push2his" in url:
+            return {
+                "data": {
+                    "klines": [
+                        "2026-08-19,100,101,102,99,1000,100000,3,1,1,2",
+                        "2026-08-20,101,103,104,100,1200,130000,4,1.98,2,2.5",
+                    ]
+                }
+            }
+        if str(params.get("fs", "")).startswith("b:"):
+            return {
+                "data": {
+                    "total": 2,
+                    "diff": [
+                        {"f12": "002156", "f14": "通富微电", "f2": 70, "f5": 1, "f6": 500_000_000},
+                        {"f12": "600105", "f14": "永鼎股份", "f2": 42, "f5": 1, "f6": 600_000_000},
+                    ],
+                }
+            }
+        page = int(params.get("pn", 1))
+        timestamp = datetime(2026, 8, 20, 15, 0, tzinfo=ZoneInfo("Asia/Shanghai")).timestamp()
+        if page == 1:
+            rows = [
+                {"f12": f"BK{i:04d}", "f14": f"概念{i}", "f3": 1.0, "f124": timestamp}
+                for i in range(100)
+            ]
+        elif page == 2:
+            rows = [
+                {"f12": f"BK{i:04d}", "f14": f"概念{i}", "f3": 0.5, "f124": timestamp}
+                for i in range(100, 120)
+            ]
+        else:
+            rows = []
+        return {"data": {"total": 120, "diff": rows}}
 
 
 def test_board_overview_normalizes_eastmoney_fields() -> None:
@@ -48,6 +94,32 @@ def test_board_overview_uses_exchange_timestamp_instead_of_requested_date() -> N
         target_date=date(2026, 8, 20),
     )
     assert rows[0]["data_date"] == "2026-08-19"
+
+
+def test_board_overview_uses_100_row_pagination_until_total() -> None:
+    client = FakeBoardClient()
+    rows = fetch_board_overview(client, "concept", date(2026, 8, 20))
+    assert len(rows) == 120
+    board_calls = [params for url, params in client.calls if "clist/get" in url]
+    assert board_calls[0]["pz"] == 100
+    assert {int(item["pn"]) for item in board_calls} == {1, 2}
+
+
+def test_board_history_prefers_91_host_and_parses_completed_rows() -> None:
+    client = FakeBoardClient()
+    frame = fetch_board_history(client, "BK0001", date(2026, 8, 20))
+    assert len(frame) == 2
+    assert frame.iloc[-1]["date"].date() == date(2026, 8, 20)
+    assert frame.iloc[-1]["close"] == 103
+    assert client.calls[0][0].startswith("https://91.push2his.eastmoney.com/")
+
+
+def test_board_constituents_use_service_safe_100_row_pages() -> None:
+    client = FakeBoardClient()
+    rows = fetch_board_constituents(client, "BK0001")
+    assert len(rows) == 2
+    assert client.calls[0][1]["pz"] == 100
+    assert client.calls[0][1]["fid"] == "f12"
 
 
 def test_constituents_are_normalized_for_candidate_filtering() -> None:
