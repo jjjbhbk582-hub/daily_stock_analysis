@@ -7,8 +7,8 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-from ashare_review.data import HttpClient, fetch_eastmoney_kline
-from ashare_review.indicators import finite
+from ashare_review.data import HttpClient
+from ashare_review.indicators import finite, normalize_ohlcv
 from ashare_review.sector_config import FocusConcept
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
@@ -16,6 +16,10 @@ BOARD_LIST_HOSTS = (
     "https://79.push2.eastmoney.com/api/qt/clist/get",
     "https://17.push2.eastmoney.com/api/qt/clist/get",
     "https://push2.eastmoney.com/api/qt/clist/get",
+)
+BOARD_HISTORY_HOSTS = (
+    "https://91.push2his.eastmoney.com/api/qt/stock/kline/get",
+    "https://push2his.eastmoney.com/api/qt/stock/kline/get",
 )
 BOARD_CONSTITUENT_HOSTS = (
     "https://29.push2.eastmoney.com/api/qt/clist/get",
@@ -119,6 +123,7 @@ def _fetch_paginated(
     max_pages: int,
 ) -> list[dict[str, Any]]:
     last_error: Exception | None = None
+    page_size = int(params["pz"])
     for host in hosts:
         collected: list[dict[str, Any]] = []
         try:
@@ -132,7 +137,9 @@ def _fetch_paginated(
                     break
                 collected.extend(item for item in rows if isinstance(item, dict))
                 total = _as_int(data.get("total")) if isinstance(data, dict) else 0
-                if len(collected) >= total or len(rows) < int(page_params["pz"]):
+                if total > 0 and len(collected) >= total:
+                    break
+                if total <= 0 and len(rows) < page_size:
                     break
             if collected:
                 return collected
@@ -155,20 +162,45 @@ def fetch_board_overview(
         client,
         BOARD_LIST_HOSTS,
         {
-            "pz": 500,
+            "pz": 100,
             "po": 1,
             "np": 1,
             "fltt": 2,
             "invt": 2,
-            "fid": "f3",
+            "fid": "f12",
             "fs": board_filter,
             "fields": "f2,f3,f6,f8,f12,f14,f20,f104,f105,f124,f128,f136",
             "ut": "bd1d9ddb04089700cf9c27f6f7426281",
         },
-        max_pages=4,
+        max_pages=8,
     )
     normalized = normalize_board_overview(rows, board_type, target_date)
     return [row for row in normalized if row.get("data_date") == target_date.isoformat()]
+
+
+def _parse_board_history_rows(rows: Iterable[Any]) -> pd.DataFrame:
+    records: list[dict[str, Any]] = []
+    for raw in rows:
+        fields = str(raw).split(",")
+        if len(fields) < 7:
+            continue
+        records.append(
+            {
+                "date": fields[0],
+                "open": fields[1],
+                "close": fields[2],
+                "high": fields[3],
+                "low": fields[4],
+                "volume": fields[5],
+                "amount": fields[6],
+                "amplitude": fields[7] if len(fields) > 7 else None,
+                "pct_change": fields[8] if len(fields) > 8 else None,
+                "change": fields[9] if len(fields) > 9 else None,
+                "turnover_rate": fields[10] if len(fields) > 10 else None,
+            }
+        )
+    frame = pd.DataFrame(records)
+    return normalize_ohlcv(frame) if not frame.empty else frame
 
 
 def fetch_board_history(
@@ -178,13 +210,33 @@ def fetch_board_history(
     *,
     limit: int = 45,
 ) -> pd.DataFrame:
-    return fetch_eastmoney_kline(
-        client,
-        f"90.{board_code}",
-        period=101,
-        limit=limit,
-        target_date=target_date,
-    )
+    last_error: Exception | None = None
+    for host in BOARD_HISTORY_HOSTS:
+        try:
+            payload = client.get_json(
+                host,
+                params={
+                    "secid": f"90.{board_code}",
+                    "fields1": "f1,f2,f3,f4,f5,f6",
+                    "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
+                    "klt": 101,
+                    "fqt": 0,
+                    "beg": 0,
+                    "end": target_date.strftime("%Y%m%d"),
+                    "smplmt": 10000,
+                    "lmt": limit,
+                },
+            )
+            data = payload.get("data")
+            rows = data.get("klines") if isinstance(data, dict) else None
+            frame = _parse_board_history_rows(rows or [])
+            if not frame.empty:
+                return frame[frame["date"].dt.date <= target_date].reset_index(drop=True)
+        except Exception as exc:  # noqa: BLE001
+            last_error = exc
+    if last_error is not None:
+        raise last_error
+    return pd.DataFrame()
 
 
 def fetch_board_constituents(
@@ -195,17 +247,17 @@ def fetch_board_constituents(
         client,
         BOARD_CONSTITUENT_HOSTS,
         {
-            "pz": 500,
+            "pz": 100,
             "po": 1,
             "np": 1,
             "fltt": 2,
             "invt": 2,
-            "fid": "f6",
+            "fid": "f12",
             "fs": f"b:{board_code} f:!50",
             "fields": "f2,f3,f5,f6,f8,f12,f14,f15,f16,f17,f18,f20,f21",
             "ut": "bd1d9ddb04089700cf9c27f6f7426281",
         },
-        max_pages=6,
+        max_pages=12,
     )
     return normalize_board_constituents(rows)
 
