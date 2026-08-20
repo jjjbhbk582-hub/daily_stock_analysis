@@ -20,6 +20,9 @@ class FakeResponse:
 
 
 class FakeSinaSession:
+    def __init__(self) -> None:
+        self.nodes: list[str] = []
+
     def get(self, url, *, params=None, headers=None, timeout=None):
         params = params or {}
         if "newFLJK.php" in url:
@@ -32,8 +35,10 @@ class FakeSinaSession:
                 + json.dumps(payload, ensure_ascii=False)
             )
         if "getHQNodeStockCount" in url:
+            self.nodes.append(str(params.get("node") or ""))
             return FakeResponse(text="2", payload=2)
         if "getHQNodeData" in url:
+            self.nodes.append(str(params.get("node") or ""))
             return FakeResponse(
                 payload=[
                     {
@@ -99,9 +104,24 @@ def test_board_overview_falls_back_to_sina() -> None:
 
 
 def test_board_constituents_fall_back_to_sina_label() -> None:
-    rows = fetch_board_constituents(EastmoneyDownClient(), "hangye_a")
+    client = EastmoneyDownClient()
+    rows = fetch_board_constituents(client, "hangye_a")
     assert [row["code"] for row in rows] == ["600001", "000001"]
     assert rows[0]["close"] == 88.0
     assert rows[0]["amount"] == 8_000_000_000
     assert rows[0]["turnover_rate"] == 5.0
     assert rows[0]["source"] == "新浪板块成份"
+    assert client.session.nodes == ["hangye_a", "hangye_a"]
+
+
+def test_eastmoney_bk_constituents_map_to_sina_label_by_name() -> None:
+    client = EastmoneyDownClient()
+    rows = fetch_board_constituents(
+        client,
+        "BK9999",
+        board_type="industry",
+        board_name="通信设备",
+        target_date=date(2026, 8, 20),
+    )
+    assert [row["code"] for row in rows] == ["600001", "000001"]
+    assert client.session.nodes == ["hangye_a", "hangye_a"]
