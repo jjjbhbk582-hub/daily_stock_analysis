@@ -26,7 +26,7 @@ on:
         default: false
         type: boolean
       publish_issue:
-        description: "人工运行后发布/更新当日Issue"
+        description: "人工运行后发布/更新当日通知"
         required: false
         default: true
         type: boolean
@@ -34,6 +34,7 @@ on:
 permissions:
   contents: write
   issues: write
+  pull-requests: write
 
 concurrency:
   group: a-share-close-review-${{ github.ref }}
@@ -164,7 +165,7 @@ jobs:
           git pull --rebase origin "${{ github.event.repository.default_branch }}"
           git push origin "HEAD:${{ github.event.repository.default_branch }}"
 
-      - name: Prepare daily Issue body
+      - name: Prepare daily notification body
         if: ${{ always() && steps.target.outputs.publish == 'true' }}
         id: issue_body
         shell: bash
@@ -184,25 +185,45 @@ jobs:
           elif [[ ! -f "$body_file" ]]; then
             printf '工作流未生成报告或执行日志，请检查Actions运行记录。\n' > "$body_file"
           fi
-          cp "$body_file" issue-body.md
+          {
+            echo "<!-- a-share-close-review:$target_date -->"
+            cat "$body_file"
+          } > issue-body.md
           echo "title=$title" >> "$GITHUB_OUTPUT"
 
-      - name: Create or update daily Issue notification
+      - name: Publish daily notification
         if: ${{ always() && steps.target.outputs.publish == 'true' }}
         continue-on-error: true
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_TITLE: ${{ steps.issue_body.outputs.title }}
+          TARGET_DATE: ${{ steps.target.outputs.date }}
+          FALLBACK_PR_NUMBER: "1"
         run: |
           set -euo pipefail
-          issue_number="$(gh issue list --state all --limit 100 --json number,title \
-            --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .number" | head -n 1)"
-          if [[ -n "$issue_number" ]]; then
-            gh issue edit "$issue_number" --title "$ISSUE_TITLE" --body-file issue-body.md
+          issues_enabled="$(gh repo view "$GITHUB_REPOSITORY" --json hasIssuesEnabled --jq '.hasIssuesEnabled' 2>/dev/null || echo false)"
+          if [[ "$issues_enabled" == "true" ]]; then
+            issue_number="$(gh issue list --state all --limit 100 --json number,title \
+              --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .number" | head -n 1)"
+            if [[ -n "$issue_number" ]]; then
+              gh issue edit "$issue_number" --title "$ISSUE_TITLE" --body-file issue-body.md
+            else
+              gh issue create --title "$ISSUE_TITLE" --body-file issue-body.md --label "automated-review" 2>/dev/null \
+                || gh issue create --title "$ISSUE_TITLE" --body-file issue-body.md
+            fi
+            exit 0
+          fi
+
+          marker="<!-- a-share-close-review:$TARGET_DATE -->"
+          comment_id="$(gh api "repos/$GITHUB_REPOSITORY/issues/$FALLBACK_PR_NUMBER/comments" --paginate \
+            --jq ".[] | select(.body | contains(\"$marker\")) | .id" | head -n 1)"
+          if [[ -n "$comment_id" ]]; then
+            jq -Rs '{body: .}' issue-body.md > /tmp/comment-payload.json
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$comment_id" \
+              --input /tmp/comment-payload.json >/dev/null
           else
-            gh issue create --title "$ISSUE_TITLE" --body-file issue-body.md --label "automated-review" 2>/dev/null \
-              || gh issue create --title "$ISSUE_TITLE" --body-file issue-body.md
+            gh pr comment "$FALLBACK_PR_NUMBER" --body-file issue-body.md
           fi
 
       - name: Upload run evidence
