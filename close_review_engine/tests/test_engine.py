@@ -38,24 +38,52 @@ def test_fixture_pipeline_outputs_17_rows_and_top5(tmp_path: Path) -> None:
     assert all(row["rating"] in {"S", "A+", "A", "A-", "B+", "B", "C", "D"} for row in snapshot["stocks"])
 
 
-def test_report_has_required_five_sections_and_levels(tmp_path: Path) -> None:
+def test_fixture_pipeline_contains_sector_rankings_and_2plus2(tmp_path: Path) -> None:
+    snapshot = build_snapshot(tmp_path)
+    assert snapshot["schema_version"] == 2
+    sectors = snapshot["sectors"]
+    assert sectors["industry_ranking"]
+    assert sectors["concept_ranking"]
+    assert len(sectors["focus_concepts"]) >= 12
+    assert len(sectors["top_boards"]) == 5
+    assert len(sectors["detailed_boards"]) <= 7
+    for board in sectors["detailed_boards"]:
+        assert set(board["picks"]) == {
+            "capacity_leader",
+            "momentum_leader",
+            "pullback_potential",
+            "breakout_potential",
+        }
+        codes = [pick["code"] for pick in board["picks"].values() if pick.get("code")]
+        assert len(codes) == len(set(codes))
+        assert all(float(pick["close"]) <= 100 for pick in board["picks"].values() if pick.get("code"))
+
+
+def test_report_has_sector_panorama_2plus2_and_fixed_pool_sections(tmp_path: Path) -> None:
     snapshot = build_snapshot(tmp_path)
     report = render_report(snapshot)
     for heading in (
         "第一部分：市场环境",
-        "第二部分：17只股票完整排名",
-        "第三部分：Top5重点分析",
-        "第四部分：和上一次排名对比",
-        "第五部分：买点变化提醒",
-        "最终操作结论",
+        "第二部分：行业板块完整排名",
+        "第三部分：重点概念板块",
+        "第四部分：强势、上升与退潮板块",
+        "第五部分：重点板块2+2",
+        "第六部分：17只固定股票完整排名",
+        "第七部分：固定池Top5重点分析",
+        "第八部分：动态候选买点",
+        "第九部分：与上一次排名对比",
+        "第十部分：最终操作结论",
     ):
         assert heading in report
-    assert report.count("最理想回踩买入区间") == 5
-    assert report.count("放量突破买入触发价") == 5
+    assert "资金容量龙头" in report
+    assert "弹性龙头" in report
+    assert "缩量回踩潜力" in report
+    assert "放量突破潜力" in report
+    assert report.count("最理想回踩买入区间") >= 5
     assert "不承诺收益" in report
 
 
-def test_storage_writes_all_contract_outputs(tmp_path: Path) -> None:
+def test_storage_writes_all_contract_outputs_and_sector_history(tmp_path: Path) -> None:
     snapshot = build_snapshot(tmp_path)
     report = render_report(snapshot)
     paths = write_outputs(tmp_path, snapshot, report)
@@ -66,6 +94,8 @@ def test_storage_writes_all_contract_outputs(tmp_path: Path) -> None:
     previous = load_previous_snapshot(tmp_path, before_date="2026-08-21")
     assert previous is not None
     assert previous["target_date"] == TARGET.isoformat()
+    history_text = paths.history.read_text(encoding="utf-8")
+    assert '"sectors"' in history_text
 
 
 def test_better_same_day_run_is_preserved(tmp_path: Path) -> None:
