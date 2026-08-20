@@ -1,0 +1,178 @@
+name: A-share sector 2+2 first production verification
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/a-share-sector-2plus2-first-run.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: a-share-sector-2plus2-first-production-verification
+  cancel-in-progress: false
+
+jobs:
+  verify-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    defaults:
+      run:
+        working-directory: close_review_engine
+    env:
+      TZ: Asia/Shanghai
+      PYTHONUNBUFFERED: "1"
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: close_review_engine/pyproject.toml
+
+      - name: Install engine
+        run: python -m pip install --upgrade pip && python -m pip install -e .
+
+      - name: Run completed-session production replay
+        id: review
+        shell: bash
+        run: |
+          set -o pipefail
+          ashare-review run \
+            --as-of 2026-08-20 \
+            --force \
+            --output-root . \
+            2>&1 | tee /tmp/review-output.log
+          report_path="$(sed -n 's/^REPORT_PATH=//p' /tmp/review-output.log | head -n 1)"
+          snapshot_path="$(sed -n 's/^SNAPSHOT_PATH=//p' /tmp/review-output.log | head -n 1)"
+          valid_count="$(sed -n 's/^VALID_COUNT=//p' /tmp/review-output.log | head -n 1)"
+          echo "report_path=$report_path" >> "$GITHUB_OUTPUT"
+          echo "snapshot_path=$snapshot_path" >> "$GITHUB_OUTPUT"
+          echo "valid_count=$valid_count" >> "$GITHUB_OUTPUT"
+
+      - name: Verify schema v2 and output contracts
+        shell: bash
+        env:
+          REPORT_PATH: ${{ steps.review.outputs.report_path }}
+          SNAPSHOT_PATH: ${{ steps.review.outputs.snapshot_path }}
+        run: |
+          set -euo pipefail
+          python scripts/verify_outputs.py . 2026-08-20
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          snapshot = json.loads(Path(os.environ["SNAPSHOT_PATH"]).read_text(encoding="utf-8"))
+          report = Path(os.environ["REPORT_PATH"]).read_text(encoding="utf-8")
+          assert snapshot["schema_version"] == 2
+          assert snapshot["target_date"] == "2026-08-20"
+          assert snapshot["valid_count"] == 17
+          assert snapshot["universe_count"] == 17
+          sectors = snapshot["sectors"]
+          industry = sectors["industry_ranking"]
+          concept = sectors["concept_ranking"]
+          dynamic = sectors["dynamic_candidates"]
+          assert 20 <= len(industry) <= 200
+          assert len({row["board_code"] for row in industry}) == len(industry)
+          assert len(concept) >= 20
+          assert len({row["board_code"] for row in concept}) == len(concept)
+          assert len(sectors["top_boards"]) == 5
+          assert sectors["detailed_boards"]
+          assert dynamic
+          allowed = ("600", "601", "603", "605", "000", "001", "002", "003")
+          for row in dynamic:
+              assert str(row["code"]).startswith(allowed)
+              assert 0 < float(row["close"]) <= 100
+              name = str(row["name"]).upper()
+              assert "ST" not in name and "退" not in name
+          for heading in (
+              "第一部分：市场环境",
+              "第二部分：行业板块完整排名",
+              "第三部分：重点概念板块",
+              "第四部分：强势与退潮板块",
+              "第五部分：重点板块2+2",
+              "第六部分：固定17只股票完整排名",
+              "第七部分：固定池Top5重点分析",
+              "第八部分：动态候选关键价位",
+              "第九部分：和上一次有效结果对比",
+              "第十部分：最终操作结论",
+          ):
+              assert heading in report, heading
+          print(json.dumps({
+              "schema_version": snapshot["schema_version"],
+              "valid_count": snapshot["valid_count"],
+              "industry_count": len(industry),
+              "concept_count": len(concept),
+              "dynamic_count": len(dynamic),
+              "top_boards": [row["board_name"] for row in sectors["top_boards"]],
+          }, ensure_ascii=False))
+          PY
+
+      - name: Commit verified report and state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f -- data/processed data/state reports
+          if git diff --cached --quiet; then
+            echo "No report changes to commit."
+            exit 0
+          fi
+          git commit -m "data: verify A-share sector 2+2 review 2026-08-20"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Publish verification comment
+        if: always()
+        continue-on-error: true
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT_PATH: ${{ steps.review.outputs.report_path }}
+        run: |
+          set -euo pipefail
+          body=/tmp/review-output.log
+          if [[ -n "${REPORT_PATH:-}" && -f "$REPORT_PATH" ]]; then
+            body="$REPORT_PATH"
+          fi
+          {
+            echo "<!-- a-share-sector-2plus2-first-verification -->"
+            echo "## 板块2+2生产验收"
+            echo
+            cat "$body"
+          } > /tmp/verification-comment.md
+          comment_id="$(gh api "repos/$GITHUB_REPOSITORY/issues/1/comments" --paginate \
+            --jq '.[] | select(.body | contains("a-share-sector-2plus2-first-verification")) | .id' | head -n 1)"
+          if [[ -n "$comment_id" ]]; then
+            jq -Rs '{body: .}' /tmp/verification-comment.md > /tmp/comment-payload.json
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$comment_id" \
+              --input /tmp/comment-payload.json >/dev/null
+          else
+            gh pr comment 1 --body-file /tmp/verification-comment.md
+          fi
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a-share-sector-2plus2-first-production-verification-${{ github.run_attempt }}
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            close_review_engine/reports/2026-08-20.md
+            close_review_engine/data/processed/2026-08-20/
+            close_review_engine/data/state/latest.json
+            /tmp/review-output.log
