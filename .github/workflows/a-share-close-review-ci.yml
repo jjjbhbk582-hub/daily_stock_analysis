@@ -11,9 +11,74 @@ on:
       - ".github/workflows/a-share-close-review*.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
+  apply-sector-quality-patch:
+    if: github.ref == 'refs/heads/feat/sector-2plus2-monitoring'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/sector-2plus2-monitoring
+          fetch-depth: 0
+
+      - name: Detect pending patch
+        id: patch
+        run: |
+          if [[ -f close_review_engine/.sector-quality.patch ]]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Apply taxonomy quality patch
+        if: steps.patch.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          git apply --check close_review_engine/.sector-quality.patch
+          git apply close_review_engine/.sector-quality.patch
+
+      - name: Set up Python
+        if: steps.patch.outputs.ready == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: close_review_engine/pyproject.toml
+
+      - name: Install and verify
+        if: steps.patch.outputs.ready == 'true'
+        working-directory: close_review_engine
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+          python -m pytest -q
+          python -m ruff check .
+          python -m compileall -q src scripts tests
+          rm -rf /tmp/sector-2plus2-quality-fixture
+          ashare-review run \
+            --as-of 2026-08-20 \
+            --force \
+            --fixture config/review_fixture.yml \
+            --output-root /tmp/sector-2plus2-quality-fixture
+          python scripts/verify_outputs.py /tmp/sector-2plus2-quality-fixture 2026-08-20
+
+      - name: Commit verified patch
+        if: steps.patch.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          rm close_review_engine/.sector-quality.patch
+          rm -f .github/workflows/apply-sector-quality-patch.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "fix: validate sector taxonomy completeness"
+          git push origin HEAD:feat/sector-2plus2-monitoring
+
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
