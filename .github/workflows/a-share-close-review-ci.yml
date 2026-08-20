@@ -15,7 +15,9 @@ permissions:
 
 jobs:
   apply-sector-quality-patch:
-    if: github.ref == 'refs/heads/feat/sector-2plus2-monitoring'
+    if: >-
+      github.ref == 'refs/heads/feat/sector-2plus2-monitoring' ||
+      github.head_ref == 'feat/sector-2plus2-monitoring'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
