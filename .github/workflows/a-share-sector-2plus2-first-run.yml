@@ -1,4 +1,4 @@
-# One-shot production replay trigger: 2026-08-20
+# One-shot production replay evidence trigger: 2026-08-20
 name: A-share sector 2+2 first production verification
 
 on:
@@ -63,6 +63,7 @@ jobs:
           echo "valid_count=$valid_count" >> "$GITHUB_OUTPUT"
 
       - name: Verify schema v2 and output contracts
+        id: verify
         shell: bash
         env:
           REPORT_PATH: ${{ steps.review.outputs.report_path }}
@@ -122,14 +123,18 @@ jobs:
           PY
 
       - name: Commit verified report and state
+        id: persist
+        if: steps.verify.outcome == 'success'
+        continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f -- data/processed data/state reports
+          git status --short | tee /tmp/persist-status.txt
           if git diff --cached --quiet; then
-            echo "No report changes to commit."
+            echo "No report changes to commit." | tee -a /tmp/persist-status.txt
             exit 0
           fi
           git commit -m "data: verify A-share sector 2+2 review 2026-08-20"
@@ -153,6 +158,18 @@ jobs:
             echo "<!-- a-share-sector-2plus2-first-verification -->"
             echo "## 板块2+2生产验收"
             echo
+            echo "- Run ID: ${{ github.run_id }}"
+            echo "- Run URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo "- Schema校验：${{ steps.verify.outcome }}"
+            echo "- 文件落库：${{ steps.persist.outcome }}"
+            echo "- 固定池有效数：${{ steps.review.outputs.valid_count || '未生成' }}/17"
+            echo
+            if [[ -f /tmp/persist-status.txt ]]; then
+              echo '```text'
+              cat /tmp/persist-status.txt
+              echo '```'
+              echo
+            fi
             cat "$body"
           } > /tmp/verification-comment.md
           comment_id="$(gh api "repos/$GITHUB_REPOSITORY/issues/1/comments" --paginate \
@@ -177,3 +194,4 @@ jobs:
             close_review_engine/data/processed/2026-08-20/
             close_review_engine/data/state/latest.json
             /tmp/review-output.log
+            /tmp/persist-status.txt
