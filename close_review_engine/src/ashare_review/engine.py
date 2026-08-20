@@ -17,7 +17,7 @@ from ashare_review.data import StockBundle
 from ashare_review.enhanced_data import ResilientLiveDataSource
 from ashare_review.fixture import FixtureDataSource as FixtureDataSource
 from ashare_review.sector_link import apply_sector_scores_to_fixed_rows
-from ashare_review.sector_review import build_sector_review
+from ashare_review.sector_runtime import build_sector_review
 
 
 class ReviewDataSource(Protocol):
@@ -74,8 +74,6 @@ def run_review(
             snapshot=None,
         )
 
-    # Sector review only needs completed market breadth. A preliminary summary
-    # supplies the fixed-pool theme proxies without freezing the final ranks.
     preliminary_market = _market_summary(market, rows)
     sectors = build_sector_review(
         source,
@@ -85,8 +83,6 @@ def run_review(
         max_workers=max_workers,
     )
 
-    # Replace the fixed pool's industry 20-point component with the agreed
-    # 8+4+4+2+2 sector-linked score, then rank and compare only the fixed 17.
     rows = apply_sector_scores_to_fixed_rows(rows, stocks, sectors)
     rows.sort(
         key=lambda row: (bool(row.get("data_valid")), float(row.get("score", 0))),
