@@ -1,0 +1,31 @@
+name: Export sector fix workspace
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/export-sector-fix-workspace.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Upload close review engine workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: sector-fix-workspace
+          retention-days: 3
+          if-no-files-found: error
+          include-hidden-files: true
+          path: |
+            close_review_engine/
+            .github/workflows/a-share-close-review-ci.yml
+            .github/workflows/a-share-close-review.yml
