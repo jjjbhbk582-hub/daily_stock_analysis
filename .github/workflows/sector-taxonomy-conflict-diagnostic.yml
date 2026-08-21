@@ -1,9 +1,9 @@
 name: Diagnose Sina industry taxonomy conflicts
 
 on:
-  push:
+  pull_request:
     branches:
-      - fix/sector-data-completeness-v2
+      - main
     paths:
       - ".github/workflows/sector-taxonomy-conflict-diagnostic.yml"
   workflow_dispatch:
@@ -55,7 +55,7 @@ jobs:
               rows = []
               page = 1
               while len(rows) < count and page <= 10:
-                  text = get_text(DATA, {
+                  payload = json.loads(get_text(DATA, {
                       "page": page,
                       "num": 80,
                       "sort": "symbol",
@@ -63,8 +63,7 @@ jobs:
                       "node": node,
                       "symbol": "",
                       "_s_r_a": "page",
-                  })
-                  payload = json.loads(text)
+                  }))
                   if not isinstance(payload, list) or not payload:
                       break
                   rows.extend(payload)
@@ -87,12 +86,11 @@ jobs:
                   "constituents": normalized,
               }
 
-          pairs = [
+          for left, right in (
               ("hangye_ZB07", "hangye_ZB09"),
               ("hangye_ZC14", "hangye_ZC19"),
               ("hangye_ZC35", "hangye_ZC23"),
-          ]
-          for left, right in pairs:
+          ):
               left_rows = result["nodes"][left]["constituents"]
               right_rows = result["nodes"][right]["constituents"]
               left_set = {row["code"] for row in left_rows}
