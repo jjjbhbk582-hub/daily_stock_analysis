@@ -1,0 +1,206 @@
+name: Apply broad sector history coverage
+
+on:
+  push:
+    branches:
+      - fix/sector-data-completeness-v2
+    paths:
+      - ".github/workflows/apply-sector-history-coverage.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/sector-data-completeness-v2
+          fetch-depth: 0
+
+      - name: Apply tested history-coverage changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          config_py = Path("close_review_engine/src/ashare_review/sector_config.py")
+          text = config_py.read_text(encoding="utf-8")
+          old = '''    max_dynamic_stocks: int
+              history_candidates_per_type: int
+              focus_concepts: tuple[FocusConcept, ...]
+          '''.replace('              ', '')
+          new = '''    max_dynamic_stocks: int
+              history_candidates_per_type: int
+              industry_history_candidates: int
+              concept_history_candidates: int
+              focus_concepts: tuple[FocusConcept, ...]
+          '''.replace('              ', '')
+          if old not in text:
+              raise SystemExit("SectorMonitorConfig field block not found")
+          text = text.replace(old, new, 1)
+
+          old = '''    config = SectorMonitorConfig(
+              max_price=float(payload.get("max_price", 100.0)),
+              min_amount=float(payload.get("min_amount", 300_000_000)),
+              max_detailed_boards=int(payload.get("max_detailed_boards", 7)),
+              shortlist_per_board=int(payload.get("shortlist_per_board", 8)),
+              max_dynamic_stocks=int(payload.get("max_dynamic_stocks", 48)),
+              history_candidates_per_type=int(payload.get("history_candidates_per_type", 15)),
+              focus_concepts=concepts,
+          )
+          '''.replace('              ', '    ')
+          new = '''    legacy_history_limit = int(payload.get("history_candidates_per_type", 15))
+              config = SectorMonitorConfig(
+                  max_price=float(payload.get("max_price", 100.0)),
+                  min_amount=float(payload.get("min_amount", 300_000_000)),
+                  max_detailed_boards=int(payload.get("max_detailed_boards", 7)),
+                  shortlist_per_board=int(payload.get("shortlist_per_board", 8)),
+                  max_dynamic_stocks=int(payload.get("max_dynamic_stocks", 48)),
+                  history_candidates_per_type=legacy_history_limit,
+                  industry_history_candidates=int(
+                      payload.get("industry_history_candidates", legacy_history_limit)
+                  ),
+                  concept_history_candidates=int(
+                      payload.get("concept_history_candidates", legacy_history_limit)
+                  ),
+                  focus_concepts=concepts,
+              )
+          '''.replace('              ', '    ')
+          if old not in text:
+              raise SystemExit("SectorMonitorConfig constructor block not found")
+          text = text.replace(old, new, 1)
+
+          old = '''    if not 1 <= config.max_detailed_boards <= 7:
+              raise ValueError("max_detailed_boards must be between 1 and 7")
+              return config
+          '''.replace('              ', '    ')
+          new = '''    if not 1 <= config.max_detailed_boards <= 7:
+              raise ValueError("max_detailed_boards must be between 1 and 7")
+              if config.industry_history_candidates < 1:
+                  raise ValueError("industry_history_candidates must be positive")
+              if config.concept_history_candidates < 1:
+                  raise ValueError("concept_history_candidates must be positive")
+              return config
+          '''.replace('              ', '    ')
+          if old not in text:
+              raise SystemExit("SectorMonitorConfig validation block not found")
+          config_py.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+          monitor = Path("close_review_engine/config/sector_monitor.yml")
+          text = monitor.read_text(encoding="utf-8")
+          marker = "history_candidates_per_type: 15\n"
+          addition = (
+              marker
+              + "industry_history_candidates: 200\n"
+              + "concept_history_candidates: 30\n"
+          )
+          if "industry_history_candidates:" not in text:
+              if marker not in text:
+                  raise SystemExit("sector_monitor history marker not found")
+              text = text.replace(marker, addition, 1)
+          monitor.write_text(text, encoding="utf-8")
+
+          review = Path("close_review_engine/src/ashare_review/sector_review.py")
+          text = review.read_text(encoding="utf-8")
+          old = '''    for board_type in ("industry", "concept"):
+              for row in _preliminary_sort(overview[board_type])[: config.history_candidates_per_type]:
+                  history_targets[(board_type, str(row["board_code"]))] = row
+          '''.replace('              ', '    ')
+          new = '''    history_limits = {
+              "industry": config.industry_history_candidates,
+              "concept": config.concept_history_candidates,
+              }
+              for board_type in ("industry", "concept"):
+                  for row in _preliminary_sort(overview[board_type])[: history_limits[board_type]]:
+                      history_targets[(board_type, str(row["board_code"]))] = row
+          '''.replace('              ', '    ')
+          if old not in text:
+              raise SystemExit("sector history target block not found")
+          review.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+          workflow = Path(
+              ".github/workflows/a-share-close-review-sector-completeness.yml"
+          )
+          text = workflow.read_text(encoding="utf-8")
+          old = '''          top_history = [*industry[:15], *concept[:15]]
+              history_ready = sum(
+                  row.get('return_5d') is not None
+                  and row.get('return_20d') is not None
+                  and row.get('amount_ratio_20') is not None
+                  for row in top_history
+              )
+              proxy_history = sum(
+                  '代理' in str(row.get('history_source') or '') for row in top_history
+              )
+          '''.replace('              ', '          ')
+          new = '''          industry_history_ready = sum(
+              row.get('return_5d') is not None
+              and row.get('return_20d') is not None
+              and row.get('amount_ratio_20') is not None
+              for row in industry
+              )
+              concept_top30_history_ready = sum(
+                  row.get('return_5d') is not None
+                  and row.get('return_20d') is not None
+                  and row.get('amount_ratio_20') is not None
+                  for row in concept[:30]
+              )
+              top_history = [*industry, *concept[:30]]
+              proxy_history = sum(
+                  '代理' in str(row.get('history_source') or '') for row in top_history
+              )
+          '''.replace('              ', '          ')
+          if old not in text:
+              raise SystemExit("live validation history block not found")
+          text = text.replace(old, new, 1)
+          text = text.replace(
+              "          assert history_ready >= 20, history_ready\n",
+              "          assert industry_history_ready >= max(50, int(len(industry) * 0.65)), industry_history_ready\n"
+              "          assert concept_top30_history_ready >= 20, concept_top30_history_ready\n",
+              1,
+          )
+          text = text.replace(
+              "              'top30_history_ready': history_ready,\n",
+              "              'industry_history_ready': industry_history_ready,\n"
+              "              'concept_top30_history_ready': concept_top30_history_ready,\n",
+              1,
+          )
+          workflow.write_text(text, encoding="utf-8")
+
+          for temporary in (
+              Path(".github/workflows/sector-taxonomy-conflict-diagnostic.yml"),
+              Path(".github/workflows/apply-sector-history-coverage.yml"),
+          ):
+              temporary.unlink(missing_ok=True)
+          PY
+
+      - name: Verify focused tests and syntax
+        working-directory: close_review_engine
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+          python -m pytest -q tests/test_sector_config.py tests/test_sector_completeness.py tests/test_sector_integrity.py
+          python -m ruff check src/ashare_review/sector_config.py src/ashare_review/sector_review.py tests/test_sector_config.py
+          python -m compileall -q src tests
+
+      - name: Commit changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- \
+            close_review_engine/config/sector_monitor.yml \
+            close_review_engine/src/ashare_review/sector_config.py \
+            close_review_engine/src/ashare_review/sector_review.py \
+            close_review_engine/tests/test_sector_config.py \
+            .github/workflows/a-share-close-review-sector-completeness.yml \
+            .github/workflows/sector-taxonomy-conflict-diagnostic.yml \
+            .github/workflows/apply-sector-history-coverage.yml
+          git commit -m "fix: broaden sector history coverage"
+          git push origin HEAD:fix/sector-data-completeness-v2
