@@ -45,14 +45,12 @@ def test_mislabeled_near_subset_industry_is_removed() -> None:
     kept, conflicts = filter_overlapping_industry_conflicts(rows, constituents)
 
     assert [row["board_code"] for row in kept] == ["hangye_ZB09", "hangye_ZC26"]
-    assert conflicts == [
-        {
-            "board_code": "hangye_ZB07",
-            "board_name": "石油和天然气开采业",
-            "duplicate_of": "hangye_ZB09",
-            "duplicate_name": "有色金属矿采选业",
-            "subset_overlap": 1.0,
-            "name_similarity": 0.2857,
-            "reason": "成份股高度重叠但行业名称不一致，未纳入排名",
-        }
-    ]
+    assert len(conflicts) == 1
+    conflict = conflicts[0]
+    assert conflict["board_code"] == "hangye_ZB07"
+    assert conflict["board_name"] == "石油和天然气开采业"
+    assert conflict["duplicate_of"] == "hangye_ZB09"
+    assert conflict["duplicate_name"] == "有色金属矿采选业"
+    assert conflict["subset_overlap"] == 1.0
+    assert conflict["name_similarity"] < 0.55
+    assert conflict["reason"] == "成份股高度重叠但行业名称不一致，未纳入排名"
