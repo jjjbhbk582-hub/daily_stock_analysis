@@ -1,8 +1,8 @@
 max_price: 100.0
 min_amount: 300000000
 max_detailed_boards: 7
-shortlist_per_board: 8
-max_dynamic_stocks: 48
+shortlist_per_board: 12
+max_dynamic_stocks: 60
 history_candidates_per_type: 15
 focus_concepts:
   - label: AI算力
