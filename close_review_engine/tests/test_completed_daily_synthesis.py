@@ -6,9 +6,9 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 
 import ashare_review.enhanced_data as enhanced_data
+from ashare_review.completed_daily_source import CompletedDailyLiveDataSource
 from ashare_review.config import StockConfig
 from ashare_review.data import LiveDataSource, Quote, StockBundle
-from ashare_review.enhanced_data import ResilientLiveDataSource
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
 
@@ -80,10 +80,8 @@ def _quote(config: StockConfig, target: date, *, close: float = 62.13) -> Quote:
     )
 
 
-def test_completed_fallback_intraday_synthesizes_current_daily_bar(monkeypatch) -> None:
-    target = date(2026, 8, 21)
-    config = _config()
-    base_bundle = StockBundle(
+def _base_bundle(config: StockConfig, target: date) -> StockBundle:
+    return StockBundle(
         config=config,
         daily=_previous_day_history(target),
         intraday_60m=pd.DataFrame(),
@@ -92,6 +90,12 @@ def test_completed_fallback_intraday_synthesizes_current_daily_bar(monkeypatch) 
         data_confidence="low",
         last_data_date=date(2026, 8, 20),
     )
+
+
+def test_completed_fallback_intraday_synthesizes_current_daily_bar(monkeypatch) -> None:
+    target = date(2026, 8, 21)
+    config = _config()
+    base_bundle = _base_bundle(config, target)
     intraday = _completed_intraday(target)
 
     monkeypatch.setattr(
@@ -105,7 +109,7 @@ def test_completed_fallback_intraday_synthesizes_current_daily_bar(monkeypatch) 
         lambda client, symbol, target_date: intraday,
     )
 
-    bundle = ResilientLiveDataSource(timeout=1).load_stock(config, target)
+    bundle = CompletedDailyLiveDataSource(timeout=1).load_stock(config, target)
 
     assert bundle.valid_for_target is True
     assert bundle.last_data_date == target
@@ -114,4 +118,36 @@ def test_completed_fallback_intraday_synthesizes_current_daily_bar(monkeypatch) 
     assert target_row["close"] == 62.13
     assert target_row["volume"] == 12_345_600
     assert target_row["amount"] == 765_432_100
-    assert bundle.data_confidence in {"medium", "high"}
+    assert bundle.data_confidence == "medium"
+    assert any(
+        status.get("source") == "完成日线合成" and status.get("ok")
+        for status in bundle.source_status
+    )
+
+
+def test_completed_daily_synthesis_rejects_close_disagreement(monkeypatch) -> None:
+    target = date(2026, 8, 21)
+    config = _config()
+    base_bundle = _base_bundle(config, target)
+    intraday = _completed_intraday(target, close=60.00)
+
+    monkeypatch.setattr(
+        LiveDataSource,
+        "load_stock",
+        lambda self, config, target_date: base_bundle,
+    )
+    monkeypatch.setattr(
+        enhanced_data,
+        "fetch_tencent_intraday_60m",
+        lambda client, symbol, target_date: intraday,
+    )
+
+    bundle = CompletedDailyLiveDataSource(timeout=1).load_stock(config, target)
+
+    assert bundle.valid_for_target is False
+    assert bundle.last_data_date == date(2026, 8, 20)
+    assert not (bundle.daily["date"].dt.date == target).any()
+    assert any(
+        status.get("source") == "完成日线合成" and not status.get("ok")
+        for status in bundle.source_status
+    )
