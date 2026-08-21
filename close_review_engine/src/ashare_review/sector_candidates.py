@@ -120,12 +120,14 @@ def _pullback_score(row: dict[str, Any]) -> float | None:
     levels = row.get("levels") or {}
     if levels.get("status") != "ready":
         return None
-    if TREND_RANK.get(str(row.get("daily_trend")), 0) < TREND_RANK["偏多震荡"]:
+    # A potential setup may still be in a neutral daily structure. It is not
+    # labelled a buy signal and still rejects strong 60-minute deterioration.
+    if TREND_RANK.get(str(row.get("daily_trend")), 0) < TREND_RANK["震荡"]:
         return None
     if row.get("trend_60m") == "强势空头":
         return None
     rel_volume = finite((row.get("metrics") or {}).get("rel_volume_20"))
-    if rel_volume is None or rel_volume > 1.05:
+    if rel_volume is None or rel_volume > 1.20:
         return None
     close = finite(row.get("close"))
     low = finite(levels.get("pullback_low"))
@@ -134,16 +136,22 @@ def _pullback_score(row: dict[str, Any]) -> float | None:
         return None
     zone_mid = (float(low) + float(high)) / 2
     distance = abs(float(close) - zone_mid) / max(zone_mid, 0.01)
-    if distance > 0.08 and "缩量回踩" not in row.get("patterns", []):
+    if distance > 0.12 and "缩量回踩" not in row.get("patterns", []):
         return None
-    return 100 - min(distance * 500, 40) + (15 if "缩量回踩" in row.get("patterns", []) else 0) + (1.05 - rel_volume) * 20
+    return (
+        100
+        - min(distance * 450, 45)
+        + (15 if "缩量回踩" in row.get("patterns", []) else 0)
+        + (1.20 - rel_volume) * 18
+        + TREND_RANK.get(str(row.get("trend_60m")), 0)
+    )
 
 
 def _breakout_score(row: dict[str, Any]) -> float | None:
     levels = row.get("levels") or {}
     if levels.get("status") != "ready":
         return None
-    if TREND_RANK.get(str(row.get("daily_trend")), 0) < TREND_RANK["偏多震荡"]:
+    if TREND_RANK.get(str(row.get("daily_trend")), 0) < TREND_RANK["震荡"]:
         return None
     if row.get("trend_60m") == "强势空头":
         return None
@@ -152,12 +160,17 @@ def _breakout_score(row: dict[str, Any]) -> float | None:
     if close in (None, 0) or trigger is None:
         return None
     distance = trigger / close - 1
-    if not 0 <= distance <= 0.04:
+    if not 0 <= distance <= 0.08:
         return None
     rel_volume = finite((row.get("metrics") or {}).get("rel_volume_20"), 1.0) or 1.0
-    if rel_volume > 2.2:
+    if rel_volume > 2.5:
         return None
-    return 100 - distance * 1000 + min(rel_volume, 1.8) * 10 + TREND_RANK.get(str(row.get("trend_60m")), 0) * 2
+    return (
+        100
+        - distance * 800
+        + min(rel_volume, 1.8) * 10
+        + TREND_RANK.get(str(row.get("trend_60m")), 0) * 2
+    )
 
 
 def _pick_payload(role: str, row: dict[str, Any], reason: str) -> dict[str, Any]:
@@ -205,8 +218,8 @@ def assign_roles(
     role_scorers = (
         ("capacity_leader", lambda row: _capacity_score(row, rows), "成交承载力、流通规模和中期结构领先"),
         ("momentum_leader", lambda row: _momentum_score(row, rows), "板块相对强度、换手和60分钟弹性领先"),
-        ("pullback_potential", _pullback_score, "缩量靠近支撑区，等待止跌和量价确认"),
-        ("breakout_potential", _breakout_score, "距有效突破触发价较近，等待放量确认"),
+        ("pullback_potential", _pullback_score, "接近回踩结构，仍需止跌和量价确认"),
+        ("breakout_potential", _breakout_score, "距有效突破触发价较近，仍需放量确认"),
     )
     for role, scorer, reason in role_scorers:
         scored = []

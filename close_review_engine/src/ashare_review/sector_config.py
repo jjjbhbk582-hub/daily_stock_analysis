@@ -25,6 +25,8 @@ class SectorMonitorConfig:
     shortlist_per_board: int
     max_dynamic_stocks: int
     history_candidates_per_type: int
+    industry_history_candidates: int
+    concept_history_candidates: int
     focus_concepts: tuple[FocusConcept, ...]
 
 
@@ -39,13 +41,20 @@ def load_sector_monitor(path: str | Path) -> SectorMonitorConfig:
     )
     if not concepts:
         raise ValueError("sector monitor config must contain focus_concepts")
+    legacy_history_limit = int(payload.get("history_candidates_per_type", 15))
     config = SectorMonitorConfig(
         max_price=float(payload.get("max_price", 100.0)),
         min_amount=float(payload.get("min_amount", 300_000_000)),
         max_detailed_boards=int(payload.get("max_detailed_boards", 7)),
         shortlist_per_board=int(payload.get("shortlist_per_board", 8)),
         max_dynamic_stocks=int(payload.get("max_dynamic_stocks", 48)),
-        history_candidates_per_type=int(payload.get("history_candidates_per_type", 15)),
+        history_candidates_per_type=legacy_history_limit,
+        industry_history_candidates=int(
+            payload.get("industry_history_candidates", legacy_history_limit)
+        ),
+        concept_history_candidates=int(
+            payload.get("concept_history_candidates", legacy_history_limit)
+        ),
         focus_concepts=concepts,
     )
     if config.max_price > 100.0:
@@ -54,6 +63,10 @@ def load_sector_monitor(path: str | Path) -> SectorMonitorConfig:
         raise ValueError("min_amount must not be below CNY 300 million")
     if not 1 <= config.max_detailed_boards <= 7:
         raise ValueError("max_detailed_boards must be between 1 and 7")
+    if config.industry_history_candidates < 1:
+        raise ValueError("industry_history_candidates must be positive")
+    if config.concept_history_candidates < 1:
+        raise ValueError("concept_history_candidates must be positive")
     return config
 
 
