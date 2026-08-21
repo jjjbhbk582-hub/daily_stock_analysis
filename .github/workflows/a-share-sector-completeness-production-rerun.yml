@@ -1,3 +1,4 @@
+# Post-fix replay trigger: completed daily synthesis + sector completeness
 name: A-share sector completeness post-merge rerun
 
 on:
@@ -143,6 +144,15 @@ jobs:
               codes = [str(row.get("code")) for row in rows]
               assert len(codes) == len(set(codes)), rows
 
+          synthesized = 0
+          synthesis_confidence = defaultdict(int)
+          for stock in snapshot["stocks"]:
+              for status in stock.get("source_status") or []:
+                  if status.get("source") == "完成日线合成" and status.get("ok"):
+                      synthesized += 1
+                      synthesis_confidence[str(status.get("confidence") or "unknown")] += 1
+                      break
+
           for heading in (
               "第一部分：市场环境",
               "第二部分：行业板块完整排名",
@@ -161,6 +171,8 @@ jobs:
               "target_date": snapshot["target_date"],
               "schema_version": snapshot["schema_version"],
               "valid_count": snapshot["valid_count"],
+              "synthesized_daily_bars": synthesized,
+              "synthesis_confidence": dict(synthesis_confidence),
               "industry_count": len(industry),
               "industry_breadth_ready": industry_breadth,
               "industry_history_ready": industry_history,
@@ -219,7 +231,7 @@ jobs:
               echo '```'
             fi
           } > /tmp/production-comment.md
-          gh pr comment 9 --body-file /tmp/production-comment.md
+          gh pr comment 10 --body-file /tmp/production-comment.md
 
       - name: Upload evidence
         if: always()
