@@ -1,0 +1,79 @@
+name: Sector source mapping debug
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/sector-source-debug.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  debug:
+    if: github.head_ref == 'fix/sector-data-completeness-v2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Inspect Sina board labels and constituents
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          import requests
+
+          session = requests.Session()
+          headers = {'Referer': 'https://vip.stock.finance.sina.com.cn/'}
+          print('BEIJING_NOW', datetime.now(ZoneInfo('Asia/Shanghai')).isoformat())
+          list_url = 'https://money.finance.sina.com.cn/q/view/newFLJK.php'
+          response = session.get(list_url, params={'param': 'industry'}, timeout=20)
+          response.raise_for_status()
+          response.encoding = 'gbk'
+          text = response.text
+          payload = json.loads(text[text.find('{'):text.rfind('}') + 1])
+          for key, raw in payload.items():
+              fields = str(raw).split(',')
+              if 'ZB07' in str(raw) or 'ZB09' in str(raw) or any(
+                  term in str(raw) for term in ('石油和天然气开采业', '有色金属矿采选业')
+              ):
+                  print('OVERVIEW_RAW', key, fields)
+
+          count_url = (
+              'https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/'
+              'Market_Center.getHQNodeStockCount'
+          )
+          data_url = (
+              'https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/'
+              'Market_Center.getHQNodeData'
+          )
+          for node in ('hangye_ZB07', 'hangye_ZB09'):
+              count = session.get(count_url, params={'node': node}, headers=headers, timeout=20)
+              count.raise_for_status()
+              rows = session.get(
+                  data_url,
+                  params={
+                      'page': 1,
+                      'num': 80,
+                      'sort': 'symbol',
+                      'asc': 1,
+                      'node': node,
+                      'symbol': '',
+                      '_s_r_a': 'page',
+                  },
+                  headers=headers,
+                  timeout=20,
+              )
+              rows.raise_for_status()
+              payload_rows = rows.json()
+              print('NODE', node, 'COUNT', count.text, 'ROWS', len(payload_rows))
+              print('CONSTITUENTS', node, [
+                  {
+                      'symbol': item.get('symbol'),
+                      'code': item.get('code'),
+                      'name': item.get('name'),
+                      'pct': item.get('changepercent'),
+                  }
+                  for item in payload_rows
+              ])
+          PY
