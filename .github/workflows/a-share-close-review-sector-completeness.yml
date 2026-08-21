@@ -35,27 +35,48 @@ jobs:
       - name: Install engine
         run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
 
-      - name: Run isolated 2026-08-20 replay
+      - name: Resolve latest completed A-share session
+        id: target
         shell: bash
+        run: |
+          set -euo pipefail
+          target_date="$(python - <<'PY'
+          from ashare_review.calendar import last_completed_trading_day
+          print(last_completed_trading_day().isoformat())
+          PY
+          )"
+          echo "date=$target_date" >> "$GITHUB_OUTPUT"
+          echo "TARGET_DATE=$target_date"
+
+      - name: Run isolated latest-session replay
+        shell: bash
+        env:
+          TARGET_DATE: ${{ steps.target.outputs.date }}
         run: |
           set -o pipefail
           rm -rf /tmp/sector-completeness-validation
           ashare-review run \
-            --as-of 2026-08-20 \
+            --as-of "$TARGET_DATE" \
             --force \
             --output-root /tmp/sector-completeness-validation \
             2>&1 | tee /tmp/sector-completeness.log
 
-      - name: Verify completeness improvements
+      - name: Verify completeness and date-integrity improvements
         shell: bash
+        env:
+          TARGET_DATE: ${{ steps.target.outputs.date }}
         run: |
           set -euo pipefail
-          python scripts/verify_outputs.py /tmp/sector-completeness-validation 2026-08-20
+          python scripts/verify_outputs.py /tmp/sector-completeness-validation "$TARGET_DATE"
           python - <<'PY'
           import json
+          import os
           from pathlib import Path
 
-          snapshot_path = Path('/tmp/sector-completeness-validation/data/processed/2026-08-20/snapshot.json')
+          target = os.environ['TARGET_DATE']
+          snapshot_path = Path(
+              f'/tmp/sector-completeness-validation/data/processed/{target}/snapshot.json'
+          )
           snapshot = json.loads(snapshot_path.read_text(encoding='utf-8'))
           sectors = snapshot['sectors']
           industry = sectors['industry_ranking']
@@ -64,9 +85,12 @@ jobs:
           dynamic = sectors['dynamic_candidates']
 
           assert snapshot['schema_version'] == 2
+          assert snapshot['target_date'] == target
           assert snapshot['valid_count'] == 17
           assert len(industry) >= 20
           assert len(concept) >= 20
+          assert all(row.get('data_date') == target for row in industry)
+          assert all(row.get('data_date') == target for row in concept)
 
           industry_breadth = sum(
               int(row.get('up_count') or 0) + int(row.get('down_count') or 0) > 0
@@ -79,26 +103,41 @@ jobs:
               and row.get('amount_ratio_20') is not None
               for row in top_history
           )
-          proxy_history = sum('代理' in str(row.get('history_source') or '') for row in top_history)
+          proxy_history = sum(
+              '代理' in str(row.get('history_source') or '') for row in top_history
+          )
           proxy_focus = [row for row in focus if row.get('status') == 'proxy_ready']
           potential_roles = [
               row for row in dynamic
               if row.get('role') in {'pullback_potential', 'breakout_potential'}
           ]
+          taxonomy_checks = [
+              row for row in sectors.get('source_status', [])
+              if row.get('source') == '新浪行业分类一致性校验'
+          ]
+          conflict_names = {
+              item.get('board_name')
+              for row in taxonomy_checks
+              for item in row.get('conflicts', [])
+          }
 
           assert industry_breadth >= max(20, int(len(industry) * 0.70)), industry_breadth
           assert history_ready >= 20, history_ready
           assert proxy_history >= 10, proxy_history
           assert len(proxy_focus) >= 5, proxy_focus
           assert len(potential_roles) >= 2, potential_roles
+          assert '石油和天然气开采业' not in {row.get('board_name') for row in industry}
+          assert '石油和天然气开采业' in conflict_names, taxonomy_checks
 
           summary = {
+              'target_date': target,
               'industry_count': len(industry),
               'concept_count': len(concept),
               'industry_breadth_ready': industry_breadth,
               'top30_history_ready': history_ready,
               'top30_proxy_history': proxy_history,
               'focus_proxy_ready': [row['focus_label'] for row in proxy_focus],
+              'taxonomy_conflicts_removed': sorted(name for name in conflict_names if name),
               'dynamic_candidates': len(dynamic),
               'potential_roles': [
                   f"{row.get('board_name')}:{row.get('role_label')}:{row.get('code')}"
@@ -120,7 +159,7 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
           path: |
-            /tmp/sector-completeness-validation/reports/2026-08-20.md
-            /tmp/sector-completeness-validation/data/processed/2026-08-20/
+            /tmp/sector-completeness-validation/reports/*.md
+            /tmp/sector-completeness-validation/data/processed/*/
             /tmp/sector-completeness-summary.json
             /tmp/sector-completeness.log
