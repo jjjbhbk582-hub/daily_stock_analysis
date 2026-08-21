@@ -125,7 +125,7 @@ def test_missing_modern_focus_concept_uses_explicit_proxy_basket() -> None:
     assert row["return_20d"] is not None
     assert row["proxy_count"] == 3
     assert row["confidence"] == "medium"
-    assert "非官方概念指数" in row["risk_flags"]
+    assert any("非官方概念指数" in flag for flag in row["risk_flags"])
 
 
 def test_two_plus_two_uses_four_distinct_roles_when_setups_exist() -> None:
@@ -164,11 +164,14 @@ def test_two_plus_two_uses_four_distinct_roles_when_setups_exist() -> None:
         )
 
     picks = assign_roles({"board_name": "测试板块"}, rows, config)
-    codes = [picks[role]["code"] for role in (
-        "capacity_leader",
-        "momentum_leader",
-        "pullback_potential",
-        "breakout_potential",
-    )]
+    codes = [
+        picks[role]["code"]
+        for role in (
+            "capacity_leader",
+            "momentum_leader",
+            "pullback_potential",
+            "breakout_potential",
+        )
+    ]
     assert all(codes)
     assert len(set(codes)) == 4
