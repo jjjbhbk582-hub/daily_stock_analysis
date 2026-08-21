@@ -160,9 +160,35 @@ class CrossSourceLiveBoardProvider(_BaseLiveBoardProvider):
         return self._constituents_for(board_type, board_code, target_date)
 
 
-# build_sector_review resolves this module global at call time. Replace it once
-# so production, manual runs and smoke tests share the same fallback behavior.
+_base_score_board = _base.score_board
+
+
+def _score_board_with_provenance(
+    board: dict[str, Any],
+    history: pd.DataFrame,
+    *,
+    market_median: float,
+) -> dict[str, Any]:
+    result = _base_score_board(board, history, market_median=market_median)
+    history_source = str(history.attrs.get("source") or "")
+    component_count = history.attrs.get("component_count")
+    if history_source:
+        result["history_source"] = history_source
+        result["history_component_count"] = component_count
+    if "代理" in history_source:
+        total = int(result.get("up_count") or 0) + int(result.get("down_count") or 0)
+        result["confidence"] = "medium" if len(history) >= 21 and total > 0 else "partial"
+        flags = list(result.get("risk_flags") or [])
+        if "板块历史为成份股等权代理" not in flags:
+            flags.append("板块历史为成份股等权代理")
+        result["risk_flags"] = flags
+    return result
+
+
+# build_sector_review resolves these module globals at call time. Replace them
+# once so production, manual runs and smoke tests share the same behavior.
 _base.LiveBoardProvider = CrossSourceLiveBoardProvider
+_base.score_board = _score_board_with_provenance
 _base_build_sector_review = _base.build_sector_review
 
 
