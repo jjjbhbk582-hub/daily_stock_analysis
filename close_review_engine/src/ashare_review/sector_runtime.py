@@ -8,6 +8,7 @@ from typing import Any
 import pandas as pd
 
 from ashare_review import sector_review as _base
+from ashare_review.calendar import last_completed_trading_day
 from ashare_review.indicators import finite
 from ashare_review.sector_completeness import (
     FOCUS_PROXY_BASKETS,
@@ -17,20 +18,25 @@ from ashare_review.sector_completeness import (
     fetch_tencent_histories,
 )
 from ashare_review.sector_data import fetch_board_constituents
+from ashare_review.sector_integrity import (
+    current_snapshot_matches_target,
+    filter_overlapping_industry_conflicts,
+)
 
 _BaseLiveBoardProvider = _base.LiveBoardProvider
 CONCEPT_BREADTH_LIMIT = 40
 HISTORY_PROXY_COMPONENTS = 5
+_SEMANTIC_CONFLICTS: list[dict[str, Any]] = []
+_SEMANTIC_CONFLICT_LOCK = Lock()
 
 
 class CrossSourceLiveBoardProvider(_BaseLiveBoardProvider):
-    """Bridge Sina board nodes to constituent breadth and proxy history.
+    """Bridge current Sina boards to breadth and transparent proxy history.
 
-    Sina's board overview is a useful fallback when Eastmoney is unavailable,
-    but it does not expose 5/20-day history or breadth. This provider derives
-    those fields from completed constituent snapshots and a small, liquid,
-    equal-weight Tencent history basket. Derived values remain explicitly
-    labelled and are never presented as official board-index history.
+    Sina is used only when its current snapshot corresponds to the requested
+    completed session. Historical replays never relabel a newer live snapshot
+    as the target date. Sina taxonomy conflicts are removed when an unrelated
+    smaller first-level industry is almost entirely contained in another node.
     """
 
     def __init__(self, client: Any) -> None:
@@ -38,6 +44,13 @@ class CrossSourceLiveBoardProvider(_BaseLiveBoardProvider):
         self._boards: dict[tuple[str, str], dict[str, Any]] = {}
         self._constituents: dict[tuple[str, str], list[dict[str, Any]]] = {}
         self._cache_lock = Lock()
+        self._latest_completed = last_completed_trading_day()
+
+    def _current_snapshot_allowed(self, target_date: date) -> bool:
+        return current_snapshot_matches_target(
+            target_date,
+            latest_completed=self._latest_completed,
+        )
 
     def _remember(self, board_type: str, row: dict[str, Any]) -> tuple[str, str]:
         key = (board_type, str(row.get("board_code") or ""))
@@ -58,6 +71,11 @@ class CrossSourceLiveBoardProvider(_BaseLiveBoardProvider):
             board = dict(self._boards.get(key) or {})
         if cached is not None:
             return cached
+        if not self._current_snapshot_allowed(target_date) and not board_code.upper().startswith("BK"):
+            raise ValueError(
+                f"新浪板块成份仅代表{self._latest_completed.isoformat()}，"
+                f"不能用于历史目标日{target_date.isoformat()}"
+            )
         rows = fetch_board_constituents(
             self.client,
             board_code,
@@ -65,12 +83,31 @@ class CrossSourceLiveBoardProvider(_BaseLiveBoardProvider):
             board_name=str(board.get("board_name") or ""),
             target_date=target_date,
         )
+        if not self._current_snapshot_allowed(target_date) and any(
+            "新浪" in str(row.get("source") or "") for row in rows
+        ):
+            raise ValueError(
+                f"新浪板块成份日期与历史目标日{target_date.isoformat()}不一致"
+            )
         with self._cache_lock:
             self._constituents.setdefault(key, rows)
             return self._constituents[key]
 
     def overview(self, board_type: str, target_date: date) -> list[dict[str, Any]]:
         rows = super().overview(board_type, target_date)
+        if not self._current_snapshot_allowed(target_date):
+            live_rows = [
+                row for row in rows if "新浪" in str(row.get("source") or "")
+            ]
+            if live_rows:
+                rows = [
+                    row for row in rows if "新浪" not in str(row.get("source") or "")
+                ]
+                if not rows:
+                    raise ValueError(
+                        f"新浪板块快照属于{self._latest_completed.isoformat()}，"
+                        f"不能冒充历史目标日{target_date.isoformat()}"
+                    )
         for row in rows:
             self._remember(board_type, row)
 
@@ -117,6 +154,25 @@ class CrossSourceLiveBoardProvider(_BaseLiveBoardProvider):
             current = enriched.get(key, row)
             output.append(current)
             self._remember(board_type, current)
+
+        if board_type == "industry":
+            with self._cache_lock:
+                membership = {
+                    str(row.get("board_code") or ""): list(
+                        self._constituents.get(
+                            (board_type, str(row.get("board_code") or "")),
+                            (),
+                        )
+                    )
+                    for row in output
+                }
+            output, conflicts = filter_overlapping_industry_conflicts(
+                output,
+                membership,
+            )
+            with _SEMANTIC_CONFLICT_LOCK:
+                _SEMANTIC_CONFLICTS.clear()
+                _SEMANTIC_CONFLICTS.extend(conflicts)
         return output
 
     def history(self, board_type: str, board_code: str, target_date: date) -> pd.DataFrame:
@@ -185,8 +241,8 @@ def _score_board_with_provenance(
     return result
 
 
-# build_sector_review resolves these module globals at call time. Replace them
-# once so production, manual runs and smoke tests share the same behavior.
+# build_sector_review resolves these globals at call time. Replace them once so
+# production, manual runs and smoke tests share identical integrity gates.
 _base.LiveBoardProvider = CrossSourceLiveBoardProvider
 _base.score_board = _score_board_with_provenance
 _base_build_sector_review = _base.build_sector_review
@@ -209,6 +265,19 @@ def build_sector_review(
         max_workers=max_workers,
         config_path=config_path,
     )
+    with _SEMANTIC_CONFLICT_LOCK:
+        conflicts = [dict(row) for row in _SEMANTIC_CONFLICTS]
+    if conflicts:
+        result.setdefault("source_status", []).append(
+            {
+                "source": "新浪行业分类一致性校验",
+                "ok": True,
+                "dropped": len(conflicts),
+                "conflicts": conflicts,
+                "date": target_date.isoformat(),
+            }
+        )
+
     if not hasattr(source, "client"):
         return result
 
