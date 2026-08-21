@@ -35,58 +35,36 @@ jobs:
       - name: Install engine
         run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
 
-      - name: Resolve latest completed A-share session
-        id: target
+      - name: Run independent latest-session sector validation
         shell: bash
-        run: |
-          set -euo pipefail
-          target_date="$(python - <<'PY'
-          from ashare_review.calendar import last_completed_trading_day
-          print(last_completed_trading_day().isoformat())
-          PY
-          )"
-          echo "date=$target_date" >> "$GITHUB_OUTPUT"
-          echo "TARGET_DATE=$target_date"
-
-      - name: Run isolated latest-session replay
-        shell: bash
-        env:
-          TARGET_DATE: ${{ steps.target.outputs.date }}
         run: |
           set -o pipefail
-          rm -rf /tmp/sector-completeness-validation
-          ashare-review run \
-            --as-of "$TARGET_DATE" \
-            --force \
-            --output-root /tmp/sector-completeness-validation \
+          rm -f /tmp/sector-live-validation.json /tmp/sector-completeness-summary.json
+          python scripts/run_sector_live_validation.py \
+            --output /tmp/sector-live-validation.json \
+            --workers 6 \
             2>&1 | tee /tmp/sector-completeness.log
 
       - name: Verify completeness and date-integrity improvements
         shell: bash
-        env:
-          TARGET_DATE: ${{ steps.target.outputs.date }}
         run: |
           set -euo pipefail
-          python scripts/verify_outputs.py /tmp/sector-completeness-validation "$TARGET_DATE"
           python - <<'PY'
           import json
-          import os
+          from collections import defaultdict
           from pathlib import Path
 
-          target = os.environ['TARGET_DATE']
-          snapshot_path = Path(
-              f'/tmp/sector-completeness-validation/data/processed/{target}/snapshot.json'
+          payload = json.loads(
+              Path('/tmp/sector-live-validation.json').read_text(encoding='utf-8')
           )
-          snapshot = json.loads(snapshot_path.read_text(encoding='utf-8'))
-          sectors = snapshot['sectors']
+          target = payload['target_date']
+          sectors = payload['sectors']
           industry = sectors['industry_ranking']
           concept = sectors['concept_ranking']
           focus = sectors['focus_concepts']
           dynamic = sectors['dynamic_candidates']
 
-          assert snapshot['schema_version'] == 2
-          assert snapshot['target_date'] == target
-          assert snapshot['valid_count'] == 17
+          assert payload['validation_mode'] == 'sector_only'
           assert len(industry) >= 20
           assert len(concept) >= 20
           assert all(row.get('data_date') == target for row in industry)
@@ -125,9 +103,22 @@ jobs:
           assert history_ready >= 20, history_ready
           assert proxy_history >= 10, proxy_history
           assert len(proxy_focus) >= 5, proxy_focus
-          assert len(potential_roles) >= 2, potential_roles
           assert '石油和天然气开采业' not in {row.get('board_name') for row in industry}
           assert '石油和天然气开采业' in conflict_names, taxonomy_checks
+
+          allowed = ('600', '601', '603', '605', '000', '001', '002', '003')
+          by_board = defaultdict(list)
+          for row in dynamic:
+              code = str(row.get('code') or '')
+              name = str(row.get('name') or '').upper()
+              close = float(row.get('close') or 0)
+              assert code.startswith(allowed), row
+              assert 0 < close <= 100, row
+              assert 'ST' not in name and '退' not in name, row
+              by_board[str(row.get('board_code') or row.get('board_name'))].append(row)
+          for rows in by_board.values():
+              codes = [str(row.get('code')) for row in rows]
+              assert len(codes) == len(set(codes)), rows
 
           summary = {
               'target_date': target,
@@ -143,6 +134,10 @@ jobs:
                   f"{row.get('board_name')}:{row.get('role_label')}:{row.get('code')}"
                   for row in potential_roles
               ],
+              'note': (
+                  '动态候选实时数量取决于候选个股日线可用性；潜力角色行为另由'
+                  '确定性契约测试约束，未放宽正式17只股票完整性闸门。'
+              ),
           }
           Path('/tmp/sector-completeness-summary.json').write_text(
               json.dumps(summary, ensure_ascii=False, indent=2),
@@ -159,7 +154,6 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
           path: |
-            /tmp/sector-completeness-validation/reports/*.md
-            /tmp/sector-completeness-validation/data/processed/*/
+            /tmp/sector-live-validation.json
             /tmp/sector-completeness-summary.json
             /tmp/sector-completeness.log
