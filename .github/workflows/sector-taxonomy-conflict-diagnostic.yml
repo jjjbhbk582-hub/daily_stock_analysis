@@ -1,0 +1,122 @@
+name: Diagnose Sina industry taxonomy conflicts
+
+on:
+  push:
+    branches:
+      - fix/sector-data-completeness-v2
+    paths:
+      - ".github/workflows/sector-taxonomy-conflict-diagnostic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Inspect conflicting Sina nodes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY' | tee /tmp/sector-taxonomy-conflicts.json
+          from __future__ import annotations
+
+          import json
+          import urllib.parse
+          import urllib.request
+
+          COUNT = "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount"
+          DATA = "https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData"
+          NODES = {
+              "hangye_ZB07": "石油和天然气开采业",
+              "hangye_ZB09": "有色金属矿采选业",
+              "hangye_ZC14": "食品制造业",
+              "hangye_ZC19": "皮革、毛皮、羽毛及其制品和制鞋业",
+              "hangye_ZC35": "专用设备制造业",
+              "hangye_ZC23": "印刷和记录媒介复制业",
+          }
+          HEADERS = {
+              "User-Agent": "Mozilla/5.0",
+              "Referer": "https://vip.stock.finance.sina.com.cn/",
+          }
+
+          def get_text(url: str, params: dict[str, object]) -> str:
+              full = f"{url}?{urllib.parse.urlencode(params)}"
+              request = urllib.request.Request(full, headers=HEADERS)
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  return response.read().decode("utf-8", errors="replace")
+
+          result: dict[str, object] = {"nodes": {}, "pairs": []}
+          for node, label in NODES.items():
+              count_text = get_text(COUNT, {"node": node}).strip().strip('"')
+              count = int(count_text) if count_text.isdigit() else 0
+              rows = []
+              page = 1
+              while len(rows) < count and page <= 10:
+                  text = get_text(DATA, {
+                      "page": page,
+                      "num": 80,
+                      "sort": "symbol",
+                      "asc": 1,
+                      "node": node,
+                      "symbol": "",
+                      "_s_r_a": "page",
+                  })
+                  payload = json.loads(text)
+                  if not isinstance(payload, list) or not payload:
+                      break
+                  rows.extend(payload)
+                  page += 1
+              normalized = []
+              for row in rows:
+                  code = str(row.get("code") or row.get("symbol") or "")
+                  if code.lower().startswith(("sh", "sz", "bj")):
+                      code = code[2:]
+                  normalized.append({
+                      "code": code.zfill(6),
+                      "name": row.get("name"),
+                      "pct_change": row.get("changepercent"),
+                      "amount": row.get("amount"),
+                  })
+              result["nodes"][node] = {
+                  "label": label,
+                  "reported_count": count,
+                  "actual_count": len(normalized),
+                  "constituents": normalized,
+              }
+
+          pairs = [
+              ("hangye_ZB07", "hangye_ZB09"),
+              ("hangye_ZC14", "hangye_ZC19"),
+              ("hangye_ZC35", "hangye_ZC23"),
+          ]
+          for left, right in pairs:
+              left_rows = result["nodes"][left]["constituents"]
+              right_rows = result["nodes"][right]["constituents"]
+              left_set = {row["code"] for row in left_rows}
+              right_set = {row["code"] for row in right_rows}
+              intersection = sorted(left_set & right_set)
+              union = left_set | right_set
+              result["pairs"].append({
+                  "left": left,
+                  "right": right,
+                  "left_count": len(left_set),
+                  "right_count": len(right_set),
+                  "intersection_count": len(intersection),
+                  "left_coverage": len(intersection) / len(left_set) if left_set else 0,
+                  "right_coverage": len(intersection) / len(right_set) if right_set else 0,
+                  "jaccard": len(intersection) / len(union) if union else 0,
+                  "left_only": sorted(left_set - right_set),
+                  "right_only": sorted(right_set - left_set),
+              })
+          print(json.dumps(result, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Upload diagnostic
+        uses: actions/upload-artifact@v4
+        with:
+          name: sector-taxonomy-conflict-diagnostic
+          retention-days: 7
+          path: /tmp/sector-taxonomy-conflicts.json
