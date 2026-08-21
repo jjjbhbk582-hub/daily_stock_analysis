@@ -37,6 +37,8 @@ def test_config_contains_required_focus_concepts() -> None:
     }.issubset(labels)
     assert config.max_price == 100.0
     assert config.min_amount == 300_000_000
+    assert config.industry_history_candidates >= 80
+    assert config.concept_history_candidates >= 30
 
 
 def test_candidate_filter_enforces_main_board_price_and_risk_rules() -> None:
