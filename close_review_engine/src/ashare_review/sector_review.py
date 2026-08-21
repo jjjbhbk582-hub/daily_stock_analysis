@@ -285,8 +285,12 @@ def build_sector_review(
 
     focus_preliminary = match_focus_concepts(overview["concept"], config.focus_concepts)
     history_targets: dict[tuple[str, str], dict[str, Any]] = {}
+    history_limits = {
+        "industry": config.industry_history_candidates,
+        "concept": config.concept_history_candidates,
+    }
     for board_type in ("industry", "concept"):
-        for row in _preliminary_sort(overview[board_type])[: config.history_candidates_per_type]:
+        for row in _preliminary_sort(overview[board_type])[: history_limits[board_type]]:
             history_targets[(board_type, str(row["board_code"]))] = row
     for row in focus_preliminary:
         if row.get("status") == "ready" and row.get("board_code"):

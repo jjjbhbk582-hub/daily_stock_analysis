@@ -4,6 +4,8 @@ max_detailed_boards: 7
 shortlist_per_board: 12
 max_dynamic_stocks: 60
 history_candidates_per_type: 15
+industry_history_candidates: 200
+concept_history_candidates: 30
 focus_concepts:
   - label: AI算力
     aliases: [AI算力, 算力概念, 东数西算, AI服务器, 智算中心, 数据中心]
