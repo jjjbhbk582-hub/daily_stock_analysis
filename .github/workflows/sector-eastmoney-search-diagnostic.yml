@@ -16,16 +16,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Probe Eastmoney suggestions, quotes and active concept page
+      - name: Probe board quote fields and missing focus codes
         shell: bash
         run: |
           python - <<'PY'
           from __future__ import annotations
 
           import json
+          import time
           import urllib.parse
           import urllib.request
-          from time import sleep
 
           HEADERS = {
               "User-Agent": "Mozilla/5.0",
@@ -38,91 +38,53 @@ jobs:
               )
               try:
                   with urllib.request.urlopen(request, timeout=20) as response:
-                      raw = response.read().decode("utf-8", errors="replace")
-                      return response.status, json.loads(raw)
+                      return response.status, json.loads(
+                          response.read().decode("utf-8", errors="replace")
+                      )
               except Exception as exc:
                   return 0, f"{type(exc).__name__}: {exc}"
 
           token = "D43BF722C8E33BDC906FB84D85E326E8"
-          keywords = (
-              "AI算力", "算力", "CPO", "PCB", "半导体", "存储芯片",
-              "稀土", "液冷服务器", "消费电子", "人形机器人",
-          )
-          resolved: dict[str, list[tuple[str, str, str]]] = {}
-          for keyword in keywords:
+          for keyword in ("创新药", "军工", "有色金属"):
               status, payload = get_json(
                   "https://searchapi.eastmoney.com/api/suggest/get",
-                  {
-                      "input": keyword,
-                      "type": 14,
-                      "token": token,
-                      "count": 30,
-                  },
+                  {"input": keyword, "type": 14, "token": token, "count": 30},
               )
-              print("SUGGEST", keyword, status)
-              print(json.dumps(payload, ensure_ascii=False)[:3000])
-              rows = []
-              if isinstance(payload, dict):
-                  data = payload.get("QuotationCodeTable") or payload.get("Data") or payload.get("data")
-                  if isinstance(data, dict):
-                      data = data.get("Data") or data.get("data") or []
-                  if isinstance(data, list):
-                      for item in data:
-                          if not isinstance(item, dict):
-                              continue
-                          code = str(item.get("Code") or item.get("code") or "")
-                          name = str(item.get("Name") or item.get("name") or "")
-                          classify = str(item.get("Classify") or item.get("classify") or "")
-                          if code.upper().startswith("BK"):
-                              rows.append((code, name, classify))
-              resolved[keyword] = rows
-              print("RESOLVED", keyword, rows)
-              sleep(0.3)
+              print("SUGGEST", keyword, status, json.dumps(payload, ensure_ascii=False)[:5000])
+              time.sleep(0.5)
 
-          print("=== QUOTES AND HISTORY FOR RESOLVED BK CODES ===")
-          unique_codes = []
-          for rows in resolved.values():
-              for code, name, classify in rows:
-                  if code not in unique_codes:
-                      unique_codes.append(code)
-          for code in unique_codes[:20]:
+          quote_fields = (
+              "f2,f3,f6,f8,f10,f12,f14,f20,f24,f25,f43,f44,f45,f46,f47,f48,"
+              "f49,f50,f57,f58,f59,f60,f104,f105,f109,f110,f124,f128,f136,"
+              "f152,f160,f161,f162,f163,f164,f167,f168,f169,f170,f171,f172"
+          )
+          for host in (
+              "https://push2.eastmoney.com/api/qt/stock/get",
+              "https://29.push2.eastmoney.com/api/qt/stock/get",
+              "https://17.push2.eastmoney.com/api/qt/stock/get",
+          ):
               status, payload = get_json(
-                  "https://push2.eastmoney.com/api/qt/stock/get",
+                  host,
                   {
-                      "secid": f"90.{code}",
-                      "fields": "f2,f3,f6,f8,f12,f14,f20,f104,f105,f124,f128,f136",
+                      "secid": "90.BK1134",
+                      "fields": quote_fields,
                       "ut": "bd1d9ddb04089700cf9c27f6f7426281",
                   },
               )
-              print("QUOTE", code, status, json.dumps(payload, ensure_ascii=False)[:1500])
-              sleep(0.2)
-              status, payload = get_json(
-                  "https://91.push2his.eastmoney.com/api/qt/stock/kline/get",
-                  {
-                      "secid": f"90.{code}",
-                      "fields1": "f1,f2,f3,f4,f5,f6",
-                      "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
-                      "klt": 101,
-                      "fqt": 0,
-                      "beg": 0,
-                      "end": "20260820",
-                      "smplmt": 10000,
-                      "lmt": 30,
-                  },
-              )
-              if isinstance(payload, dict):
-                  data = payload.get("data") or {}
-                  klines = data.get("klines") or []
-                  print("HISTORY", code, status, data.get("name"), len(klines), klines[-2:])
-              else:
-                  print("HISTORY", code, status, payload)
-              sleep(0.3)
+              print("QUOTE", host, status, json.dumps(payload, ensure_ascii=False)[:6000])
+              if status == 200:
+                  break
+              time.sleep(1.0)
 
-          print("=== ACTIVE CONCEPT PAGE ===")
+          list_fields = (
+              "f2,f3,f6,f8,f10,f12,f14,f20,f24,f25,f104,f105,f109,f110,"
+              "f124,f128,f136,f152,f160"
+          )
           for host in (
               "https://17.push2.eastmoney.com/api/qt/clist/get",
-              "https://push2.eastmoney.com/api/qt/clist/get",
+              "https://29.push2.eastmoney.com/api/qt/clist/get",
               "https://79.push2.eastmoney.com/api/qt/clist/get",
+              "https://push2.eastmoney.com/api/qt/clist/get",
           ):
               status, payload = get_json(
                   host,
@@ -135,7 +97,7 @@ jobs:
                       "invt": 2,
                       "fid": "f3",
                       "fs": "m:90 t:3 f:!50",
-                      "fields": "f2,f3,f6,f8,f12,f14,f20,f104,f105,f124,f128,f136",
+                      "fields": list_fields,
                       "ut": "bd1d9ddb04089700cf9c27f6f7426281",
                   },
               )
@@ -143,10 +105,43 @@ jobs:
               if isinstance(payload, dict):
                   data = payload.get("data") or {}
                   diff = data.get("diff") or []
-                  print(" total", data.get("total"), "rows", len(diff))
-                  print([(x.get("f12"), x.get("f14"), x.get("f3"), x.get("f104"), x.get("f105")) for x in diff[:30]])
+                  print("total", data.get("total"), "rows", len(diff))
+                  for item in diff[:10]:
+                      print(json.dumps(item, ensure_ascii=False, sort_keys=True))
               else:
                   print(payload)
               if status == 200:
                   break
+              time.sleep(1.0)
+
+          time.sleep(2.0)
+          for host in (
+              "https://91.push2his.eastmoney.com/api/qt/stock/kline/get",
+              "https://92.push2his.eastmoney.com/api/qt/stock/kline/get",
+              "https://push2his.eastmoney.com/api/qt/stock/kline/get",
+          ):
+              status, payload = get_json(
+                  host,
+                  {
+                      "secid": "90.BK1134",
+                      "fields1": "f1,f2,f3,f4,f5,f6",
+                      "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
+                      "klt": 101,
+                      "fqt": 0,
+                      "beg": 0,
+                      "end": "20260820",
+                      "smplmt": 10000,
+                      "lmt": 30,
+                  },
+              )
+              print("HISTORY", host, status)
+              if isinstance(payload, dict):
+                  data = payload.get("data") or {}
+                  rows = data.get("klines") or []
+                  print(data.get("name"), len(rows), rows[-3:])
+              else:
+                  print(payload)
+              if status == 200 and isinstance(payload, dict) and payload.get("data"):
+                  break
+              time.sleep(1.5)
           PY
