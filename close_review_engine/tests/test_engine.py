@@ -73,7 +73,8 @@ def test_report_has_sector_panorama_2plus2_and_fixed_pool_sections(tmp_path: Pat
         "第七部分：固定池Top5重点分析",
         "第八部分：动态候选买点",
         "第九部分：与上一次排名对比",
-        "第十部分：最终操作结论",
+        "第十部分：推荐交易计划",
+        "第十一部分：最终操作结论",
     ):
         assert heading in report
     assert "资金容量龙头" in report
@@ -81,6 +82,12 @@ def test_report_has_sector_panorama_2plus2_and_fixed_pool_sections(tmp_path: Pat
     assert "缩量回踩潜力" in report
     assert "放量突破潜力" in report
     assert report.count("最理想回踩买入区间") >= 5
+    assert "主推荐" in report
+    assert "止损价" in report
+    assert "第一止盈" in report
+    assert "第二止盈" in report
+    assert "禁止追高价" in report
+    assert "单只建议仓位" in report
     assert "不承诺收益" in report
 
 
