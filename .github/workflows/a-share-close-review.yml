@@ -102,10 +102,12 @@ jobs:
           snapshot_path="$(sed -n 's/^SNAPSHOT_PATH=//p' /tmp/review-output.log | head -n 1)"
           status="$(sed -n 's/^STATUS=//p' /tmp/review-output.log | head -n 1)"
           valid_count="$(sed -n 's/^VALID_COUNT=//p' /tmp/review-output.log | head -n 1)"
+          universe_count="$(sed -n 's/^UNIVERSE_COUNT=//p' /tmp/review-output.log | head -n 1)"
           echo "report_path=$report_path" >> "$GITHUB_OUTPUT"
           echo "snapshot_path=$snapshot_path" >> "$GITHUB_OUTPUT"
           echo "status=$status" >> "$GITHUB_OUTPUT"
           echo "valid_count=$valid_count" >> "$GITHUB_OUTPUT"
+          echo "universe_count=$universe_count" >> "$GITHUB_OUTPUT"
           echo "exit_code=$review_code" >> "$GITHUB_OUTPUT"
           exit "$review_code"
 
@@ -125,7 +127,7 @@ jobs:
             echo
             echo "- 目标日期：${{ steps.target.outputs.date }}"
             echo "- 触发方式：${{ github.event_name }}"
-            echo "- 固定池有效股票：${{ steps.review.outputs.valid_count || '未生成' }}/17"
+            echo "- 固定池有效股票：${{ steps.review.outputs.valid_count || '未生成' }}/${{ steps.review.outputs.universe_count || '未生成' }}"
             echo "- 报告状态：${{ steps.review.outputs.status || '未生成' }}"
             echo
             if [[ -n "${REPORT_PATH:-}" && -f "$REPORT_PATH" ]]; then

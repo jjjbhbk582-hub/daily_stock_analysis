@@ -232,7 +232,8 @@ def _render_board_2plus2(sectors: dict[str, Any]) -> list[str]:
 
 
 def _render_fixed_ranking(snapshot: dict[str, Any]) -> list[str]:
-    lines = ["## 第六部分：17只固定股票完整排名", ""]
+    universe_count = int(snapshot.get("universe_count") or len(snapshot.get("stocks") or []))
+    lines = [f"## 第六部分：{universe_count}只固定股票完整排名", ""]
     lines.extend(
         [
             "| 排名 | 代码 | 名称 | 收盘价 | 当日涨跌幅 | 综合评分 | 评级 | 日线趋势 | 60分钟趋势 | 主要结论 |",
@@ -505,7 +506,8 @@ def _render_final(snapshot: dict[str, Any]) -> list[str]:
             "本报告不承诺收益，不构成确定性买卖指令。",
             "",
             f"结构化明细：`data/processed/{snapshot['target_date']}/snapshot.json`；"
-            f"固定17只排名CSV：`data/processed/{snapshot['target_date']}/ranking.csv`。",
+            f"固定池{snapshot.get('universe_count', len(snapshot.get('stocks') or []))}只排名CSV："
+            f"`data/processed/{snapshot['target_date']}/ranking.csv`。",
             "",
         ]
     )

@@ -14,7 +14,7 @@ SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="17只沪深A股收盘复盘、评分与Top5买点变化引擎")
+    parser = argparse.ArgumentParser(description="沪深A股固定股票池收盘复盘、评分与Top5买点变化引擎")
     subparsers = parser.add_subparsers(dest="command", required=True)
     run = subparsers.add_parser("run", help="执行一次收盘复盘")
     run.add_argument("--as-of", type=date.fromisoformat, help="目标日期YYYY-MM-DD；默认北京时间当天")
@@ -38,8 +38,6 @@ def main(argv: list[str] | None = None) -> int:
         print(f"A股尚未收盘；当前北京时间{now:%Y-%m-%d %H:%M:%S}，未使用未完成日线。")
         return 2
     stocks = load_universe(args.universe)
-    if len(stocks) != 17:
-        raise SystemExit(f"股票池必须恰好包含17只，当前为{len(stocks)}只")
     source = FixtureDataSource.from_path(args.fixture) if args.fixture else build_live_source()
     previous = load_previous_snapshot(args.output_root, before_date=target_date.isoformat())
     result = run_review(
@@ -66,6 +64,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"RANKING_PATH={paths.ranking}")
     print(f"STATUS={result.status}")
     print(f"VALID_COUNT={result.snapshot.get('valid_count')}")
+    print(f"UNIVERSE_COUNT={result.snapshot.get('universe_count')}")
     print(report)
     return 0 if result.status in {"success", "partial"} else 1
 

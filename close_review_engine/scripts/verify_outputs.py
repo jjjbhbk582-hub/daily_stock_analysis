@@ -30,11 +30,14 @@ def verify(root: Path, target_date: str) -> None:
         raise SystemExit("target date mismatch")
     if int(snapshot.get("schema_version") or 0) != 2:
         raise SystemExit("snapshot schema_version must be 2")
-    if len(snapshot.get("stocks") or []) != 17 or len(rows) != 17:
-        raise SystemExit("output must contain exactly 17 fixed stocks")
+    universe_count = int(snapshot.get("universe_count") or 0)
+    if universe_count <= 0:
+        raise SystemExit("snapshot universe_count must be positive")
+    if len(snapshot.get("stocks") or []) != universe_count or len(rows) != universe_count:
+        raise SystemExit("output fixed-stock rows must match snapshot universe_count")
     if len(snapshot.get("top5") or []) != 5:
         raise SystemExit("output must contain exactly five fixed-pool Top5 codes")
-    if len({row.get("code") for row in snapshot["stocks"]}) != 17:
+    if len({row.get("code") for row in snapshot["stocks"]}) != universe_count:
         raise SystemExit("duplicate or missing fixed stock codes")
 
     sectors = snapshot.get("sectors") or {}
@@ -88,7 +91,7 @@ def verify(root: Path, target_date: str) -> None:
         "第三部分：重点概念板块",
         "第四部分：强势、上升与退潮板块",
         "第五部分：重点板块2+2",
-        "第六部分：17只固定股票完整排名",
+        f"第六部分：{universe_count}只固定股票完整排名",
         "第七部分：固定池Top5重点分析",
         "第八部分：动态候选买点",
         "第九部分：与上一次排名对比",

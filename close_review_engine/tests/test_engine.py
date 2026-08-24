@@ -27,13 +27,14 @@ def build_snapshot(tmp_path: Path):
     return result.snapshot
 
 
-def test_fixture_pipeline_outputs_17_rows_and_top5(tmp_path: Path) -> None:
+def test_fixture_pipeline_outputs_all_59_monitoring_rows_and_top5(tmp_path: Path) -> None:
     snapshot = build_snapshot(tmp_path)
     assert snapshot["status"] == "success"
-    assert snapshot["valid_count"] == 17
-    assert len(snapshot["stocks"]) == 17
+    assert snapshot["valid_count"] == 59
+    assert snapshot["universe_count"] == 59
+    assert len(snapshot["stocks"]) == 59
     assert len(snapshot["top5"]) == 5
-    assert [row["rank"] for row in snapshot["stocks"]] == list(range(1, 18))
+    assert [row["rank"] for row in snapshot["stocks"]] == list(range(1, 60))
     assert all(row["data_date"] == TARGET.isoformat() for row in snapshot["stocks"])
     assert all(row["rating"] in {"S", "A+", "A", "A-", "B+", "B", "C", "D"} for row in snapshot["stocks"])
 
@@ -68,7 +69,7 @@ def test_report_has_sector_panorama_2plus2_and_fixed_pool_sections(tmp_path: Pat
         "第三部分：重点概念板块",
         "第四部分：强势、上升与退潮板块",
         "第五部分：重点板块2+2",
-        "第六部分：17只固定股票完整排名",
+        "第六部分：59只固定股票完整排名",
         "第七部分：固定池Top5重点分析",
         "第八部分：动态候选买点",
         "第九部分：与上一次排名对比",

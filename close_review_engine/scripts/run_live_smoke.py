@@ -14,7 +14,8 @@ def main() -> int:
     parser.add_argument("--stocks", type=int, default=1)
     parser.add_argument("--universe", default="config/universe.yml")
     args = parser.parse_args()
-    stocks = load_universe(args.universe)[: max(1, min(args.stocks, 17))]
+    universe = load_universe(args.universe)
+    stocks = universe[: max(1, min(args.stocks, len(universe)))]
     source = LiveDataSource()
     market = source.load_market(stocks, args.as_of)
     rows = []

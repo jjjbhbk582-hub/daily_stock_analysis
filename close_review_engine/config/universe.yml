@@ -16,3 +16,45 @@ stocks:
   - {code: "002179", name: 中航光电, exchange: SZ, industry: 电子元件, themes: [军工连接器, 商业航天, 新能源汽车], industry_logic: 80}
   - {code: "002938", name: 鹏鼎控股, exchange: SZ, industry: 电子元件, themes: [PCB, 消费电子, AI终端], industry_logic: 84}
   - {code: "603920", name: 世运电路, exchange: SH, industry: 电子元件, themes: [PCB, 汽车电子, AI算力], industry_logic: 86}
+  - {code: "002475", name: 立讯精密, exchange: SZ, industry: 消费电子, themes: [消费电子, 连接器, AI终端], industry_logic: 92}
+  - {code: "603993", name: 洛阳钼业, exchange: SH, industry: 有色金属, themes: [铜, 钴, 资源品], industry_logic: 86}
+  - {code: "002558", name: 巨人网络, exchange: SZ, industry: 游戏, themes: [游戏, AI应用, 互联网], industry_logic: 82}
+  - {code: "000977", name: 浪潮信息, exchange: SZ, industry: 计算机设备, themes: [AI算力, 服务器, 数据中心], industry_logic: 93}
+  - {code: "002648", name: 卫星化学, exchange: SZ, industry: 化工原料, themes: [化工, 轻烃, 新材料], industry_logic: 82}
+  - {code: "601899", name: 紫金矿业, exchange: SH, industry: 有色金属, themes: [黄金, 铜, 资源品], industry_logic: 88}
+  - {code: "300014", name: 亿纬锂能, exchange: SZ, industry: 电池, themes: [储能, 动力电池, 新能源], industry_logic: 83}
+  - {code: "600030", name: 中信证券, exchange: SH, industry: 证券, themes: [券商, 资本市场, 高股息], industry_logic: 78}
+  - {code: "300059", name: 东方财富, exchange: SZ, industry: 互联网服务, themes: [金融科技, 券商, 资本市场], industry_logic: 80}
+  - {code: "600309", name: 万华化学, exchange: SH, industry: 化工原料, themes: [化工, 聚氨酯, 新材料], industry_logic: 84}
+  - {code: "603019", name: 中科曙光, exchange: SH, industry: 计算机设备, themes: [国产算力, 服务器, AI算力], industry_logic: 88}
+  - {code: "688396", name: 华润微, exchange: SH, industry: 半导体, themes: [功率半导体, 国产替代, 芯片], industry_logic: 80}
+  - {code: "002156", name: 通富微电, exchange: SZ, industry: 半导体, themes: [先进封装, 芯片封测, AI算力], industry_logic: 84}
+  - {code: "600549", name: 厦门钨业, exchange: SH, industry: 小金属, themes: [钨, 稀土, 新材料], industry_logic: 82}
+  - {code: "002594", name: 比亚迪, exchange: SZ, industry: 汽车整车, themes: [新能源汽车, 动力电池, 智能驾驶], industry_logic: 85}
+  - {code: "601318", name: 中国平安, exchange: SH, industry: 保险, themes: [保险, 金融, 高股息], industry_logic: 74}
+  - {code: "000333", name: 美的集团, exchange: SZ, industry: 家电行业, themes: [家电, 机器人, 出海], industry_logic: 82}
+  - {code: "300124", name: 汇川技术, exchange: SZ, industry: 自动化设备, themes: [工业自动化, 新能源汽车, 机器人], industry_logic: 86}
+  - {code: "600406", name: 国电南瑞, exchange: SH, industry: 电网设备, themes: [特高压, 电网, 电力数字化], industry_logic: 80}
+  - {code: "600066", name: 宇通客车, exchange: SH, industry: 汽车整车, themes: [客车, 出海, 新能源汽车], industry_logic: 79}
+  - {code: "002008", name: 大族激光, exchange: SZ, industry: 专用设备, themes: [激光设备, 自动化, 先进制造], industry_logic: 78}
+  - {code: "002185", name: 华天科技, exchange: SZ, industry: 半导体, themes: [芯片封测, 先进封装, 国产替代], industry_logic: 78}
+  - {code: "600036", name: 招商银行, exchange: SH, industry: 银行, themes: [银行, 高股息, 金融], industry_logic: 77}
+  - {code: "300054", name: 鼎龙股份, exchange: SZ, industry: 电子化学品, themes: [半导体材料, CMP, 国产替代], industry_logic: 82}
+  - {code: "600690", name: 海尔智家, exchange: SH, industry: 家电行业, themes: [家电, 出海, 高股息], industry_logic: 76}
+  - {code: "600941", name: 中国移动, exchange: SH, industry: 通信服务, themes: [云计算, AI基础设施, 高股息], industry_logic: 82}
+  - {code: "600938", name: 中国海油, exchange: SH, industry: 石油行业, themes: [石油, 高股息, 能源], industry_logic: 77}
+  - {code: "603799", name: 华友钴业, exchange: SH, industry: 能源金属, themes: [锂钴, 新能源材料, 储能], industry_logic: 78}
+  - {code: "600487", name: 亨通光电, exchange: SH, industry: 通信设备, themes: [光通信, 海缆, 电力通信], industry_logic: 82}
+  - {code: "002517", name: 恺英网络, exchange: SZ, industry: 游戏, themes: [游戏, AI应用, 互联网], industry_logic: 76}
+  - {code: "300442", name: 润泽科技, exchange: SZ, industry: 通信服务, themes: [数据中心, AI算力, 云计算], industry_logic: 82}
+  - {code: "600900", name: 长江电力, exchange: SH, industry: 电力行业, themes: [水电, 高股息, 防御], industry_logic: 73}
+  - {code: "002335", name: 科华数据, exchange: SZ, industry: 电源设备, themes: [数据中心电源, 储能, UPS], industry_logic: 78}
+  - {code: "002050", name: 三花智控, exchange: SZ, industry: 家电行业, themes: [热管理, 机器人, 新能源汽车], industry_logic: 82}
+  - {code: "601689", name: 拓普集团, exchange: SH, industry: 汽车零部件, themes: [汽车零部件, 机器人, 新能源汽车], industry_logic: 80}
+  - {code: "688187", name: 时代电气, exchange: SH, industry: 交运设备, themes: [轨交设备, 功率半导体, 高端制造], industry_logic: 76}
+  - {code: "002126", name: 银轮股份, exchange: SZ, industry: 汽车零部件, themes: [热管理, 数据中心液冷, 新能源汽车], industry_logic: 78}
+  - {code: "600312", name: 平高电气, exchange: SH, industry: 电网设备, themes: [特高压, 电网, 变电设备], industry_logic: 76}
+  - {code: "600875", name: 东方电气, exchange: SH, industry: 电源设备, themes: [核电, 风电, 能源装备], industry_logic: 76}
+  - {code: "002415", name: 海康威视, exchange: SZ, industry: 安防设备, themes: [安防, AI视觉, 数字化], industry_logic: 76}
+  - {code: "000338", name: 潍柴动力, exchange: SZ, industry: 汽车零部件, themes: [动力系统, 数据中心备用电源, 重卡], industry_logic: 76}
+  - {code: "600031", name: 三一重工, exchange: SH, industry: 工程机械, themes: [工程机械, 出海, 设备更新], industry_logic: 75}
