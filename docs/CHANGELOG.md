@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 > For user-friendly release highlights, see the [GitHub Releases](https://github.com/ZhuLinsen/daily_stock_analysis/releases) page.
 
 ## [Unreleased]
+- [改进] A股复盘日报新增条件化推荐交易计划，固定输出主推荐、备选、入场触发、禁止追高、止损、两档止盈、风险收益比和仓位纪律。
 - [改进] A股板块2+2固定监控池扩展至59只，日报、GitHub Actions摘要、结构化输出校验和ChatGPT定时任务衔接规则改为读取当前固定池规模。
 
 - [修复] API 异步批量分析共享概念板块排行缓存，避免同批多股重复拉取全市场概念排行。
