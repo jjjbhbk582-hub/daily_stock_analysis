@@ -483,6 +483,87 @@ def _decision_text(label: str, row: dict[str, Any] | None) -> str:
     )
 
 
+def _trade_recommendations(snapshot: dict[str, Any]) -> list[dict[str, Any]]:
+    eligible = []
+    for row in snapshot.get("stocks", []):
+        levels = row.get("levels") or {}
+        required = (
+            "pullback_low",
+            "pullback_high",
+            "breakout_trigger",
+            "no_chase_above",
+            "invalidation",
+            "target_1",
+            "target_2",
+            "risk_reward_1",
+        )
+        if levels.get("status") != "ready" or any(finite(levels.get(key)) is None for key in required):
+            continue
+        if row.get("daily_trend") in {"强势空头", "空头"}:
+            continue
+        close = finite(row.get("close"))
+        no_chase = finite(levels.get("no_chase_above"))
+        risk_reward = finite(levels.get("risk_reward_1"), 0.0) or 0.0
+        if close is None or no_chase is None or close >= no_chase or risk_reward < 1.5:
+            continue
+        eligible.append(row)
+    return sorted(eligible, key=lambda row: (-(finite(row.get("score"), 0.0) or 0.0), int(row.get("rank") or 999)))[:2]
+
+
+def _render_trade_plan(snapshot: dict[str, Any]) -> list[str]:
+    market = snapshot.get("market") or {}
+    breadth = market.get("breadth") or {}
+    advancers = int(breadth.get("up") or 0)
+    decliners = int(breadth.get("down") or 0)
+    weak_market = decliners > advancers
+    position = "10%—15%" if weak_market else "15%—20%"
+    rows = _trade_recommendations(snapshot)
+    lines = [
+        "## 第十部分：推荐交易计划",
+        "",
+        "以下为下一交易日的条件化计划，只有触发回踩企稳或放量突破条件才执行；未触发即不交易。",
+        f"当前市场仓位纪律：单只建议仓位**{position}**，同方向合计不超过30%；到止损价严格退出，不补仓摊低成本。",
+        "",
+        "| 优先级 | 股票 | 建议方式 | 回踩买入区 | 突破触发价 | 禁止追高价 | 止损价 | 第一止盈 | 第二止盈 | 风险收益比1/2 |",
+        "|---|---|---|---|---:|---:|---:|---:|---:|---:|",
+    ]
+    if not rows:
+        lines.extend(
+            [
+                "| 空仓观察 | 无合格标的 | 等待新的量价结构 | — | — | — | — | — | — | — |",
+                "",
+                "结论：当前没有同时满足趋势、价位完整性和风险收益比要求的标的，不为凑数而推荐交易。",
+                "",
+            ]
+        )
+        return lines
+    for index, row in enumerate(rows):
+        levels = row.get("levels") or {}
+        priority = "主推荐" if index == 0 else "备选"
+        lines.append(
+            f"| {priority} | {row.get('name')} {row.get('code')} | 回踩优先；突破须放量确认 | "
+            f"{_fmt_range(levels.get('pullback_low'), levels.get('pullback_high'))} | "
+            f"{_fmt_price(levels.get('breakout_trigger'))} | {_fmt_price(levels.get('no_chase_above'))} | "
+            f"{_fmt_price(levels.get('invalidation'))} | {_fmt_price(levels.get('target_1'))} | "
+            f"{_fmt_price(levels.get('target_2'))} | {_fmt_number(levels.get('risk_reward_1'))}/"
+            f"{_fmt_number(levels.get('risk_reward_2'))} |"
+        )
+    main = rows[0]
+    main_levels = main.get("levels") or {}
+    lines.extend(
+        [
+            "",
+            f"执行顺序：主推荐**{main.get('name')}（{main.get('code')}）**先等"
+            f"{_fmt_range(main_levels.get('pullback_low'), main_levels.get('pullback_high'))}回踩企稳；"
+            f"若直接上行，仅在{_fmt_price(main_levels.get('breakout_trigger'))}元上方放量确认后考虑，"
+            f"达到{_fmt_price(main_levels.get('no_chase_above'))}元及以上取消追入。",
+            "止盈纪律：到第一目标可减仓一半并上移保护止损，余仓观察第二目标；任何时候先执行止损，再讨论逻辑。",
+            "",
+        ]
+    )
+    return lines
+
+
 def _render_final(snapshot: dict[str, Any]) -> list[str]:
     rows = _candidate_pool(snapshot)
     pullback = _best_pullback(rows)
@@ -490,7 +571,7 @@ def _render_final(snapshot: dict[str, Any]) -> list[str]:
     extended = _most_extended(rows)
     sectors = snapshot.get("sectors") or {}
     weak_board = (sectors.get("weak_boards") or [None])[0]
-    lines = ["## 第十部分：最终操作结论", ""]
+    lines = ["## 第十一部分：最终操作结论", ""]
     lines.append(_decision_text("最值得等待回踩的板块和股票", pullback))
     lines.append(_decision_text("最值得等待突破确认的板块和股票", breakout))
     if extended:
@@ -538,5 +619,6 @@ def render_report(snapshot: dict[str, Any]) -> str:
     lines.extend(_render_fixed_top5(snapshot))
     lines.extend(_render_dynamic_candidates(sectors))
     lines.extend(_render_comparison(snapshot))
+    lines.extend(_render_trade_plan(snapshot))
     lines.extend(_render_final(snapshot))
     return "\n".join(lines)
