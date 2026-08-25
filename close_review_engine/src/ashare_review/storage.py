@@ -2,9 +2,106 @@ from __future__ import annotations
 
 import csv
 import json
+import os
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+
+from ashare_review.trade_tracking import calculate_trade_statistics
+
+
+class TradeStateCorruptError(ValueError):
+    pass
+
+
+def _read_json_list(path: Path) -> list[dict[str, Any]]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise TradeStateCorruptError(f"交易计划状态文件损坏：{path}") from exc
+    if not isinstance(payload, list) or not all(isinstance(item, dict) for item in payload):
+        raise TradeStateCorruptError(f"交易计划状态格式错误：{path}")
+    return payload
+
+
+def _read_jsonl(path: Path) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError as exc:
+        raise TradeStateCorruptError(f"交易结果状态文件不可读：{path}") from exc
+    for line in lines:
+        if not line.strip():
+            continue
+        try:
+            item = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise TradeStateCorruptError(f"交易结果状态文件损坏：{path}") from exc
+        if not isinstance(item, dict):
+            raise TradeStateCorruptError(f"交易结果状态格式错误：{path}")
+        rows.append(item)
+    return rows
+
+
+def load_trade_state(root: str | Path) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    state_dir = Path(root) / "data" / "state"
+    plans_path = state_dir / "trade_plans.json"
+    outcomes_path = state_dir / "trade_outcomes.jsonl"
+    plans = _read_json_list(plans_path) if plans_path.is_file() else []
+    outcomes = _read_jsonl(outcomes_path) if outcomes_path.is_file() else []
+    return plans, outcomes
+
+
+def _atomic_write(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle = tempfile.NamedTemporaryFile(
+        mode="w",
+        encoding="utf-8",
+        dir=path.parent,
+        prefix=f".{path.name}.",
+        suffix=".tmp",
+        delete=False,
+    )
+    temp_path = Path(handle.name)
+    try:
+        with handle:
+            handle.write(text)
+            handle.flush()
+            os.fsync(handle.fileno())
+        temp_path.replace(path)
+    except Exception:
+        temp_path.unlink(missing_ok=True)
+        raise
+
+
+def persist_trade_state(
+    root: str | Path,
+    active_plans: list[dict[str, Any]],
+    new_outcomes: list[dict[str, Any]],
+) -> None:
+    _, existing_outcomes = load_trade_state(root)
+    deduplicated: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for item in [*existing_outcomes, *new_outcomes]:
+        key = (
+            str(item.get("plan_id") or ""),
+            str(item.get("exit_date") or ""),
+            str(item.get("exit_reason") or ""),
+        )
+        deduplicated[key] = item
+    state_dir = Path(root) / "data" / "state"
+    plans_text = json.dumps(active_plans, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
+    outcomes_text = "".join(
+        json.dumps(item, ensure_ascii=False, allow_nan=False) + "\n"
+        for item in deduplicated.values()
+    )
+    _atomic_write(state_dir / "trade_plans.json", plans_text)
+    _atomic_write(state_dir / "trade_outcomes.jsonl", outcomes_text)
+
+
+def evaluate_saved_trades(root: str | Path) -> dict[str, Any]:
+    _, outcomes = load_trade_state(root)
+    return calculate_trade_statistics(outcomes)
 
 
 @dataclass(frozen=True, slots=True)
@@ -144,6 +241,9 @@ def write_outputs(
     root: str | Path,
     snapshot: dict[str, Any],
     report: str,
+    *,
+    active_plans: list[dict[str, Any]] | None = None,
+    new_outcomes: list[dict[str, Any]] | None = None,
 ) -> OutputPaths:
     output_root = Path(root)
     target_date = str(snapshot["target_date"])
@@ -192,7 +292,12 @@ def write_outputs(
         "conclusion",
     ]
     with ranking_path.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore")
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=fields,
+            extrasaction="ignore",
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(snapshot.get("stocks", []))
 
@@ -228,6 +333,8 @@ def write_outputs(
         "\n".join(json.dumps(history[key], ensure_ascii=False, allow_nan=False) for key in sorted(history)) + "\n",
         encoding="utf-8",
     )
+    if active_plans is not None or new_outcomes is not None:
+        persist_trade_state(output_root, active_plans or [], new_outcomes or [])
     return OutputPaths(
         report=report_path,
         snapshot=snapshot_path,

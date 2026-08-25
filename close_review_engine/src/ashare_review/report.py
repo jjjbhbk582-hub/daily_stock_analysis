@@ -511,103 +511,168 @@ def _trade_recommendations(snapshot: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def _render_trade_plan(snapshot: dict[str, Any]) -> list[str]:
-    market = snapshot.get("market") or {}
-    breadth = market.get("breadth") or {}
-    advancers = int(breadth.get("up") or 0)
-    decliners = int(breadth.get("down") or 0)
-    weak_market = decliners > advancers
-    position = "10%—15%" if weak_market else "15%—20%"
-    rows = _trade_recommendations(snapshot)
+    decision = snapshot.get("trade_decision") or {}
+    regime = decision.get("market_regime") or (snapshot.get("market") or {}).get("trade_regime") or {}
     lines = [
         "## 第十部分：推荐交易计划",
         "",
-        "以下为下一交易日的条件化计划，只有触发回踩企稳或放量突破条件才执行；未触发即不交易。",
-        f"当前市场仓位纪律：单只建议仓位**{position}**，同方向合计不超过30%；到止损价严格退出，不补仓摊低成本。",
+        "所有计划均为下一交易日的条件化方案，不自动下单；未触发、跳空越过追高线或开盘跌破止损即取消。",
+        "模型仓位上限按每笔账户风险0.5%计算，不代表已经读取或校验用户真实持仓。",
         "",
-        "| 优先级 | 股票 | 建议方式 | 回踩买入区 | 突破触发价 | 禁止追高价 | 止损价 | 第一止盈 | 第二止盈 | 风险收益比1/2 |",
-        "|---|---|---|---|---:|---:|---:|---:|---:|---:|",
+        "### 1. 市场交易状态与模型总仓位上限",
+        "",
+        f"市场状态：**{regime.get('label', 'unavailable')}**，评分{_fmt_number(regime.get('score'), 1)}；"
+        f"模型总仓位上限**{_fmt_number(regime.get('max_total_weight_pct'), 1)}%**。",
     ]
-    if not rows:
+    for evidence in regime.get("evidence") or []:
+        lines.append(f"- {evidence}")
+
+    def append_plan_table(heading: str, plans: list[dict[str, Any]], empty: str) -> None:
+        lines.extend(["", heading, ""])
+        if not plans:
+            lines.append(empty)
+            return
         lines.extend(
             [
-                "| 空仓观察 | 无合格标的 | 等待新的量价结构 | — | — | — | — | — | — | — |",
-                "",
-                "### 推荐依据",
-                "",
-                "入选规则：固定池股票必须同时满足关键价位完整、日线不是空头、尚未进入禁止追高区、"
-                "到第一目标的风险收益比不低于1.50；本次没有股票全部满足，因此不推荐交易。",
-                "",
-                "结论：当前没有同时满足趋势、价位完整性和风险收益比要求的标的，不为凑数而推荐交易。",
-                "",
+                "| 股票 | 类型 | 状态 | 技术/综合分 | 有效日 | 入场 | 止损 | 目标1/2 | 赔率1/2 | 禁止追高 | 模型仓位上限 |",
+                "|---|---|---|---:|---|---|---:|---|---:|---:|---:|",
             ]
         )
-        return lines
-    for index, row in enumerate(rows):
-        levels = row.get("levels") or {}
-        priority = "主推荐" if index == 0 else "备选"
+        for plan in plans:
+            entry = plan.get("entry") or {}
+            status = {
+                "ready_next_session": "下一交易日条件就绪",
+                "waiting_trigger": "等待触发",
+                "watch_only": "仅观察",
+                "rejected": "回避",
+            }.get(str(plan.get("decision_status")), str(plan.get("decision_status") or "未知"))
+            recommendation = (
+                "综合推荐" if plan.get("recommendation_type") == "comprehensive" else "技术交易"
+            )
+            lines.append(
+                f"| {plan.get('name')} {plan.get('code')} | {recommendation}·{plan.get('setup')} | {status} | "
+                f"{_fmt_number(plan.get('technical_trade_score'), 1)}/{_fmt_number(plan.get('composite_score'), 1)} | "
+                f"{plan.get('valid_for', '—')} | {_fmt_range(entry.get('low'), entry.get('high'))} | "
+                f"{_fmt_price(plan.get('stop'))} | {_fmt_price(plan.get('target_1'))}/"
+                f"{_fmt_price(plan.get('target_2'))} | {_fmt_number(plan.get('risk_reward_1'))}/"
+                f"{_fmt_number(plan.get('risk_reward_2'))} | {_fmt_price(plan.get('no_chase_above'))} | "
+                f"{_fmt_number(plan.get('model_weight_pct'), 2)}% |"
+            )
+
+    append_plan_table(
+        "### 2. 今日可执行",
+        list(decision.get("executable") or []),
+        "**今日无可执行交易。** 不为凑数而把相对排名靠前的股票写成买入建议。",
+    )
+    append_plan_table(
+        "### 3. 等待触发",
+        list(decision.get("waiting_trigger") or []),
+        "没有等待触发的合格结构。",
+    )
+
+    technical_missing = [
+        plan
+        for plan in decision.get("all_plans") or []
+        if plan.get("recommendation_type") == "technical_only"
+        and plan.get("fundamental_status") in {"missing", "stale", "partial"}
+        and plan.get("decision_status") != "rejected"
+    ]
+    lines.extend(["", "### 4. 技术交易但基本面缺失", ""])
+    if not technical_missing:
+        lines.append("没有基本面降级的技术候选。")
+    else:
+        seen: set[tuple[str, str]] = set()
+        for plan in technical_missing:
+            key = (str(plan.get("code")), str(plan.get("setup")))
+            if key in seen:
+                continue
+            seen.add(key)
+            status_label = {
+                "missing": "基本面缺失",
+                "stale": "基本面过期",
+                "partial": "基本面不完整",
+            }.get(str(plan.get("fundamental_status")), "基本面降级")
+            missing = "、".join(plan.get("fundamental_missing_fields") or []) or "报告日期过期"
+            lines.append(
+                f"- **技术交易｜{status_label}**：{plan.get('name')}（{plan.get('code')}）{plan.get('setup')}；"
+                f"缺失字段：{missing}；基本面状态仓位上限"
+                f"{_fmt_number(plan.get('fundamental_position_cap_pct'), 2)}%，当前模型仓位上限"
+                f"{_fmt_number(plan.get('model_weight_pct'), 2)}%，"
+                "最长持有5个交易日，不得标为综合推荐。"
+            )
+
+    watch_and_rejected = [
+        *(decision.get("watch_only") or []),
+        *(decision.get("rejected") or []),
+    ]
+    lines.extend(["", "### 5. 观察与回避", ""])
+    if not watch_and_rejected:
+        lines.append("没有额外观察或回避项。")
+    else:
+        for plan in watch_and_rejected:
+            reasons = "、".join(plan.get("rejection_reasons") or []) or "尚未达到执行门槛"
+            lines.append(
+                f"- {plan.get('name')}（{plan.get('code')}）{plan.get('setup')}："
+                f"{plan.get('decision_status')}；未入选原因：{reasons}。"
+            )
+
+    all_plans = list(decision.get("all_plans") or [])
+    append_plan_table(
+        "### 6. 回踩计划明细",
+        [plan for plan in all_plans if plan.get("setup") == "pullback"],
+        "没有价位完整的回踩计划。",
+    )
+    append_plan_table(
+        "### 7. 突破计划明细",
+        [plan for plan in all_plans if plan.get("setup") == "breakout"],
+        "没有价位完整的突破计划。",
+    )
+    lines.extend(
+        [
+            "",
+            "突破第一目标必须严格高于突破入场；突破计划使用自己的止损、目标与赔率，不复用回踩计划。",
+            "",
+            "### 8. 推荐依据与缺失字段",
+            "",
+            "绝对门槛：行情有效且高置信度、技术交易评分不低于70、日线多头或强势多头、"
+            "60分钟非空头、第一目标赔率不低于1.80、关键价位与ATR完整、未进入追高区且无硬风险。",
+        ]
+    )
+    for plan in [*(decision.get("executable") or []), *(decision.get("waiting_trigger") or [])]:
+        trigger = (plan.get("trigger") or {}).get("description") or "等待量价确认"
+        reasons = "、".join(plan.get("reasons") or []) or "全部绝对门槛已核验"
         lines.append(
-            f"| {priority} | {row.get('name')} {row.get('code')} | 回踩优先；突破须放量确认 | "
-            f"{_fmt_range(levels.get('pullback_low'), levels.get('pullback_high'))} | "
-            f"{_fmt_price(levels.get('breakout_trigger'))} | {_fmt_price(levels.get('no_chase_above'))} | "
-            f"{_fmt_price(levels.get('invalidation'))} | {_fmt_price(levels.get('target_1'))} | "
-            f"{_fmt_price(levels.get('target_2'))} | {_fmt_number(levels.get('risk_reward_1'))}/"
-            f"{_fmt_number(levels.get('risk_reward_2'))} |"
+            f"- {plan.get('name')}（{plan.get('code')}）{plan.get('setup')}：触发方式为{trigger}；"
+            f"分析依据：{reasons}。"
         )
-    lines.extend(
-        [
-            "",
-            "### 推荐依据",
-            "",
-            "统一入选规则：只从固定监控池选择关键价位完整、日线不是空头、现价低于禁止追高价、"
-            "到第一目标风险收益比不低于1.50的股票，再按综合评分和固定池排名选出前两名。",
-            "",
-        ]
+
+    lines.extend(["", "### 9. 昨日计划验收", ""])
+    previous = snapshot.get("previous_trade_review") or []
+    if not previous:
+        lines.append("没有可验收的上一交易日已保存计划。")
+    else:
+        for item in previous:
+            outcome = item.get("outcome") or {}
+            lines.append(
+                f"- {item.get('name')}（{item.get('code')}）{item.get('setup')}："
+                f"{item.get('lifecycle_status')}；入场{_fmt_price(item.get('entry_price'))}，"
+                f"MFE/MAE {_fmt_pct(item.get('mfe_pct'))}/{_fmt_pct(item.get('mae_pct'))}，"
+                f"持有{item.get('holding_sessions') or 0}个交易日，"
+                f"结束原因{outcome.get('exit_reason') or '尚未结束'}。"
+            )
+
+    stats = snapshot.get("trade_statistics") or {}
+    lines.extend(["", "### 10. 累计统计与样本置信度", ""])
+    lines.append(
+        f"已结束且非歧义样本{int(stats.get('sample_count') or 0)}笔；胜率{_fmt_number(stats.get('win_rate_pct'))}%，"
+        f"平均盈利/亏损{_fmt_number(stats.get('average_win_pct'))}%/"
+        f"{_fmt_number(stats.get('average_loss_pct'))}%，期望收益{_fmt_number(stats.get('expectancy_pct'))}%，"
+        f"最大连续亏损{int(stats.get('max_consecutive_losses') or 0)}笔，"
+        f"模拟权益最大回撤{_fmt_number(stats.get('max_drawdown_pct'))}%。"
     )
-    for index, row in enumerate(rows):
-        levels = row.get("levels") or {}
-        metrics = row.get("metrics") or {}
-        breakdown = row.get("score_breakdown") or {}
-        patterns = "、".join(row.get("patterns") or []) or "暂无显著形态标签"
-        events = "；".join(str(item) for item in (row.get("events") or [])[:2]) or "暂无新增可验证事件"
-        priority = "主推荐" if index == 0 else "备选"
-        lines.extend(
-            [
-                f"#### {priority}：{row.get('name')}（{row.get('code')}）",
-                "",
-                f"- 入选规则：固定池排名第{row.get('rank')}，综合评分{_fmt_number(row.get('score'), 1)}；"
-                "通过非空头趋势、未进入追高区、关键价位完整及第一目标风险收益比门槛。",
-                f"- 趋势依据：日线**{row.get('daily_trend')}**、周线**{row.get('weekly_trend')}**、"
-                f"60分钟**{row.get('trend_60m')}**；多周期结构决定只做回踩企稳或放量突破，不做盘中猜底。",
-                f"- 量价依据：相对20日均量{_fmt_number(metrics.get('rel_volume_20'))}倍，"
-                f"RSI14={_fmt_number(metrics.get('rsi_14'))}，MACD柱={_fmt_number(metrics.get('macd_hist'))}；"
-                f"形态信号为{patterns}。",
-                f"- 基本面与板块依据：基本面维度{_fmt_number(breakdown.get('fundamental'), 1)}/30、"
-                f"行业景气维度{_fmt_number(breakdown.get('industry'), 1)}/20；所属{row.get('industry') or '行业待确认'}。"
-                f"事件信息：{events}。",
-                f"- 位置与赔率：优先等{_fmt_range(levels.get('pullback_low'), levels.get('pullback_high'))}，"
-                f"止损{_fmt_price(levels.get('invalidation'))}元，第一/第二止盈"
-                f"{_fmt_price(levels.get('target_1'))}/{_fmt_price(levels.get('target_2'))}元，"
-                f"对应风险收益比{_fmt_number(levels.get('risk_reward_1'))}/"
-                f"{_fmt_number(levels.get('risk_reward_2'))}。",
-                f"- 风险与失效：跌破{_fmt_price(levels.get('invalidation'))}元说明当前交易逻辑失效；"
-                f"涨到{_fmt_price(levels.get('no_chase_above'))}元及以上取消追入。"
-                "这是一份条件化买入计划，不代表开盘即可直接买入。",
-                "",
-            ]
-        )
-    main = rows[0]
-    main_levels = main.get("levels") or {}
-    lines.extend(
-        [
-            "",
-            f"执行顺序：主推荐**{main.get('name')}（{main.get('code')}）**先等"
-            f"{_fmt_range(main_levels.get('pullback_low'), main_levels.get('pullback_high'))}回踩企稳；"
-            f"若直接上行，仅在{_fmt_price(main_levels.get('breakout_trigger'))}元上方放量确认后考虑，"
-            f"达到{_fmt_price(main_levels.get('no_chase_above'))}元及以上取消追入。",
-            "止盈纪律：到第一目标可减仓一半并上移保护止损，余仓观察第二目标；任何时候先执行止损，再讨论逻辑。",
-            "",
-        ]
-    )
+    if stats.get("confidence") != "sufficient":
+        lines.append("**统计置信度不足**：真实保存并结束的非歧义样本少于30笔，不输出高置信度胜率结论。")
+    lines.append("")
     return lines
 
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
@@ -8,7 +9,13 @@ from ashare_review.calendar import is_trading_day, market_is_closed
 from ashare_review.config import load_universe
 from ashare_review.engine import FixtureDataSource, build_live_source, run_review
 from ashare_review.report import render_report
-from ashare_review.storage import load_previous_snapshot, write_outputs
+from ashare_review.storage import (
+    TradeStateCorruptError,
+    evaluate_saved_trades,
+    load_previous_snapshot,
+    load_trade_state,
+    write_outputs,
+)
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
 
@@ -24,11 +31,21 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--force", action="store_true", help="跳过当前时钟限制；不会跳过交易日校验")
     run.add_argument("--no-write", action="store_true")
     run.add_argument("--workers", type=int, default=5)
+    evaluate = subparsers.add_parser("evaluate-trades", help="重建并校验已保存交易计划的滚动统计")
+    evaluate.add_argument("--output-root", default=".")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    if args.command == "evaluate-trades":
+        try:
+            stats = evaluate_saved_trades(args.output_root)
+        except TradeStateCorruptError as exc:
+            print(f"TRADE_STATE_ERROR={exc}")
+            return 3
+        print(json.dumps(stats, ensure_ascii=False, indent=2, allow_nan=False))
+        return 0
     now = datetime.now(tz=SHANGHAI)
     target_date = args.as_of or now.date()
     if not is_trading_day(target_date):
@@ -40,12 +57,19 @@ def main(argv: list[str] | None = None) -> int:
     stocks = load_universe(args.universe)
     source = FixtureDataSource.from_path(args.fixture) if args.fixture else build_live_source()
     previous = load_previous_snapshot(args.output_root, before_date=target_date.isoformat())
+    try:
+        active_plans, outcomes = load_trade_state(args.output_root)
+    except TradeStateCorruptError as exc:
+        print(f"TRADE_STATE_ERROR={exc}")
+        return 3
     result = run_review(
         stocks,
         source,
         target_date=target_date,
         generated_at=now,
         previous_snapshot=previous,
+        active_plans=active_plans,
+        outcomes=outcomes,
         max_workers=max(1, min(args.workers, 8)),
     )
     if result.snapshot is None:
@@ -55,7 +79,13 @@ def main(argv: list[str] | None = None) -> int:
     if args.no_write:
         print(report)
         return 0 if result.status in {"success", "partial"} else 1
-    paths = write_outputs(args.output_root, result.snapshot, report)
+    paths = write_outputs(
+        args.output_root,
+        result.snapshot,
+        report,
+        active_plans=result.active_plans,
+        new_outcomes=result.new_outcomes,
+    )
     if paths.preserved_existing:
         report = paths.report.read_text(encoding="utf-8") if paths.report.is_file() else report
         print("PRESERVED_EXISTING_BETTER_RUN=true")

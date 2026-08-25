@@ -35,3 +35,12 @@ def last_completed_trading_day(now: datetime | None = None) -> date:
             return candidate
         candidate -= timedelta(days=1)
     raise RuntimeError("unable to resolve a completed A-share trading day within 15 days")
+
+
+def next_trading_day(day: date) -> date:
+    candidate = day + timedelta(days=1)
+    for _ in range(15):
+        if is_trading_day(candidate):
+            return candidate
+        candidate += timedelta(days=1)
+    raise RuntimeError("unable to resolve the next A-share trading day within 15 days")

@@ -39,6 +39,20 @@ def verify(root: Path, target_date: str) -> None:
         raise SystemExit("output must contain exactly five fixed-pool Top5 codes")
     if len({row.get("code") for row in snapshot["stocks"]}) != universe_count:
         raise SystemExit("duplicate or missing fixed stock codes")
+    decision = snapshot.get("trade_decision") or {}
+    if decision.get("status") not in {"ready", "empty", "unavailable"}:
+        raise SystemExit("snapshot trade_decision status is invalid")
+    for key in (
+        "executable",
+        "ready_next_session",
+        "waiting_trigger",
+        "watch_only",
+        "rejected",
+    ):
+        if key not in decision:
+            raise SystemExit(f"trade_decision missing key: {key}")
+    if "previous_trade_review" not in snapshot or "trade_statistics" not in snapshot:
+        raise SystemExit("snapshot missing trade tracking fields")
 
     sectors = snapshot.get("sectors") or {}
     for key in (
@@ -95,7 +109,8 @@ def verify(root: Path, target_date: str) -> None:
         "第七部分：固定池Top5重点分析",
         "第八部分：动态候选买点",
         "第九部分：与上一次排名对比",
-        "第十部分：最终操作结论",
+        "第十部分：推荐交易计划",
+        "第十一部分：最终操作结论",
     ):
         if heading not in report:
             raise SystemExit(f"report missing section: {heading}")
@@ -104,6 +119,15 @@ def verify(root: Path, target_date: str) -> None:
             raise SystemExit(f"report missing 2+2 role: {label}")
     if report.count("最理想回踩买入区间") < 5:
         raise SystemExit("report missing fixed Top5 level details")
+    for label in (
+        "今日可执行",
+        "等待触发",
+        "回踩计划明细",
+        "突破计划明细",
+        "累计统计与样本置信度",
+    ):
+        if label not in report:
+            raise SystemExit(f"report missing trade decision contract: {label}")
     print(
         json.dumps(
             {

@@ -5,6 +5,7 @@ from collections.abc import Iterable
 from typing import Any
 
 from ashare_review.config import StockConfig
+from ashare_review.fundamental_quality import technical_trade_score
 from ashare_review.indicators import finite
 
 _ALIAS_MAP: dict[str, tuple[str, ...]] = {
@@ -19,6 +20,7 @@ _ALIAS_MAP: dict[str, tuple[str, ...]] = {
     "AI算力": ("AI算力", "算力", "服务器", "数据中心"),
     "存储芯片": ("存储芯片", "存储", "存储器"),
     "稀土永磁": ("稀土永磁", "稀土"),
+    "石油行业": ("石油行业", "石油和天然气开采", "油气开采"),
 }
 
 
@@ -39,14 +41,15 @@ def _terms(config: StockConfig) -> list[tuple[str, str]]:
     return output
 
 
-def _match_quality(config: StockConfig, row: dict[str, Any]) -> int:
+def _match_quality(config: StockConfig, row: dict[str, Any]) -> tuple[int, int, str]:
     board_name = _normalise(row.get("board_name"))
     if not board_name:
-        return 0
+        return 0, 0, "none"
     board_type = str(row.get("board_type") or "")
-    best = 0
+    best = (0, 0, "none")
     for term_kind, term in _terms(config):
-        if board_name == term:
+        exact = board_name == term
+        if exact:
             score = 100
         elif len(term) >= 2 and term in board_name:
             score = 80 + min(len(term), 10)
@@ -55,10 +58,17 @@ def _match_quality(config: StockConfig, row: dict[str, Any]) -> int:
         else:
             continue
         if term_kind == "industry" and board_type == "industry":
+            priority = 4 if exact else 3
             score += 5
-        if term_kind == "theme" and board_type == "concept":
+            kind = "industry_exact_or_alias" if exact else "industry_contains"
+        elif term_kind == "theme" and board_type == "concept":
+            priority = 2 if exact else 1
             score += 3
-        best = max(best, score)
+            kind = "concept_exact_or_alias" if exact else "concept_contains"
+        else:
+            priority = 1
+            kind = f"{term_kind}_cross_type"
+        best = max(best, (priority, score, kind), key=lambda item: (item[0], item[1]))
     return best
 
 
@@ -81,20 +91,27 @@ def _component(value: Any, maximum: float, weight: float, neutral: float) -> flo
 def calculate_sector_industry_score(
     config: StockConfig,
     sectors: dict[str, Any] | None,
+    *,
+    target_date: str | None = None,
 ) -> tuple[float, str, dict[str, Any] | None]:
     """Return the agreed 8+4+4+2+2 industry score for a fixed-pool stock."""
     long_term = max(0.0, min(100.0, config.industry_logic)) / 100 * 8.0
-    candidates: list[tuple[int, float, dict[str, Any]]] = []
+    candidates: list[tuple[int, int, float, str, dict[str, Any]]] = []
     for row in _sector_rows(sectors):
-        quality = _match_quality(config, row)
+        priority, quality, match_kind = _match_quality(config, row)
         if quality <= 0:
             continue
-        candidates.append((quality, finite(row.get("score"), 0.0) or 0.0, row))
+        candidates.append(
+            (priority, quality, finite(row.get("score"), 0.0) or 0.0, match_kind, row)
+        )
     if not candidates:
         score = round(long_term + 6.0, 1)
         return score, "板块动态数据暂缺，动态12分按中性6分计入", None
 
-    _, _, selected = max(candidates, key=lambda item: (item[0], item[1]))
+    _, match_quality, _, match_kind, selected = max(
+        candidates,
+        key=lambda item: (item[0], item[1], item[2]),
+    )
     breakdown = selected.get("score_breakdown") or {}
     current = _component(breakdown.get("daily_strength"), 20, 4, 2)
     persistence = _component(breakdown.get("trend"), 20, 4, 2)
@@ -115,6 +132,14 @@ def calculate_sector_industry_score(
         "board_score": selected.get("score"),
         "board_rank": selected.get("rank"),
         "dynamic_score": round(dynamic, 1),
+        "match_quality": match_quality,
+        "match_kind": match_kind,
+        "eligible_for_trade_gate": bool(
+            selected.get("board_type") == "industry"
+            and selected.get("confidence") == "high"
+            and target_date is not None
+            and selected.get("data_date") == target_date
+        ),
     }
     return total, note, matched
 
@@ -150,11 +175,16 @@ def apply_sector_scores_to_fixed_rows(
         if config is None or not row.get("data_valid"):
             output.append(row)
             continue
-        new_industry, note, matched = calculate_sector_industry_score(config, sectors)
+        new_industry, note, matched = calculate_sector_industry_score(
+            config,
+            sectors,
+            target_date=str(row.get("data_date") or "") or None,
+        )
         breakdown = dict(row.get("score_breakdown") or {})
         old_industry = finite(breakdown.get("industry"), 0.0) or 0.0
         breakdown["industry"] = new_industry
         row["score_breakdown"] = breakdown
+        row["technical_trade_score"] = technical_trade_score(breakdown)
         new_score = round((finite(row.get("score"), 0.0) or 0.0) - old_industry + new_industry, 1)
         if row.get("data_confidence") == "medium":
             new_score = min(new_score, 89.0)
@@ -167,6 +197,12 @@ def apply_sector_scores_to_fixed_rows(
         ]
         events.append(note)
         row["events"] = events
-        row["sector_link"] = matched or {"status": "unverified", "dynamic_score": 6.0}
+        row["sector_link"] = matched or {
+            "status": "unverified",
+            "dynamic_score": 6.0,
+            "match_quality": 0,
+            "match_kind": "none",
+            "eligible_for_trade_gate": False,
+        }
         output.append(row)
     return output

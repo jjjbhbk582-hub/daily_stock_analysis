@@ -13,6 +13,17 @@
 - 按30/20/25/15/10权重输出100分综合评分、评级、59只完整排名和固定池Top5；
 - 输出回踩区、突破触发价、不追价区、失效价、两级目标与风险收益比。
 
+### 交易决策与计划追踪
+
+- 保留100分综合评分，同时新增剔除基本面占位分的技术交易评分；
+- 基本面分为`verified/partial/missing/stale`，缺失或过期不会直接屏蔽短线技术机会，但会醒目标记并把单股模型仓位上限降至7.5%；
+- 回踩和突破使用独立入场、止损、两档目标、赔率和追高线，突破第一目标严格高于突破入场；
+- 只有行情高置信度、技术评分至少70、日线多头、60分钟非空头、第一目标赔率至少1.8且无硬风险时才进入交易候选；没有合格标的时允许空仓；
+- 动作状态分为`ready_next_session`、`waiting_trigger`、`watch_only`、`rejected`，等待触发不等于可以立即买入；
+- 模型按每笔账户风险0.5%计算仓位，市场状态限制组合总仓位为70%/50%/30%，单行业不超过25%；没有用户真实持仓时仅表示模型上限；
+- 活动计划遵守A股T+1、跳空取消、目标1减半、保护止损和最长5个交易日；同日止损/止盈顺序不明时标记`ambiguous`并排除统计；
+- 滚动统计只使用当时真实保存的计划，样本少于30笔时明确显示统计置信度不足。
+
 ### 板块全景与2+2
 
 - 分开输出行业板块完整排名和概念板块排名；
@@ -55,7 +66,7 @@
 7. 固定池Top5重点分析；
 8. 动态候选买点；
 9. 与上一次排名对比；
-10. 推荐交易计划（主推荐、备选、入场条件、禁止追高价、止损、两档止盈、风险收益比、仓位纪律，以及逐股的趋势、量价、基本面、板块和失效条件分析依据）；
+10. 推荐交易计划（市场状态、今日可执行、等待触发、基本面缺失标记、观察/回避、回踩与突破双计划、逐股趋势/量价/基本面/板块/赔率分析依据、昨日验收和滚动统计）；
 11. 最终操作结论。
 
 ## 自动执行
@@ -76,9 +87,13 @@ data/processed/YYYY-MM-DD/snapshot.json
 data/processed/YYYY-MM-DD/ranking.csv
 data/state/latest.json
 data/state/history.jsonl
+data/state/trade_plans.json
+data/state/trade_outcomes.jsonl
 ```
 
 `snapshot.json`使用schema v2，新增`sectors`，包含行业/概念排名、固定关注概念、重点板块、2+2角色、动态候选、板块比较和来源状态。
+
+同一快照追加`trade_decision`、`previous_trade_review`和`trade_statistics`。活动计划保存在`trade_plans.json`；已结束结果以不可变JSONL记录在`trade_outcomes.jsonl`，不会用今天的算法倒推历史信号。
 
 ## 本地验收
 
@@ -95,6 +110,7 @@ ashare-review run \
   --fixture config/review_fixture.yml \
   --output-root /tmp/a-share-review
 python scripts/verify_outputs.py /tmp/a-share-review 2026-08-20
+ashare-review evaluate-trades --output-root /tmp/a-share-review
 ```
 
 真实运行：
