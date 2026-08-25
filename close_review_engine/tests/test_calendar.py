@@ -4,7 +4,7 @@ from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 import ashare_review.calendar as calendar_module
-from ashare_review.calendar import last_completed_trading_day
+from ashare_review.calendar import last_completed_trading_day, next_trading_day
 
 SHANGHAI = ZoneInfo("Asia/Shanghai")
 
@@ -25,3 +25,7 @@ def test_completed_session_skips_weekend(monkeypatch) -> None:
     monkeypatch.setattr(calendar_module, "is_trading_day", lambda day: day.weekday() < 5)
     now = datetime(2026, 8, 23, 10, 0, tzinfo=SHANGHAI)
     assert last_completed_trading_day(now) == date(2026, 8, 21)
+
+
+def test_next_trading_day_skips_weekend() -> None:
+    assert next_trading_day(date(2026, 8, 28)) == date(2026, 8, 31)

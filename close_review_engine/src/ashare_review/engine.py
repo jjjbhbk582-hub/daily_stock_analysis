@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import math
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date, datetime
 from typing import Any, Protocol
 
@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 
 from ashare_review.analysis import analyze_stock
+from ashare_review.calendar import next_trading_day
 from ashare_review.comparison import _alerts, _compare, _market_summary
 from ashare_review.completed_daily_source import CompletedDailyLiveDataSource
 from ashare_review.config import StockConfig
@@ -18,6 +19,8 @@ from ashare_review.data import StockBundle
 from ashare_review.fixture import FixtureDataSource as FixtureDataSource
 from ashare_review.sector_link import apply_sector_scores_to_fixed_rows
 from ashare_review.sector_runtime import build_sector_review
+from ashare_review.trade_plans import build_trade_decision
+from ashare_review.trade_tracking import calculate_trade_statistics, evaluate_plan
 
 
 class ReviewDataSource(Protocol):
@@ -31,6 +34,8 @@ class RunResult:
     status: str
     message: str
     snapshot: dict[str, Any] | None
+    active_plans: list[dict[str, Any]] = field(default_factory=list)
+    new_outcomes: list[dict[str, Any]] = field(default_factory=list)
 
 
 def run_review(
@@ -40,6 +45,8 @@ def run_review(
     target_date: date,
     generated_at: datetime,
     previous_snapshot: dict[str, Any] | None = None,
+    active_plans: list[dict[str, Any]] | None = None,
+    outcomes: list[dict[str, Any]] | None = None,
     max_workers: int = 5,
 ) -> RunResult:
     market = source.load_market(stocks, target_date)
@@ -92,6 +99,86 @@ def run_review(
         row["rank"] = index
 
     market = _market_summary(market, rows)
+    try:
+        trade_decision = build_trade_decision(
+            rows,
+            market,
+            target_date,
+            next_trading_day(target_date),
+        )
+        market["trade_regime"] = trade_decision["market_regime"]
+    except Exception as exc:  # noqa: BLE001 - decision layer must not break the base review
+        trade_decision = {
+            "status": "unavailable",
+            "target_date": target_date.isoformat(),
+            "valid_for": next_trading_day(target_date).isoformat(),
+            "executable": [],
+            "ready_next_session": [],
+            "waiting_trigger": [],
+            "watch_only": [],
+            "rejected": [],
+            "all_plans": [],
+            "errors": [{"error": f"{type(exc).__name__}: {exc}"}],
+        }
+    rows_by_code = {str(row.get("code") or ""): row for row in rows}
+    surviving_plans: list[dict[str, Any]] = []
+    previous_trade_review: list[dict[str, Any]] = []
+    new_outcomes: list[dict[str, Any]] = []
+    for active_plan in active_plans or []:
+        row = rows_by_code.get(str(active_plan.get("code") or ""))
+        if not row or not row.get("data_valid"):
+            surviving_plans.append(active_plan)
+            previous_trade_review.append(
+                {
+                    "plan_id": active_plan.get("plan_id"),
+                    "code": active_plan.get("code"),
+                    "name": active_plan.get("name"),
+                    "lifecycle_status": active_plan.get("lifecycle_status", "pending"),
+                    "review_status": "行情不可用，计划未推进",
+                }
+            )
+            continue
+        metrics = row.get("metrics") or {}
+        daily_bar = {
+            "date": target_date.isoformat(),
+            "open": metrics.get("open"),
+            "high": metrics.get("high"),
+            "low": metrics.get("low"),
+            "close": metrics.get("close"),
+            "volume_ratio": metrics.get("rel_volume_20"),
+            "tradable": True,
+            "limit_locked": False,
+        }
+        updated, outcome = evaluate_plan(active_plan, daily_bar)
+        previous_trade_review.append(
+            {
+                "plan_id": updated.get("plan_id"),
+                "code": updated.get("code"),
+                "name": updated.get("name"),
+                "setup": updated.get("setup"),
+                "lifecycle_status": updated.get("lifecycle_status"),
+                "entry_price": updated.get("entry_price"),
+                "mfe_pct": updated.get("mfe_pct"),
+                "mae_pct": updated.get("mae_pct"),
+                "holding_sessions": updated.get("holding_sessions"),
+                "outcome": outcome,
+            }
+        )
+        if outcome is None:
+            surviving_plans.append(updated)
+        else:
+            new_outcomes.append(outcome)
+    generated_plans = [
+        *trade_decision.get("ready_next_session", []),
+        *trade_decision.get("waiting_trigger", []),
+    ]
+    active_by_id = {
+        str(plan.get("plan_id") or ""): plan
+        for plan in [*surviving_plans, *generated_plans]
+        if plan.get("plan_id")
+    }
+    updated_active_plans = list(active_by_id.values())
+    trade_statistics = calculate_trade_statistics([*(outcomes or []), *new_outcomes])
     comparison = _compare(previous_snapshot, rows)
     alerts = _alerts(rows, comparison)
     status = "success" if valid_count == len(stocks) else "partial"
@@ -108,6 +195,9 @@ def run_review(
         "top5": [row["code"] for row in rows[:5]],
         "comparison": comparison,
         "alerts": alerts,
+        "trade_decision": trade_decision,
+        "previous_trade_review": previous_trade_review,
+        "trade_statistics": trade_statistics,
         "source_policy": {
             "daily": ["东方财富日线", "腾讯日线", "网易日线", "完成日线合成"],
             "close_cross_check": "腾讯15:00收盘快照",
@@ -127,7 +217,13 @@ def run_review(
         f"板块排名{len(sectors.get('industry_ranking', []))}+"
         f"{len(sectors.get('concept_ranking', []))}。"
     )
-    return RunResult(status=status, message=message, snapshot=_clean(snapshot))
+    return RunResult(
+        status=status,
+        message=message,
+        snapshot=_clean(snapshot),
+        active_plans=_clean(updated_active_plans),
+        new_outcomes=_clean(new_outcomes),
+    )
 
 
 def _clean(value: Any) -> Any:

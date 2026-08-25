@@ -9,6 +9,7 @@ import pandas as pd
 
 from ashare_review.config import StockConfig
 from ashare_review.data import Quote, StockBundle
+from ashare_review.fundamental_quality import assess_fundamentals, technical_trade_score
 from ashare_review.indicators import add_indicators, finite, to_weekly
 
 TREND_POINTS = {
@@ -361,6 +362,11 @@ def _rating(score: float) -> str:
 
 def analyze_stock(bundle: StockBundle, market: dict[str, Any], target_date: date) -> dict[str, Any]:
     config = bundle.config
+    fundamental_quality = assess_fundamentals(
+        bundle.financials,
+        target_date,
+        announcements=bundle.announcements,
+    )
     if bundle.daily.empty or not bundle.valid_for_target:
         quote = bundle.quote
         return {
@@ -392,6 +398,8 @@ def analyze_stock(bundle: StockBundle, market: dict[str, Any], target_date: date
                 "structure": 0,
                 "events": 0,
             },
+            "technical_trade_score": 0.0,
+            **fundamental_quality,
             "source_status": bundle.source_status,
             "metrics": {},
             "events": [],
@@ -472,6 +480,13 @@ def analyze_stock(bundle: StockBundle, market: dict[str, Any], target_date: date
         str(bundle.fund_flow.get("source") or ""),
     ]))
     source_names = [name for name in source_names if name]
+    score_breakdown = {
+        "fundamental": round(fundamental, 1),
+        "industry": round(industry, 1),
+        "trend": round(trend, 1),
+        "structure": round(structure, 1),
+        "events": round(events_score, 1),
+    }
     return {
         "code": config.code,
         "name": config.name,
@@ -494,13 +509,9 @@ def analyze_stock(bundle: StockBundle, market: dict[str, Any], target_date: date
         "financials": bundle.financials,
         "announcements": bundle.announcements,
         "fund_flow": bundle.fund_flow,
-        "score_breakdown": {
-            "fundamental": round(fundamental, 1),
-            "industry": round(industry, 1),
-            "trend": round(trend, 1),
-            "structure": round(structure, 1),
-            "events": round(events_score, 1),
-        },
+        "score_breakdown": score_breakdown,
+        "technical_trade_score": technical_trade_score(score_breakdown),
+        **fundamental_quality,
         "source_status": bundle.source_status,
         "metrics": metrics,
         "events": fundamental_notes + [industry_note] + event_notes,

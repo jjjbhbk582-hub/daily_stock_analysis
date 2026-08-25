@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 > For user-friendly release highlights, see the [GitHub Releases](https://github.com/ZhuLinsen/daily_stock_analysis/releases) page.
 
 ## [Unreleased]
+- [新功能] A股59只固定池新增可审计交易决策层，区分今日可执行、等待触发、观察和回避，并允许没有标的通过绝对门槛时保持空仓。
+- [新功能] 回踩与突破改用独立入场、止损、两档止盈、赔率和追高线；新增风险预算模型仓位、市场状态总仓位、单行业集中度和A股T+1/跳空规则。
+- [新功能] 新增活动计划与结束结果原子存储、上一交易日验收及`evaluate-trades`滚动统计；只统计真实保存的非歧义计划，少于30笔时标记置信度不足。
+- [改进] 基本面新增verified/partial/missing/stale质量状态；缺失或过期技术机会不被直接隐藏，但必须显示缺失字段、降仓并禁止标为综合推荐。
+- [修复] 固定池板块关联优先行业精确/别名匹配，并暴露匹配质量；避免中国海油因“石油”主题子串优先落入石油加工板块。
 - [改进] 推荐交易计划逐股补充可核查的入选依据，包括多周期趋势、量价指标、基本面与板块评分、位置赔率和交易失效条件。
 - [改进] A股复盘日报新增条件化推荐交易计划，固定输出主推荐、备选、入场触发、禁止追高、止损、两档止盈、风险收益比和仓位纪律。
 - [改进] A股板块2+2固定监控池扩展至59只，日报、GitHub Actions摘要、结构化输出校验和ChatGPT定时任务衔接规则改为读取当前固定池规模。
