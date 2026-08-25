@@ -532,6 +532,11 @@ def _render_trade_plan(snapshot: dict[str, Any]) -> list[str]:
             [
                 "| 空仓观察 | 无合格标的 | 等待新的量价结构 | — | — | — | — | — | — | — |",
                 "",
+                "### 推荐依据",
+                "",
+                "入选规则：固定池股票必须同时满足关键价位完整、日线不是空头、尚未进入禁止追高区、"
+                "到第一目标的风险收益比不低于1.50；本次没有股票全部满足，因此不推荐交易。",
+                "",
                 "结论：当前没有同时满足趋势、价位完整性和风险收益比要求的标的，不为凑数而推荐交易。",
                 "",
             ]
@@ -547,6 +552,48 @@ def _render_trade_plan(snapshot: dict[str, Any]) -> list[str]:
             f"{_fmt_price(levels.get('invalidation'))} | {_fmt_price(levels.get('target_1'))} | "
             f"{_fmt_price(levels.get('target_2'))} | {_fmt_number(levels.get('risk_reward_1'))}/"
             f"{_fmt_number(levels.get('risk_reward_2'))} |"
+        )
+    lines.extend(
+        [
+            "",
+            "### 推荐依据",
+            "",
+            "统一入选规则：只从固定监控池选择关键价位完整、日线不是空头、现价低于禁止追高价、"
+            "到第一目标风险收益比不低于1.50的股票，再按综合评分和固定池排名选出前两名。",
+            "",
+        ]
+    )
+    for index, row in enumerate(rows):
+        levels = row.get("levels") or {}
+        metrics = row.get("metrics") or {}
+        breakdown = row.get("score_breakdown") or {}
+        patterns = "、".join(row.get("patterns") or []) or "暂无显著形态标签"
+        events = "；".join(str(item) for item in (row.get("events") or [])[:2]) or "暂无新增可验证事件"
+        priority = "主推荐" if index == 0 else "备选"
+        lines.extend(
+            [
+                f"#### {priority}：{row.get('name')}（{row.get('code')}）",
+                "",
+                f"- 入选规则：固定池排名第{row.get('rank')}，综合评分{_fmt_number(row.get('score'), 1)}；"
+                "通过非空头趋势、未进入追高区、关键价位完整及第一目标风险收益比门槛。",
+                f"- 趋势依据：日线**{row.get('daily_trend')}**、周线**{row.get('weekly_trend')}**、"
+                f"60分钟**{row.get('trend_60m')}**；多周期结构决定只做回踩企稳或放量突破，不做盘中猜底。",
+                f"- 量价依据：相对20日均量{_fmt_number(metrics.get('rel_volume_20'))}倍，"
+                f"RSI14={_fmt_number(metrics.get('rsi_14'))}，MACD柱={_fmt_number(metrics.get('macd_hist'))}；"
+                f"形态信号为{patterns}。",
+                f"- 基本面与板块依据：基本面维度{_fmt_number(breakdown.get('fundamental'), 1)}/30、"
+                f"行业景气维度{_fmt_number(breakdown.get('industry'), 1)}/20；所属{row.get('industry') or '行业待确认'}。"
+                f"事件信息：{events}。",
+                f"- 位置与赔率：优先等{_fmt_range(levels.get('pullback_low'), levels.get('pullback_high'))}，"
+                f"止损{_fmt_price(levels.get('invalidation'))}元，第一/第二止盈"
+                f"{_fmt_price(levels.get('target_1'))}/{_fmt_price(levels.get('target_2'))}元，"
+                f"对应风险收益比{_fmt_number(levels.get('risk_reward_1'))}/"
+                f"{_fmt_number(levels.get('risk_reward_2'))}。",
+                f"- 风险与失效：跌破{_fmt_price(levels.get('invalidation'))}元说明当前交易逻辑失效；"
+                f"涨到{_fmt_price(levels.get('no_chase_above'))}元及以上取消追入。"
+                "这是一份条件化买入计划，不代表开盘即可直接买入。",
+                "",
+            ]
         )
     main = rows[0]
     main_levels = main.get("levels") or {}
