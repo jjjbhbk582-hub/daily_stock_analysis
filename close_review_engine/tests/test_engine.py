@@ -88,6 +88,12 @@ def test_report_has_sector_panorama_2plus2_and_fixed_pool_sections(tmp_path: Pat
     assert "第二止盈" in report
     assert "禁止追高价" in report
     assert "单只建议仓位" in report
+    assert "### 推荐依据" in report
+    assert "入选规则：" in report
+    assert "趋势依据：" in report
+    assert "量价依据：" in report
+    assert "位置与赔率：" in report
+    assert "风险与失效：" in report
     assert "不承诺收益" in report
 
 
