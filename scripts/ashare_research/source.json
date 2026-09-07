@@ -1,0 +1,12 @@
+{
+  "release_tag": "2026-09-06",
+  "archive_url": "https://github.com/chenditc/investment_data/releases/download/2026-09-06/qlib_bin.tar.gz",
+  "archive_size": 564015412,
+  "archive_sha256": "482e0575669a11a7d34585cca77912baf7e367962570bdf9c19017c356ffd222",
+  "manifest_url": "https://github.com/chenditc/investment_data/releases/download/2026-09-06/qlib_bin.manifest.json",
+  "manifest_size": 511,
+  "manifest_sha256": "6fd369e679826047554b71e345076106981c89265c51de094d613d836f84c0eb",
+  "requested_start": "2015-01-01",
+  "requested_end": "2026-09-04",
+  "purpose": "Data acquisition and structural coverage verification only; no trading or backtesting."
+}
