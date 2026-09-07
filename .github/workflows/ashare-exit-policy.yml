@@ -1,0 +1,80 @@
+name: A-share research - fixed entry exit policy
+
+on:
+  push:
+    branches:
+      - research/ashare-data-validation-20260907
+    paths:
+      - scripts/ashare_research/RUN_EXIT_POLICY
+
+permissions:
+  contents: read
+
+concurrency:
+  group: isolated-ashare-exit-policy
+  cancel-in-progress: false
+
+jobs:
+  exit-policy:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - name: Read isolated research sources
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          sparse-checkout: scripts/ashare_research
+          fetch-depth: 1
+      - name: Prepare bounded numerical environment
+        run: |
+          mkdir -p "$RUNNER_TEMP/exit-evidence"
+          python3 -m venv "$RUNNER_TEMP/exit-venv"
+          "$RUNNER_TEMP/exit-venv/bin/pip" install --disable-pip-version-check numpy==2.2.6 pandas==2.2.3
+          "$RUNNER_TEMP/exit-venv/bin/pip" freeze > "$RUNNER_TEMP/exit-evidence/environment.txt"
+      - name: Verify causal signals execution and packing
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/exit-venv/bin/python" -m unittest discover -s scripts/ashare_research -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/exit-evidence/data-tests.txt"
+          "$RUNNER_TEMP/exit-venv/bin/python" -m unittest discover -s scripts/ashare_research -p 'checks_*.py' -v 2>&1 | tee "$RUNNER_TEMP/exit-evidence/formula-tests.txt"
+      - name: Compute all four exit policies and all four periods
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/exit-venv/bin/python" scripts/ashare_research/exit_policy_study.py --source scripts/ashare_research/source.json --work "$RUNNER_TEMP/exit-input" --output "$RUNNER_TEMP/exit-evidence" 2>&1 | tee "$RUNNER_TEMP/exit-evidence/run.log"
+      - name: Preserve sources and exactly pack all base trades
+        run: |
+          mkdir -p "$RUNNER_TEMP/exit-evidence/source"
+          cp scripts/ashare_research/*.py "$RUNNER_TEMP/exit-evidence/source/"
+          cp scripts/ashare_research/{source.json,EXIT_POLICY_PLAN.md} "$RUNNER_TEMP/exit-evidence/source/"
+          printf '%s\n' '${{ github.sha }}' > "$RUNNER_TEMP/exit-evidence/commit.txt"
+          "$RUNNER_TEMP/exit-venv/bin/python" scripts/ashare_research/pack_exact.py pack "$RUNNER_TEMP/exit-evidence/base_trades.csv.xz" "$RUNNER_TEMP/exit-evidence/base_trades.exact.zip" > "$RUNNER_TEMP/exit-evidence/packing.json"
+          rm "$RUNNER_TEMP/exit-evidence/base_trades.csv.xz"
+      - name: Publish actual summary
+        if: always()
+        run: |
+          if test -f "$RUNNER_TEMP/exit-evidence/report.md"; then
+            cat "$RUNNER_TEMP/exit-evidence/report.md" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'No completed results; inspect failed step. No trading certification.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Enforce 32 MiB ceiling
+        id: ceiling
+        if: always()
+        run: |
+          python3 -c 'import os,pathlib; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"exit-evidence"; n=sum(f.stat().st_size for f in p.rglob("*") if f.is_file()); print("Evidence bytes:",n); assert n <= 33554432, "Evidence exceeds 32 MiB; refusing upload"'
+          echo 'ok=true' >> "$GITHUB_OUTPUT"
+      - name: Upload bounded evidence only
+        if: always() && steps.ceiling.outputs.ok == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ashare-exit-policy-${{ github.run_id }}
+          path: ${{ runner.temp }}/exit-evidence/
+          retention-days: 3
+          compression-level: 9
+          if-no-files-found: error
