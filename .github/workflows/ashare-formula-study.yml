@@ -52,13 +52,16 @@ jobs:
         if: always()
         run: |
           mkdir -p "$RUNNER_TEMP/formula-evidence/source"
-          cp scripts/ashare_research/{formula_study.py,checks_formula_study.py,verify_data.py,test_verify_data.py,prior_codes.json,source.json,FORMULA_STUDY.md} "$RUNNER_TEMP/formula-evidence/source/"
+          cp scripts/ashare_research/{formula_study.py,checks_formula_study.py,pack_evidence.py,checks_packaging.py,verify_data.py,test_verify_data.py,prior_codes.json,source.json,FORMULA_STUDY.md} "$RUNNER_TEMP/formula-evidence/source/"
           printf '%s\n' "${{ github.sha }}" > "$RUNNER_TEMP/formula-evidence/commit.txt"
           if test -f "$RUNNER_TEMP/formula-evidence/report.md"; then
-            cat "$RUNNER_TEMP/formula-evidence/report.md" >> "$GITHUB_STEP_SUMMARY"
+            cat "$RUNNER_TEMP/formula-evidence/report.md" | tee -a "$GITHUB_STEP_SUMMARY"
           else
             printf '%s\n' 'Study did not complete. No performance acceptance claim.' >> "$GITHUB_STEP_SUMMARY"
           fi
+      - name: Losslessly compact all CSV evidence
+        if: always()
+        run: python3 scripts/ashare_research/pack_evidence.py "$RUNNER_TEMP/formula-evidence"
       - name: Enforce evidence size ceiling
         id: cap
         if: always()
