@@ -1,0 +1,122 @@
+name: A-share research - consolidated finite-account batch
+on:
+  push:
+    branches: [research/ashare-data-validation-20260907]
+    paths: [.github/workflows/ashare-consolidated-finite-account.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: isolated-ashare-consolidated-finite-account
+  cancel-in-progress: false
+jobs:
+  complete:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          sparse-checkout: scripts/ashare_research
+      - uses: actions/download-artifact@v5
+        with:
+          artifact-ids: '10027707221'
+          run-id: '34143572944'
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/seed
+      - name: Isolated data environment
+        run: |
+          mkdir -p "$RUNNER_TEMP/status"
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install --disable-pip-version-check numpy==2.2.6 pandas==2.2.3 baostock==0.9.3
+      - name: Verify checkpoint recovery
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/venv/bin/python" -m unittest discover -s scripts/ashare_research -p checks_checkpoint_cost.py -v 2>&1 | tee "$RUNNER_TEMP/status/tests.txt"
+      - name: Reuse 3252 responses and request only the remaining 233
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/venv/bin/python" scripts/ashare_research/batch_closeout.py --seed "$RUNNER_TEMP/seed" --output "$RUNNER_TEMP/status" 2>&1 | tee "$RUNNER_TEMP/status/run.log"
+      - name: Preserve all data and source evidence
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/status/source"
+          cp scripts/ashare_research/{batch_closeout.py,batch_completion.py,historical_status.py,status_resume_v2.py,checks_checkpoint_cost.py} "$RUNNER_TEMP/status/source/"
+          git rev-parse HEAD > "$RUNNER_TEMP/status/commit.txt"
+      - name: Guard data evidence size
+        if: always()
+        id: budget
+        run: |
+          python3 -c 'import pathlib,os; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"status"; n=sum(f.stat().st_size for f in p.rglob("*") if f.is_file()); print(n); assert n<=33554432'
+          echo 'ok=true' >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.budget.outputs.ok == 'true'
+        with:
+          name: ashare-closed-status-${{ github.run_id }}
+          path: ${{ runner.temp }}/status/
+          retention-days: 3
+          compression-level: 9
+          if-no-files-found: error
+  study:
+    needs: complete
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          sparse-checkout: scripts/ashare_research
+      - uses: actions/download-artifact@v5
+        with:
+          name: ashare-closed-status-${{ github.run_id }}
+          path: ${{ runner.temp }}/status
+      - name: Isolated numerical environment
+        run: |
+          mkdir -p "$RUNNER_TEMP/account"
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install --disable-pip-version-check numpy==2.2.6 pandas==2.2.3 baostock==0.9.3
+          "$RUNNER_TEMP/venv/bin/pip" freeze > "$RUNNER_TEMP/account/environment.txt"
+      - name: Verify frozen signals, lots, cash and independent audit
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/venv/bin/python" -m unittest discover -s scripts/ashare_research -p 'checks_batch_*.py' -v 2>&1 | tee "$RUNNER_TEMP/account/model-tests.txt"
+          "$RUNNER_TEMP/venv/bin/python" -m unittest discover -s scripts/ashare_research -p checks_finite_audit.py -v 2>&1 | tee "$RUNNER_TEMP/account/audit-tests.txt"
+      - name: Run the full frozen 4 x 4 x 13 finite-account comparison
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/venv/bin/python" scripts/ashare_research/batch_account_study.py --source scripts/ashare_research/source.json --status "$RUNNER_TEMP/status" --work "$RUNNER_TEMP/prices" --output "$RUNNER_TEMP/account" 2>&1 | tee "$RUNNER_TEMP/account/run.log"
+      - name: Independently reconcile all saved accounts and extract market context
+        run: |
+          "$RUNNER_TEMP/venv/bin/python" scripts/ashare_research/audit_finite_account.py "$RUNNER_TEMP/account"
+          "$RUNNER_TEMP/venv/bin/python" scripts/ashare_research/batch_reference.py "$RUNNER_TEMP/prices/qlib_bin.tar.gz" "$RUNNER_TEMP/account"
+      - name: Preserve sources, explicit assumptions and actual results
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/account/source"
+          cp scripts/ashare_research/{batch_signals.py,batch_portfolio.py,batch_account_study.py,batch_reference.py,audit_finite_account.py,verify_data.py,historical_status.py,status_resume_v2.py,batch_completion.py,source.json,BATCH_20260908_PLAN.md,FINITE_ACCOUNT_20260908_PLAN.md} "$RUNNER_TEMP/account/source/"
+          cp scripts/ashare_research/checks_batch_*.py scripts/ashare_research/checks_finite_audit.py "$RUNNER_TEMP/account/source/"
+          git rev-parse HEAD > "$RUNNER_TEMP/account/commit.txt"
+          if test -f "$RUNNER_TEMP/account/report.md"; then cat "$RUNNER_TEMP/account/report.md" >> "$GITHUB_STEP_SUMMARY"; fi
+      - name: Guard account evidence size
+        if: always()
+        id: budget
+        run: |
+          python3 -c 'import pathlib,os; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"account"; n=sum(f.stat().st_size for f in p.rglob("*") if f.is_file()); print(n); assert n<=33554432'
+          echo 'ok=true' >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.budget.outputs.ok == 'true'
+        with:
+          name: ashare-finite-account-${{ github.run_id }}
+          path: ${{ runner.temp }}/account/
+          retention-days: 3
+          compression-level: 9
+          if-no-files-found: error
