@@ -1,0 +1,67 @@
+name: A-share research - one-shot data validation
+
+# Only an explicit change to this branch's trigger file starts a run.
+# No schedules, no main-branch writes, no existing review-task invocation.
+on:
+  push:
+    branches:
+      - research/ashare-data-validation-20260907
+    paths:
+      - scripts/ashare_research/RUN_DATA_CHECK
+
+permissions:
+  contents: read
+
+concurrency:
+  group: isolated-ashare-data-validation
+  cancel-in-progress: false
+
+jobs:
+  verify-data:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Read only the authorized research files
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          sparse-checkout: scripts/ashare_research
+          fetch-depth: 1
+      - name: Create bounded evidence directory
+        run: mkdir -p "$RUNNER_TEMP/ashare-data-evidence"
+      - name: Run offline validation tests
+        run: |
+          set -o pipefail
+          python3 -m unittest discover -s scripts/ashare_research -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/ashare-data-evidence/tests.txt"
+      - name: Download fixed public archive and check actual coverage
+        run: |
+          python3 scripts/ashare_research/verify_data.py \
+            --config scripts/ashare_research/source.json \
+            --work-dir "$RUNNER_TEMP/ashare-data-input" \
+            --output "$RUNNER_TEMP/ashare-data-evidence"
+      - name: Publish result summary, not a performance claim
+        if: always()
+        run: |
+          if test -f "$RUNNER_TEMP/ashare-data-evidence/report.md"; then
+            cat "$RUNNER_TEMP/ashare-data-evidence/report.md" >> "$GITHUB_STEP_SUMMARY"
+          else
+            printf '%s\n' 'Data validation did not produce a report. Inspect the failed step; no backtest has been run.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Enforce small artifact size
+        if: always()
+        run: |
+          python3 -c 'import os,pathlib; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"ashare-data-evidence"; size=sum(f.stat().st_size for f in p.rglob("*") if f.is_file()); print("Evidence bytes:",size); assert size <= 8388608, "Evidence exceeds 8 MiB; refusing upload"'
+      - name: Retain small evidence only
+        if: always() && success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ashare-data-validation-${{ github.run_id }}
+          path: ${{ runner.temp }}/ashare-data-evidence/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 9
