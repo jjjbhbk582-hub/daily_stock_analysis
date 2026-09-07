@@ -1,0 +1,46 @@
+name: A-share T research - bounded raw export
+on:
+  push:
+    branches: [research/ashare-data-validation-20260907]
+    paths: [.github/workflows/ashare-t-extract.yml]
+permissions:
+  contents: read
+concurrency:
+  group: isolated-ashare-T-export
+  cancel-in-progress: false
+jobs:
+  export:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          sparse-checkout: |
+            scripts/ashare_research
+            scripts/ashare_research_T
+      - name: Install bounded data-only dependencies
+        run: python3 -m pip install numpy baostock==0.9.3
+      - name: Offline export self checks
+        run: python3 scripts/ashare_research_T/export_t.py --self-test
+      - name: Fixed public data export, no strategy search or orders
+        run: |
+          mkdir -p "$RUNNER_TEMP/T_evidence"
+          set -o pipefail
+          python3 scripts/ashare_research_T/export_t.py "$RUNNER_TEMP/T_evidence" 2>&1 | tee "$RUNNER_TEMP/T_evidence/run.log"
+          git rev-parse HEAD > "$RUNNER_TEMP/T_evidence/commit.txt"
+      - name: Artifact size guard
+        if: always()
+        run: |
+          python3 -c 'import pathlib,os; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"T_evidence"; n=sum(x.stat().st_size for x in p.rglob("*") if x.is_file()); print(n); assert n < 150*1024*1024'
+      - name: Export evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ashare-T-raw-${{ github.run_id }}
+          path: ${{ runner.temp }}/T_evidence/
+          retention-days: 3
+          compression-level: 6
+          if-no-files-found: error
