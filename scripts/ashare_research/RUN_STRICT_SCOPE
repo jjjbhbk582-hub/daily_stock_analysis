@@ -1,0 +1,12 @@
+study=STRICT_MAINBOARD_SCOPE_V1
+scope=Shanghai_Shenzhen_mainboard_A_only
+exclude=ST_STAR_ChiNext_Beijing_Bshares_funds_indices
+status_seed_artifact=10021194677
+status_seed_run=34126772439
+status_matrix_sha256=1fb6fb4d270b9c490c17524d49fca86e8b981333dce7017ccd066d8274b83906
+rules=D0,D2
+no_parameter_search=true
+force_exit_after_ST=true
+no_broker=true
+no_schedule=true
+no_main_changes=true
