@@ -1,0 +1,29 @@
+{
+  "expected_seed_histories": 410,
+  "A": {
+    "artifact_id": 10014861097,
+    "files": {
+      "status_source/status_0.npz": "2f633050f958361c019b66f5bb11179d83f38009762b0016b072ee940f2f3d03",
+      "status_source/status_1.npz": "f78bddc8f577ee3e339aeea27ebcbf307fd42541e4ff93fe6483cb145babe83d",
+      "status_source/fetch_0.json": "1a443bc429a5450230f6b6a153be0e003fa605bb29f979c6910212c366f3b2b4",
+      "status_source/fetch_1.json": "308a133d88e0dd9441ecdc0ca5e7703a7f884df852ee0a292d5902c34deec510",
+      "status_source/provider_records_0.csv.xz": "d8ff10e0f121b41a391d0373673533cf283dadf51f2e254f8edd7f2dc0b1a3a1",
+      "status_source/provider_records_1.csv.xz": "445b6ac3e67c61c7f9162513a9632572730bd7b3380b5dee6929ffd148e40a6d",
+      "status_source/smoke_0.json": "b37624cbd9c8b1ad7f0d0237be1038c76377827de2b153450b91a0a3e710887e",
+      "status_source/smoke_1.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "T": {
+    "artifact_id": 10016961250,
+    "files": {
+      "status/status_0.npz": "d961244b4ec2128e26c063c03f84b6856037f1eaaed6186562a47b7467e6ee80",
+      "status/status_1.npz": "1ba5e3fef1c464ad40a529e644f32bd5e332031ddfb5518f78eed0ef7f3dced9",
+      "status/fetch_0.json": "cd3a217427a150895c7766e960278afbf36698c6a15d6559dab41a6c39034c52",
+      "status/fetch_1.json": "e8185d8acc4c1b79e32e9ccdaf3cb4b30d929ca799fe593ea4735a225ece1551",
+      "status/provider_records_0.csv.xz": "21875ae02dd97e81261435cb4eee6657455944c2c80fd0edbbd2b6b4d333821a",
+      "status/provider_records_1.csv.xz": "f0d80ee4168f0530e0eb7372c4a146db1d257ac9f8954a5e7dc07eef8f577e2f",
+      "status/smoke_0.json": "b37624cbd9c8b1ad7f0d0237be1038c76377827de2b153450b91a0a3e710887e",
+      "status/smoke_1.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  }
+}
