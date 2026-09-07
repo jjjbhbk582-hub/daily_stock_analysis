@@ -1,0 +1,71 @@
+name: A-share research - RSI6 factorial diagnostic
+
+on:
+  push:
+    branches:
+      - research/ashare-data-validation-20260907
+    paths:
+      - scripts/ashare_research/RUN_RSI_FACTORIAL
+
+permissions:
+  contents: read
+
+concurrency:
+  group: isolated-rsi6-factorial
+  cancel-in-progress: false
+
+jobs:
+  rsi-factorial:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - name: Read only isolated research files
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          sparse-checkout: scripts/ashare_research
+          fetch-depth: 1
+      - name: Prepare bounded numerical environment
+        run: |
+          mkdir -p "$RUNNER_TEMP/rsi-evidence"
+          python3 -m venv "$RUNNER_TEMP/rsi-venv"
+          "$RUNNER_TEMP/rsi-venv/bin/pip" install --disable-pip-version-check numpy==2.2.6 pandas==2.2.3
+          "$RUNNER_TEMP/rsi-venv/bin/pip" freeze > "$RUNNER_TEMP/rsi-evidence/environment.txt"
+      - name: Verify parser, execution and factorial identities
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/rsi-venv/bin/python" -m unittest discover -s scripts/ashare_research -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/rsi-evidence/data-tests.txt"
+          "$RUNNER_TEMP/rsi-venv/bin/python" -m unittest discover -s scripts/ashare_research -p 'checks_*.py' -v 2>&1 | tee "$RUNNER_TEMP/rsi-evidence/formula-tests.txt"
+      - name: Compute all frozen rules and periods
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/rsi-venv/bin/python" scripts/ashare_research/rsi_factorial.py --source scripts/ashare_research/source.json --work "$RUNNER_TEMP/rsi-input" --output "$RUNNER_TEMP/rsi-evidence" 2>&1 | tee "$RUNNER_TEMP/rsi-evidence/run.log"
+      - name: Preserve source, summary and exact baseline trade bytes
+        run: |
+          mkdir -p "$RUNNER_TEMP/rsi-evidence/source"
+          cp scripts/ashare_research/*.py "$RUNNER_TEMP/rsi-evidence/source/"
+          cp scripts/ashare_research/{RSI_FACTORIAL_PLAN.md,source.json} "$RUNNER_TEMP/rsi-evidence/source/"
+          printf '%s\n' '${{ github.sha }}' > "$RUNNER_TEMP/rsi-evidence/commit.txt"
+          "$RUNNER_TEMP/rsi-venv/bin/python" scripts/ashare_research/pack_exact.py pack "$RUNNER_TEMP/rsi-evidence/base_trades.csv.xz" "$RUNNER_TEMP/rsi-evidence/base_trades.exact.zip" > "$RUNNER_TEMP/rsi-evidence/packing.json"
+          rm "$RUNNER_TEMP/rsi-evidence/base_trades.csv.xz"
+          cat "$RUNNER_TEMP/rsi-evidence/report.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Enforce fixed evidence size ceiling
+        id: size
+        run: |
+          python3 -c 'import os,pathlib; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"rsi-evidence"; n=sum(f.stat().st_size for f in p.rglob("*") if f.is_file()); print("Evidence bytes:",n); assert n <= 33554432, "Evidence exceeds 32 MiB"'
+          echo 'ok=true' >> "$GITHUB_OUTPUT"
+      - name: Upload bounded evidence
+        if: success() && steps.size.outputs.ok == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ashare-rsi-factorial-${{ github.run_id }}
+          path: ${{ runner.temp }}/rsi-evidence/
+          retention-days: 3
+          if-no-files-found: error
+          compression-level: 0
