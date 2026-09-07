@@ -1,0 +1,9 @@
+study_id=FORMULA3_MAINBOARD_2015_20260904_V1
+requested_by=user_next_step
+source_release=2026-09-06
+source_sha256=482e0575669a11a7d34585cca77912baf7e367962570bdf9c19017c356ffd222
+rules=BREAKOUT20,MA20_RECLAIM,BREAKOUT_RETEST5
+scenarios=base,double_cost,delay2
+no_optimization=true
+no_broker=true
+no_schedules=true
