@@ -1,0 +1,9 @@
+study=ALTERNATIVE_SIGNALS_4_V1
+requested_by=user_continue
+rules=BREAKOUT20,SLOW120,RSI6_RECOVERY,BAND_RECOVERY
+periods=2015-2020,2021-20260904,2009-2014
+scenarios=base,double_cost,delay2
+no_optimization=true
+no_schedules=true
+no_broker=true
+no_larger_runner=true
