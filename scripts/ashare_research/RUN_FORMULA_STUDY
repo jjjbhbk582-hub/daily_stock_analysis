@@ -7,3 +7,5 @@ scenarios=base,double_cost,delay2
 no_optimization=true
 no_broker=true
 no_schedules=true
+retry_reason=unchanged_calculations_lossless_compression_under_original_32MiB_limit
+prior_run=34096374734
