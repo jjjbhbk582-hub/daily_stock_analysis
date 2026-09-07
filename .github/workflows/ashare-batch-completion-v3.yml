@@ -1,0 +1,67 @@
+name: A-share research - consolidated state completion V3
+on:
+  push:
+    branches: [research/ashare-data-validation-20260907]
+    paths: [.github/workflows/ashare-batch-completion-v3.yml]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: isolated-ashare-batch-completion-v3
+  cancel-in-progress: false
+jobs:
+  complete:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          sparse-checkout: scripts/ashare_research
+      - name: Reuse immutable completed histories
+        uses: actions/download-artifact@v5
+        with:
+          artifact-ids: '10021194677'
+          run-id: '34126772439'
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/seed
+      - name: Isolated numerical and source environment
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence"
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install --disable-pip-version-check numpy==2.2.6 pandas==2.2.3 baostock==0.9.3
+          "$RUNNER_TEMP/venv/bin/pip" freeze > "$RUNNER_TEMP/evidence/environment.txt"
+      - name: Verify checkpoints before network work
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/venv/bin/python" -m unittest discover -s scripts/ashare_research -p checks_batch_completion.py -v 2>&1 | tee "$RUNNER_TEMP/evidence/tests.txt"
+      - name: Complete missing histories and probe dated names
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/venv/bin/python" scripts/ashare_research/batch_completion.py --seed "$RUNNER_TEMP/seed" --output "$RUNNER_TEMP/evidence" --seconds 1500 2>&1 | tee "$RUNNER_TEMP/evidence/run.log"
+      - name: Preserve sources and actual completion status
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/evidence/source"
+          cp scripts/ashare_research/{batch_completion.py,checks_batch_completion.py,historical_status.py,status_resume_v2.py,BATCH_20260908_PLAN.md} "$RUNNER_TEMP/evidence/source/"
+          git rev-parse HEAD > "$RUNNER_TEMP/evidence/commit.txt"
+          if test -f "$RUNNER_TEMP/evidence/result.json"; then cat "$RUNNER_TEMP/evidence/result.json" >> "$GITHUB_STEP_SUMMARY"; fi
+      - name: Enforce bounded artifact size
+        if: always()
+        id: budget
+        run: |
+          python3 -c 'import pathlib,os; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"evidence"; n=sum(f.stat().st_size for f in p.rglob("*") if f.is_file()); print(n); assert n<=33554432'
+          echo 'ok=true' >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.budget.outputs.ok == 'true'
+        with:
+          name: ashare-batch-completion-${{ github.run_id }}
+          path: ${{ runner.temp }}/evidence/
+          retention-days: 3
+          compression-level: 9
+          if-no-files-found: error
