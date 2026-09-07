@@ -53,11 +53,12 @@ jobs:
             printf '%s\n' 'Data validation did not produce a report. Inspect the failed step; no backtest has been run.' >> "$GITHUB_STEP_SUMMARY"
           fi
       - name: Enforce small artifact size
+        id: artifact_budget
         if: always()
         run: |
           python3 -c 'import os,pathlib; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"ashare-data-evidence"; size=sum(f.stat().st_size for f in p.rglob("*") if f.is_file()); print("Evidence bytes:",size); assert size <= 8388608, "Evidence exceeds 8 MiB; refusing upload"'
       - name: Retain small evidence only
-        if: always() && success()
+        if: always() && steps.artifact_budget.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: ashare-data-validation-${{ github.run_id }}
