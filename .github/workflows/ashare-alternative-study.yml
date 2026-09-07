@@ -52,20 +52,45 @@ jobs:
         if: always()
         run: |
           mkdir -p "$RUNNER_TEMP/alternative-evidence/source"
-          cp scripts/ashare_research/{alternative_study.py,checks_alternative_study.py,formula_study.py,checks_formula_study.py,verify_data.py,test_verify_data.py,source.json,ALTERNATIVE_STUDY.md} "$RUNNER_TEMP/alternative-evidence/source/"
+          cp scripts/ashare_research/{alternative_study.py,checks_alternative_study.py,formula_study.py,checks_formula_study.py,verify_data.py,test_verify_data.py,source.json,ALTERNATIVE_STUDY.md,pack_exact.py,checks_exact_pack.py} "$RUNNER_TEMP/alternative-evidence/source/"
           printf '%s\n' '${{ github.sha }}' > "$RUNNER_TEMP/alternative-evidence/commit.txt"
           if test -f "$RUNNER_TEMP/alternative-evidence/report.md"; then
-            cat "$RUNNER_TEMP/alternative-evidence/report.md" >> "$GITHUB_STEP_SUMMARY"
+            cat "$RUNNER_TEMP/alternative-evidence/report.md" | tee -a "$GITHUB_STEP_SUMMARY"
           else
             echo 'Incomplete experiment; no performance acceptance claim.' >> "$GITHUB_STEP_SUMMARY"
           fi
-      - name: Enforce small evidence ceiling
+      - name: Lossless exact trade packing
+        run: |
+          "$RUNNER_TEMP/alternative-venv/bin/python" scripts/ashare_research/pack_exact.py pack \
+            "$RUNNER_TEMP/alternative-evidence/trades.csv.xz" \
+            "$RUNNER_TEMP/alternative-evidence/trades.exact.zip" \
+            > "$RUNNER_TEMP/alternative-evidence/packing.json"
+          cat "$RUNNER_TEMP/alternative-evidence/packing.json"
+          mv "$RUNNER_TEMP/alternative-evidence/trades.csv.xz" "$RUNNER_TEMP/alternative-input/trades-original.csv.xz"
+      - name: Enforce ceiling without hiding evidence gaps
         id: bounded
         if: always()
         run: |
-          python3 -c 'import os,pathlib; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"alternative-evidence"; n=sum(f.stat().st_size for f in p.rglob("*") if f.is_file()); print("Evidence bytes:",n); assert n <= 33554432, "Evidence exceeds 32 MiB"'
+          python3 - <<'PY'
+          import os,pathlib,json,hashlib,shutil
+          root=pathlib.Path(os.environ['RUNNER_TEMP']);p=root/'alternative-evidence'
+          limit=33554432
+          size=lambda:sum(f.stat().st_size for f in p.rglob('*') if f.is_file())
+          receipt={'ledger_download_available':(p/'trades.exact.zip').exists(),'excluded_files':[]}
+          for name in ['trades.csv.xz','trades.exact.zip']:
+              if size()<=limit:break
+              f=p/name
+              if not f.exists():continue
+              receipt['excluded_files'].append({'name':name,'bytes':f.stat().st_size,'sha256':hashlib.sha256(f.read_bytes()).hexdigest(),'reason':'bounded artifact size; no claim of offline full-ledger delivery'})
+              (root/'alternative-input').mkdir(exist_ok=True)
+              shutil.move(f,root/'alternative-input'/('not_uploaded_'+name))
+          receipt['ledger_download_available']=(p/'trades.exact.zip').exists() or (p/'trades.csv.xz').exists()
+          receipt['evidence_bytes_before_receipt']=size()
+          (p/'delivery_receipt.json').write_text(json.dumps(receipt,indent=2))
+          print(json.dumps(receipt));assert size()<=limit,'Evidence still exceeds 32 MiB'
+          PY
           echo 'ok=true' >> "$GITHUB_OUTPUT"
-      - name: Upload only compressed research records
+      - name: Upload only bounded research evidence
         if: always() && steps.bounded.outputs.ok == 'true'
         uses: actions/upload-artifact@v4
         with:
