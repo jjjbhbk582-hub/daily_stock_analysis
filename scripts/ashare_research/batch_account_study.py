@@ -14,6 +14,9 @@ PERIODS={'older':('2001-01-01','2008-12-31'),'early':('2009-01-01','2014-12-31')
 FIELDS=('open','high','low','close','volume','factor','amount')
 BLOCKS={'SZ002450':'2021-04-07','SH600614':'2021-05-26'}
 
+def elapsed_years(first,last):
+ return (pd.Timestamp(str(last))-pd.Timestamp(str(first))).days/365.25
+
 def restored_units(price,volume,amount,factor):
  if np.any(~np.isfinite(factor)) or np.any(factor<=0):raise ValueError('Invalid factor')
  return price/factor,volume*factor*100.,amount*1000.
@@ -130,7 +133,7 @@ def main():
      j=int(np.searchsorted(d['symbols'],event['symbol']));i=event['index'];si=event['signal']
      if not (d['eligible'][j,i] and d['eligible'][j,si] and d['st'][j,i]==0 and d['st'][j,si]==0):violations+=1
     e=res['equity'];curve=np.r_[100000.,e];dd=float(np.max(1-curve/np.maximum.accumulate(curve)))
-    duration=(pd.Timestamp(dates[right-1])-pd.Timestamp(dates[left])).days/365.25
+    duration=elapsed_years(dates[left],dates[right-1])
     ts=res['trades'];profit=sum(max(t['pnl'],0) for t in ts);loss=sum(max(-t['pnl'],0) for t in ts)
     row=dict(**tags,return_total=float(e[-1]/100000-1),annualized_return=float((e[-1]/100000)**(1/duration)-1),max_drawdown=dd,closed_trades=len(ts),entries=res['entries'],cancelled=res['cancelled'],win_rate=sum(t['pnl']>0 for t in ts)/len(ts) if ts else None,mean_trade_return=float(np.mean([t['net_return'] for t in ts])) if ts else None,profit_factor=profit/loss if loss else None,total_fees=sum(t['buy_fee']+t['sell_fee'] for t in ts)+sum(p['buy_fee'] for p in res['open_positions']),average_exposure=float(np.mean(res['invested']/e)),max_held=int(max(res['nheld'])),stale_zero_return=float((e[-1]-res['stale'][-1])/100000-1),action_affected_trades=sum(t['action_days']>0 for t in ts),open_positions=len(res['open_positions']),ledger_error=err)
     results.append(row)
