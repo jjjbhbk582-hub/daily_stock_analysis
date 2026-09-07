@@ -1,0 +1,11 @@
+study=STATUS_ADMISSION_V1
+requested_by=user_continue
+rules=D0,D2
+admission=baseline,known,normal
+normal_double_cost=true
+source=baostock_0.9.3_date_code_tradestatus_isST
+price_archive_sha256=482e0575669a11a7d34585cca77912baf7e367962570bdf9c19017c356ffd222
+no_parameter_search=true
+no_schedules=true
+no_broker=true
+no_main_changes=true
