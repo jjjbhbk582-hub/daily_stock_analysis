@@ -1,0 +1,13 @@
+study=STATUS_RESUME_V2
+requested_by=user_continue
+seed_artifacts=10014861097,10016961250
+verified_seed_histories=410
+remaining_initial=3075
+workers=4
+seconds_per_worker=900
+rules=D0,D2_unchanged
+no_parameter_search=true
+no_main_changes=true
+no_schedules=true
+no_broker=true
+no_paid_large_runners=true
