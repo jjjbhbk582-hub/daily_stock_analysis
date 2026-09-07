@@ -1,0 +1,12 @@
+study=VOLUME_SHOCK_3_V1
+requested_by=user_continue
+rules=D0,V0,VH,VL
+scope=SH_SZ_MAINBOARD_KNOWN_NON_ST_ONLY
+periods=2001-2008,2009-2014,2015-2020,2021-20260904
+scenarios=base,double_cost,delay2,gap_unblocked
+state_artifact=10021194677
+state_sha256=1fb6fb4d270b9c490c17524d49fca86e8b981333dce7017ccd066d8274b83906
+no_parameter_search=true
+no_schedules=true
+no_broker=true
+no_main_changes=true
