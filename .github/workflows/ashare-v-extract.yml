@@ -1,0 +1,50 @@
+name: A-share V research - frozen sample export
+on:
+  push:
+    branches: [research/ashare-data-validation-20260907]
+    paths: [.github/workflows/ashare-v-extract.yml]
+permissions:
+  contents: read
+concurrency:
+  group: isolated-ashare-V-export
+  cancel-in-progress: false
+jobs:
+  export:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          sparse-checkout: scripts/ashare_research_V
+      - uses: actions/checkout@v4
+        with:
+          ref: 376243461e251ad33123fbd9423ec41ca323618b
+          path: source_T
+          persist-credentials: false
+          sparse-checkout: |
+            scripts/ashare_research
+            scripts/ashare_research_T
+      - name: Data-only dependencies
+        run: python3 -m pip install numpy baostock==0.9.3
+      - name: Offline selector tests
+        run: python3 scripts/ashare_research_V/export_v.py --self-test
+      - name: Export fixed public price and dated status, not a strategy search
+        run: |
+          mkdir -p "$RUNNER_TEMP/V_evidence"
+          set -o pipefail
+          python3 scripts/ashare_research_V/export_v.py "$RUNNER_TEMP/V_evidence" source_T 2>&1 | tee "$RUNNER_TEMP/V_evidence/run.log"
+          git rev-parse HEAD > "$RUNNER_TEMP/V_evidence/commit.txt"
+      - name: Artifact size guard
+        if: always()
+        run: python3 -c 'import pathlib,os; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"V_evidence"; n=sum(x.stat().st_size for x in p.rglob("*") if x.is_file()); print(n); assert n < 150*1024*1024'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ashare-V-raw-${{ github.run_id }}
+          path: ${{ runner.temp }}/V_evidence/
+          retention-days: 3
+          compression-level: 6
+          if-no-files-found: error
