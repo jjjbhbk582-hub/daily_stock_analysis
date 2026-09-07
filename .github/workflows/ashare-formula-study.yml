@@ -1,0 +1,76 @@
+name: A-share research - frozen three-rule study
+
+on:
+  push:
+    branches:
+      - research/ashare-data-validation-20260907
+    paths:
+      - scripts/ashare_research/RUN_FORMULA_STUDY
+
+permissions:
+  contents: read
+
+concurrency:
+  group: isolated-ashare-formula-study
+  cancel-in-progress: false
+
+jobs:
+  formula-study:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Checkout only research code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          sparse-checkout: scripts/ashare_research
+          fetch-depth: 1
+      - name: Prepare isolated numerical environment
+        run: |
+          mkdir -p "$RUNNER_TEMP/formula-evidence"
+          python3 -m venv "$RUNNER_TEMP/formula-venv"
+          "$RUNNER_TEMP/formula-venv/bin/pip" install --disable-pip-version-check numpy==2.2.6 pandas==2.2.3
+          "$RUNNER_TEMP/formula-venv/bin/pip" freeze > "$RUNNER_TEMP/formula-evidence/environment.txt"
+      - name: Verify data parser and formula execution tests
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/formula-venv/bin/python" -m unittest discover -s scripts/ashare_research -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/formula-evidence/data-tests.txt"
+          "$RUNNER_TEMP/formula-venv/bin/python" -m unittest discover -s scripts/ashare_research -p 'checks_*.py' -v 2>&1 | tee "$RUNNER_TEMP/formula-evidence/formula-tests.txt"
+      - name: Run all frozen rules and scenarios
+        run: |
+          set -o pipefail
+          "$RUNNER_TEMP/formula-venv/bin/python" scripts/ashare_research/formula_study.py \
+            --source scripts/ashare_research/source.json \
+            --work "$RUNNER_TEMP/formula-input" \
+            --output "$RUNNER_TEMP/formula-evidence" 2>&1 | tee "$RUNNER_TEMP/formula-evidence/run.log"
+      - name: Preserve reproduction sources and summary
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/formula-evidence/source"
+          cp scripts/ashare_research/{formula_study.py,checks_formula_study.py,verify_data.py,test_verify_data.py,prior_codes.json,source.json,FORMULA_STUDY.md} "$RUNNER_TEMP/formula-evidence/source/"
+          printf '%s\n' "${{ github.sha }}" > "$RUNNER_TEMP/formula-evidence/commit.txt"
+          if test -f "$RUNNER_TEMP/formula-evidence/report.md"; then
+            cat "$RUNNER_TEMP/formula-evidence/report.md" >> "$GITHUB_STEP_SUMMARY"
+          else
+            printf '%s\n' 'Study did not complete. No performance acceptance claim.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Enforce evidence size ceiling
+        id: cap
+        if: always()
+        run: |
+          python3 -c 'import os,pathlib; p=pathlib.Path(os.environ["RUNNER_TEMP"])/"formula-evidence"; size=sum(f.stat().st_size for f in p.rglob("*") if f.is_file()); print("Evidence bytes:",size); assert size <= 33554432, "Evidence exceeds 32 MiB; refusing upload"'
+          echo 'ok=true' >> "$GITHUB_OUTPUT"
+      - name: Upload bounded evidence only
+        if: always() && steps.cap.outputs.ok == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ashare-formula-study-${{ github.run_id }}
+          path: ${{ runner.temp }}/formula-evidence/
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 6
