@@ -2,7 +2,7 @@
   "schema_version": 2,
   "status": "success",
   "target_date": "2026-09-08",
-  "generated_at": "2026-09-08T20:04:03.760703+08:00",
+  "generated_at": "2026-09-08T20:18:42.459958+08:00",
   "valid_count": 59,
   "universe_count": 59,
   "market": {
@@ -80,13 +80,6 @@
         "source": "新浪行业行情"
       },
       {
-        "industry": "农业",
-        "pct_change": 3.4104327290408,
-        "amount": 15302071732.0,
-        "count": 15,
-        "source": "新浪行业行情"
-      },
-      {
         "industry": "渔业",
         "pct_change": 2.962460425147,
         "amount": 2257533784.0,
@@ -101,10 +94,24 @@
         "source": "新浪行业行情"
       },
       {
+        "industry": "石油和天然气开采业",
+        "pct_change": 2.8958136606862,
+        "amount": 7644866562.0,
+        "count": 8,
+        "source": "新浪行业行情"
+      },
+      {
         "industry": "农、林、牧、渔服务业",
         "pct_change": 2.6943802925327,
         "amount": 582770453.0,
         "count": 2,
+        "source": "新浪行业行情"
+      },
+      {
+        "industry": "农业",
+        "pct_change": 2.593175283459,
+        "amount": 17422494774.0,
+        "count": 16,
         "source": "新浪行业行情"
       },
       {
@@ -168,13 +175,6 @@
         "pct_change": 1.5938807825352,
         "amount": 4534720636.0,
         "count": 19,
-        "source": "新浪行业行情"
-      },
-      {
-        "industry": "金属制品、机械和设备修理业",
-        "pct_change": 1.4136786838777,
-        "amount": 54184335658.0,
-        "count": 100,
         "source": "新浪行业行情"
       },
       {
@@ -262,6 +262,13 @@
         "source": "新浪行业行情"
       },
       {
+        "industry": "金属制品、机械和设备修理业",
+        "pct_change": 0.97434231893472,
+        "amount": 57373309.0,
+        "count": 1,
+        "source": "新浪行业行情"
+      },
+      {
         "industry": "文教、工美、体育和娱乐用品制造业",
         "pct_change": 0.89669541366669,
         "amount": 4369860050.0,
@@ -308,13 +315,6 @@
         "pct_change": 0.81804490690033,
         "amount": 7375110405.0,
         "count": 47,
-        "source": "新浪行业行情"
-      },
-      {
-        "industry": "石油和天然气开采业",
-        "pct_change": 0.79605674218407,
-        "amount": 31230964005.0,
-        "count": 16,
         "source": "新浪行业行情"
       },
       {
@@ -371,6 +371,13 @@
         "pct_change": 0.42799984611241,
         "amount": 11539273892.0,
         "count": 37,
+        "source": "新浪行业行情"
+      },
+      {
+        "industry": "家具制造业",
+        "pct_change": 0.38848395099717,
+        "amount": 2055226522.0,
+        "count": 31,
         "source": "新浪行业行情"
       },
       {
@@ -577,13 +584,6 @@
         "source": "新浪行业行情"
       },
       {
-        "industry": "家具制造业",
-        "pct_change": -0.62862073215826,
-        "amount": 7585404983.0,
-        "count": 8,
-        "source": "新浪行业行情"
-      },
-      {
         "industry": "文化艺术业",
         "pct_change": -0.63857846879989,
         "amount": 3207366769.0,
@@ -704,7 +704,7 @@
       "AI算力": {
         "sample_count": 15,
         "median_pct_change": -1.01,
-        "average_score": 55.2,
+        "average_score": 55.3,
         "source": "固定股票池样本代理"
       },
       "CPO": {
@@ -740,14 +740,14 @@
     },
     "posture": "市场风险偏好较弱，当前应控制仓位并减少追涨",
     "trade_regime": {
-      "score": 54.7,
+      "score": 54.8,
       "label": "neutral",
       "max_total_weight_pct": 50.0,
       "evidence": [
         "三大指数均值-0.49%（分项37.8）",
         "上涨家数占比62.8%",
         "市场中位涨跌幅+0.54%（分项63.4）",
-        "行业上涨比例67.9%"
+        "行业上涨比例69.0%"
       ]
     }
   },
@@ -10672,20 +10672,20 @@
         "board_code": "PROXY-AI算力",
         "board_name": "AI算力主板100元以下代理篮子",
         "board_type": "focus_proxy",
-        "pct_change": -1.569877509051441,
-        "amount": 17643941912.0,
+        "pct_change": -1.2362747395210816,
+        "amount": 9982939672.0,
         "up_count": 0,
-        "down_count": 6,
+        "down_count": 5,
         "flat_count": 0,
         "limit_up_count": 0,
         "leader_name": "000063",
         "leader_pct_change": -0.21033653846154188,
         "data_date": "2026-09-08",
         "source": "配置主题篮子+腾讯已完成日线",
-        "score": 15.2,
-        "return_5d": -7.16,
-        "return_20d": -5.99,
-        "amount_ratio_20": 0.79,
+        "score": 15.6,
+        "return_5d": -5.28,
+        "return_20d": -6.44,
+        "amount_ratio_20": 0.64,
         "breadth_ratio": 0.0,
         "confidence": "medium",
         "risk_flags": [
@@ -10693,18 +10693,17 @@
           "主板100元以下代理篮子，非官方概念指数"
         ],
         "score_breakdown": {
-          "daily_strength": 4.3,
-          "trend": 1.3,
-          "amount": 6.6,
+          "daily_strength": 5.2,
+          "trend": 2.2,
+          "amount": 5.2,
           "breadth": 0,
           "leadership": 0,
           "catalyst_risk_proxy": 3.0
         },
         "focus_label": "AI算力",
         "status": "proxy_ready",
-        "proxy_count": 6,
+        "proxy_count": 5,
         "proxy_codes": [
-          "000977",
           "603019",
           "000938",
           "000063",
@@ -10760,9 +10759,9 @@
         "board_code": "PROXY-PCB",
         "board_name": "PCB主板100元以下代理篮子",
         "board_type": "focus_proxy",
-        "pct_change": 3.577124255436562,
-        "amount": 14428465191.0,
-        "up_count": 2,
+        "pct_change": 4.29055684947609,
+        "amount": 13227841406.0,
+        "up_count": 1,
         "down_count": 1,
         "flat_count": 0,
         "limit_up_count": 0,
@@ -10770,30 +10769,29 @@
         "leader_pct_change": 9.170068027210876,
         "data_date": "2026-09-08",
         "source": "配置主题篮子+腾讯已完成日线",
-        "score": 78.4,
-        "return_5d": 7.11,
-        "return_20d": 6.3,
-        "amount_ratio_20": 2.09,
-        "breadth_ratio": 0.6667,
+        "score": 74.5,
+        "return_5d": 8.31,
+        "return_20d": 4.87,
+        "amount_ratio_20": 2.22,
+        "breadth_ratio": 0.5,
         "confidence": "medium",
         "risk_flags": [
           "主板100元以下代理篮子，非官方概念指数"
         ],
         "score_breakdown": {
-          "daily_strength": 19.2,
-          "trend": 17.1,
-          "amount": 16.9,
-          "breadth": 8.0,
-          "leadership": 8.2,
-          "catalyst_risk_proxy": 9.0
+          "daily_strength": 20,
+          "trend": 17.4,
+          "amount": 17.1,
+          "breadth": 6.0,
+          "leadership": 7.5,
+          "catalyst_risk_proxy": 6.5
         },
         "focus_label": "PCB",
         "status": "proxy_ready",
-        "proxy_count": 3,
+        "proxy_count": 2,
         "proxy_codes": [
           "002436",
-          "002938",
-          "603920"
+          "002938"
         ],
         "history_source": "腾讯成份股等权代理历史"
       },
@@ -11014,10 +11012,10 @@
         "board_code": "PROXY-液冷服务器",
         "board_name": "液冷服务器主板100元以下代理篮子",
         "board_type": "focus_proxy",
-        "pct_change": -2.211604865249621,
-        "amount": 18843037427.0,
+        "pct_change": -1.9550332423862171,
+        "amount": 11182035187.0,
         "up_count": 0,
-        "down_count": 5,
+        "down_count": 4,
         "flat_count": 0,
         "limit_up_count": 0,
         "leader_name": "600845",
@@ -11025,9 +11023,9 @@
         "data_date": "2026-09-08",
         "source": "配置主题篮子+腾讯已完成日线",
         "score": 14.9,
-        "return_5d": -8.38,
-        "return_20d": -2.62,
-        "amount_ratio_20": 0.87,
+        "return_5d": -6.35,
+        "return_20d": -2.34,
+        "amount_ratio_20": 0.76,
         "breadth_ratio": 0.0,
         "confidence": "medium",
         "risk_flags": [
@@ -11035,18 +11033,17 @@
           "主板100元以下代理篮子，非官方概念指数"
         ],
         "score_breakdown": {
-          "daily_strength": 2.4,
-          "trend": 2.3,
-          "amount": 7.3,
+          "daily_strength": 3.2,
+          "trend": 2.6,
+          "amount": 6.1,
           "breadth": 0,
           "leadership": 0,
           "catalyst_risk_proxy": 3.0
         },
         "focus_label": "液冷服务器",
         "status": "proxy_ready",
-        "proxy_count": 5,
+        "proxy_count": 4,
         "proxy_codes": [
-          "000977",
           "603019",
           "000938",
           "600845",
@@ -11667,7 +11664,7 @@
             "code": "605577",
             "name": "龙版传媒",
             "close": 18.67,
-            "pct_change": 9.12,
+            "pct_change": 9.11747516072474,
             "daily_trend": "强势多头",
             "weekly_trend": "强势多头",
             "trend_60m": "强势多头",
@@ -11692,37 +11689,37 @@
               "high": 18.82,
               "low": 17.58,
               "close": 18.67,
-              "pct_change": 9.12,
-              "volume": 668796.0,
+              "pct_change": 9.11747516072474,
+              "volume": 66879600.0,
               "amount": 1248313299.0,
               "turnover_rate": 15.05,
-              "rel_volume_20": 5.07501205588162,
+              "rel_volume_20": 5.075012055881619,
               "ma_5": 15.663999999999998,
-              "ma_10": 12.951999999999998,
+              "ma_10": 12.952000000000002,
               "ma_20": 11.4545,
               "ma_50": 10.1802,
-              "ma_100": 10.403400000000001,
+              "ma_100": 10.4034,
               "ma_200": 11.827849999999998,
               "ema_5": 15.963867882608763,
               "ema_10": 14.044725301899682,
               "ema_20": 12.348308581927327,
-              "ema_50": 10.950451703514421,
-              "rsi_14": 90.62599111844021,
-              "macd_dif": 1.7303782603763675,
-              "macd_dea": 0.8449513685104711,
-              "macd_hist": 1.7708537837317928,
+              "ema_50": 10.950451572620029,
+              "rsi_14": 90.62599111848105,
+              "macd_dif": 1.7303782603762574,
+              "macd_dea": 0.8449513685103103,
+              "macd_hist": 1.7708537837318943,
               "kdj_k": 93.76925023771359,
               "kdj_d": 82.01793530997918,
               "kdj_j": 117.2718800931824,
               "stoch_rsi_k": 100.0,
               "stoch_rsi_d": 100.0,
-              "adx_14": 52.09895679488313,
-              "plus_di_14": 76.47170242355456,
-              "minus_di_14": 3.6952783415262274,
-              "obv": 12239957.0,
+              "adx_14": 52.09895679690692,
+              "plus_di_14": 76.47170242350633,
+              "minus_di_14": 3.6952783415013744,
+              "obv": 340017900.0,
               "high_20": 18.82,
               "low_20": 9.51,
-              "atr_14": 0.7897378453660443
+              "atr_14": 0.789737845366071
             },
             "data_confidence": "high",
             "reason": "成交承载力、流通规模和中期结构领先"
@@ -11734,7 +11731,7 @@
             "code": "601999",
             "name": "出版传媒",
             "close": 8.02,
-            "pct_change": 10.01,
+            "pct_change": 10.013717421124824,
             "daily_trend": "强势多头",
             "weekly_trend": "强势多头",
             "trend_60m": "强势多头",
@@ -11759,12 +11756,12 @@
               "high": 8.02,
               "low": 7.1,
               "close": 8.02,
-              "pct_change": 10.01,
-              "volume": 792992.0,
+              "pct_change": 10.013717421124824,
+              "volume": 79299200.0,
               "amount": 606279256.0,
               "turnover_rate": 14.39,
               "rel_volume_20": 4.283159102061473,
-              "ma_5": 7.127999999999998,
+              "ma_5": 7.128,
               "ma_10": 6.678999999999999,
               "ma_20": 6.4235,
               "ma_50": 6.0329999999999995,
@@ -11773,23 +11770,23 @@
               "ema_5": 7.266284465032376,
               "ema_10": 6.880644332243223,
               "ema_20": 6.544291675739635,
-              "ema_50": 6.255048697465588,
-              "rsi_14": 82.21727843432959,
-              "macd_dif": 0.35324592753731743,
-              "macd_dea": 0.18968892143893268,
-              "macd_hist": 0.3271140121967695,
+              "ema_50": 6.25504871254034,
+              "rsi_14": 82.21727843424176,
+              "macd_dif": 0.3532459275373281,
+              "macd_dea": 0.18968892143894936,
+              "macd_hist": 0.32711401219675745,
               "kdj_k": 88.01553197209626,
               "kdj_d": 79.84430538246234,
               "kdj_j": 104.35798515136409,
               "stoch_rsi_k": 100.0,
               "stoch_rsi_d": 100.0,
-              "adx_14": 39.77882123007452,
-              "plus_di_14": 38.607137278770594,
-              "minus_di_14": 4.458233430406375,
-              "obv": 41455324.0,
+              "adx_14": 39.77882123169709,
+              "plus_di_14": 38.607137278767865,
+              "minus_di_14": 4.458233430382439,
+              "obv": 323703300.0,
               "high_20": 8.02,
               "low_20": 5.91,
-              "atr_14": 0.3584534966922209
+              "atr_14": 0.3584534966919593
             },
             "data_confidence": "high",
             "reason": "板块相对强度、换手和60分钟弹性领先"
@@ -13102,7 +13099,7 @@
         "code": "605577",
         "name": "龙版传媒",
         "close": 18.67,
-        "pct_change": 9.12,
+        "pct_change": 9.11747516072474,
         "daily_trend": "强势多头",
         "weekly_trend": "强势多头",
         "trend_60m": "强势多头",
@@ -13127,37 +13124,37 @@
           "high": 18.82,
           "low": 17.58,
           "close": 18.67,
-          "pct_change": 9.12,
-          "volume": 668796.0,
+          "pct_change": 9.11747516072474,
+          "volume": 66879600.0,
           "amount": 1248313299.0,
           "turnover_rate": 15.05,
-          "rel_volume_20": 5.07501205588162,
+          "rel_volume_20": 5.075012055881619,
           "ma_5": 15.663999999999998,
-          "ma_10": 12.951999999999998,
+          "ma_10": 12.952000000000002,
           "ma_20": 11.4545,
           "ma_50": 10.1802,
-          "ma_100": 10.403400000000001,
+          "ma_100": 10.4034,
           "ma_200": 11.827849999999998,
           "ema_5": 15.963867882608763,
           "ema_10": 14.044725301899682,
           "ema_20": 12.348308581927327,
-          "ema_50": 10.950451703514421,
-          "rsi_14": 90.62599111844021,
-          "macd_dif": 1.7303782603763675,
-          "macd_dea": 0.8449513685104711,
-          "macd_hist": 1.7708537837317928,
+          "ema_50": 10.950451572620029,
+          "rsi_14": 90.62599111848105,
+          "macd_dif": 1.7303782603762574,
+          "macd_dea": 0.8449513685103103,
+          "macd_hist": 1.7708537837318943,
           "kdj_k": 93.76925023771359,
           "kdj_d": 82.01793530997918,
           "kdj_j": 117.2718800931824,
           "stoch_rsi_k": 100.0,
           "stoch_rsi_d": 100.0,
-          "adx_14": 52.09895679488313,
-          "plus_di_14": 76.47170242355456,
-          "minus_di_14": 3.6952783415262274,
-          "obv": 12239957.0,
+          "adx_14": 52.09895679690692,
+          "plus_di_14": 76.47170242350633,
+          "minus_di_14": 3.6952783415013744,
+          "obv": 340017900.0,
           "high_20": 18.82,
           "low_20": 9.51,
-          "atr_14": 0.7897378453660443
+          "atr_14": 0.789737845366071
         },
         "data_confidence": "high",
         "reason": "成交承载力、流通规模和中期结构领先",
@@ -13173,7 +13170,7 @@
         "code": "601999",
         "name": "出版传媒",
         "close": 8.02,
-        "pct_change": 10.01,
+        "pct_change": 10.013717421124824,
         "daily_trend": "强势多头",
         "weekly_trend": "强势多头",
         "trend_60m": "强势多头",
@@ -13198,12 +13195,12 @@
           "high": 8.02,
           "low": 7.1,
           "close": 8.02,
-          "pct_change": 10.01,
-          "volume": 792992.0,
+          "pct_change": 10.013717421124824,
+          "volume": 79299200.0,
           "amount": 606279256.0,
           "turnover_rate": 14.39,
           "rel_volume_20": 4.283159102061473,
-          "ma_5": 7.127999999999998,
+          "ma_5": 7.128,
           "ma_10": 6.678999999999999,
           "ma_20": 6.4235,
           "ma_50": 6.0329999999999995,
@@ -13212,23 +13209,23 @@
           "ema_5": 7.266284465032376,
           "ema_10": 6.880644332243223,
           "ema_20": 6.544291675739635,
-          "ema_50": 6.255048697465588,
-          "rsi_14": 82.21727843432959,
-          "macd_dif": 0.35324592753731743,
-          "macd_dea": 0.18968892143893268,
-          "macd_hist": 0.3271140121967695,
+          "ema_50": 6.25504871254034,
+          "rsi_14": 82.21727843424176,
+          "macd_dif": 0.3532459275373281,
+          "macd_dea": 0.18968892143894936,
+          "macd_hist": 0.32711401219675745,
           "kdj_k": 88.01553197209626,
           "kdj_d": 79.84430538246234,
           "kdj_j": 104.35798515136409,
           "stoch_rsi_k": 100.0,
           "stoch_rsi_d": 100.0,
-          "adx_14": 39.77882123007452,
-          "plus_di_14": 38.607137278770594,
-          "minus_di_14": 4.458233430406375,
-          "obv": 41455324.0,
+          "adx_14": 39.77882123169709,
+          "plus_di_14": 38.607137278767865,
+          "minus_di_14": 4.458233430382439,
+          "obv": 323703300.0,
           "high_20": 8.02,
           "low_20": 5.91,
-          "atr_14": 0.3584534966922209
+          "atr_14": 0.3584534966919593
         },
         "data_confidence": "high",
         "reason": "板块相对强度、换手和60分钟弹性领先",
@@ -14316,19 +14313,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZB11",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZN76",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZE49",
+        "board_code": "hangye_ZB11",
         "ok": true,
         "rows": 45
       },
@@ -14340,7 +14331,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZR85",
+        "board_code": "hangye_ZE49",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZD46",
         "ok": true,
         "rows": 45
       },
@@ -14352,7 +14349,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZD46",
+        "board_code": "hangye_ZR85",
         "ok": true,
         "rows": 45
       },
@@ -14382,13 +14379,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZA01",
+        "board_code": "hangye_ZR86",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZR86",
+        "board_code": "hangye_ZA01",
         "ok": true,
         "rows": 45
       },
@@ -14412,13 +14409,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZB08",
+        "board_code": "hangye_ZC42",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC42",
+        "board_code": "hangye_ZB08",
         "ok": true,
         "rows": 45
       },
@@ -14430,19 +14427,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZA02",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZC14",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZK70",
+        "board_code": "hangye_ZA02",
         "ok": true,
         "rows": 45
       },
@@ -14454,13 +14445,19 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZD44",
+        "board_code": "hangye_ZK70",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
         "board_code": "hangye_ZC26",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZD44",
         "ok": true,
         "rows": 45
       },
@@ -14484,13 +14481,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC18",
+        "board_code": "hangye_ZC43",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC43",
+        "board_code": "hangye_ZC18",
         "ok": true,
         "rows": 45
       },
@@ -14652,13 +14649,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC29",
+        "board_code": "hangye_ZC27",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC27",
+        "board_code": "hangye_ZC29",
         "ok": true,
         "rows": 45
       },
@@ -14670,7 +14667,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC32",
+        "board_code": "hangye_ZH61",
         "ok": true,
         "rows": 45
       },
@@ -14682,13 +14679,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZH61",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZI64",
+        "board_code": "hangye_ZC32",
         "ok": true,
         "rows": 45
       },
@@ -14700,19 +14691,25 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZI64",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZG60",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC30",
+        "board_code": "hangye_ZC15",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC15",
+        "board_code": "hangye_ZC30",
         "ok": true,
         "rows": 45
       },
@@ -14754,12 +14751,6 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZJ67",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZC34",
         "ok": true,
         "rows": 45
@@ -14778,19 +14769,19 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZR87",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZJ68",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC33",
+        "board_code": "hangye_ZJ67",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZR87",
         "ok": true,
         "rows": 45
       },
@@ -14802,13 +14793,19 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZE50",
+        "board_code": "hangye_ZC33",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
         "board_code": "hangye_ZO80",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZE50",
         "ok": true,
         "rows": 45
       },
@@ -14832,13 +14829,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_CROgn",
+        "board_code": "gn_CXOgn",
         "ok": true,
         "rows": 45
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_CXOgn",
+        "board_code": "gn_CROgn",
         "ok": true,
         "rows": 45
       },
@@ -14856,13 +14853,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_yqgg",
+        "board_code": "gn_smgn",
         "ok": true,
         "rows": 45
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_smgn",
+        "board_code": "gn_yqgg",
         "ok": true,
         "rows": 45
       },
@@ -14910,13 +14907,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_tdlz",
+        "board_code": "gn_myyy",
         "ok": true,
         "rows": 45
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_myyy",
+        "board_code": "gn_tdlz",
         "ok": true,
         "rows": 45
       },
@@ -14952,12 +14949,6 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_jjj",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "concept板块历史",
         "board_code": "gn_cxgg",
         "ok": true,
         "rows": 45
@@ -14976,7 +14967,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_cgjr",
+        "board_code": "gn_cjxj",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "concept板块历史",
+        "board_code": "gn_jjj",
         "ok": true,
         "rows": 45
       },
@@ -14988,13 +14985,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_czt",
+        "board_code": "gn_cgjr",
         "ok": true,
         "rows": 45
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_cjxj",
+        "board_code": "gn_czt",
         "ok": true,
         "rows": 45
       },
@@ -15006,13 +15003,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_pggn",
+        "board_code": "gn_cxy",
         "ok": true,
         "rows": 45
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_cxy",
+        "board_code": "gn_pggn",
         "ok": true,
         "rows": 45
       },
@@ -15030,10 +15027,10 @@
       },
       {
         "source": "板块成份",
-        "board_type": "concept",
-        "board_code": "gn_swyz",
+        "board_type": "industry",
+        "board_code": "hangye_ZR85",
         "ok": true,
-        "rows": 15
+        "rows": 28
       },
       {
         "source": "板块成份",
@@ -15044,10 +15041,17 @@
       },
       {
         "source": "板块成份",
-        "board_type": "industry",
-        "board_code": "hangye_ZR85",
+        "board_type": "concept",
+        "board_code": "gn_xczx",
         "ok": true,
-        "rows": 28
+        "rows": 42
+      },
+      {
+        "source": "板块成份",
+        "board_type": "concept",
+        "board_code": "gn_swyz",
+        "ok": true,
+        "rows": 15
       },
       {
         "source": "板块成份",
@@ -15055,13 +15059,6 @@
         "board_code": "gn_cgl",
         "ok": true,
         "rows": 11
-      },
-      {
-        "source": "板块成份",
-        "board_type": "concept",
-        "board_code": "gn_xczx",
-        "ok": true,
-        "rows": 42
       },
       {
         "source": "板块成份",
@@ -18221,14 +18218,13 @@
       ],
       "data_date": "2026-09-08",
       "source": [
-        "腾讯日线",
-        "腾讯行情",
-        "腾讯60分钟"
+        "东方财富日线",
+        "腾讯行情"
       ],
       "data_confidence": "high",
       "data_valid": true,
       "close": 40.12,
-      "pct_change": 9.170068027210876,
+      "pct_change": 9.17,
       "score": 68.3,
       "rating": "C",
       "daily_trend": "多头",
@@ -18353,24 +18349,20 @@
         },
         {
           "source": "东方财富60分钟",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002436&klt=60&fqt=1&lmt=240&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+          "ok": true,
+          "date": "2026-09-08 15:00:00"
         },
         {
           "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002436&klt=101&fqt=1&lmt=360&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 3781
         },
         {
           "source": "腾讯日线",
           "ok": true,
           "date": "2026-09-08",
           "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002436&start=20241008&end=20260908&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
         },
         {
           "source": "东方财富财务",
@@ -18384,17 +18376,6 @@
           "source": "东方财富资金流",
           "ok": false,
           "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002436&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-08"
-        },
-        {
-          "source": "腾讯60分钟",
-          "ok": true,
-          "rows": 320,
-          "date": "2026-09-08 15:00:00"
         }
       ],
       "metrics": {
@@ -18402,9 +18383,9 @@
         "high": 40.43,
         "low": 38.5,
         "close": 40.12,
-        "pct_change": 9.170068027210876,
-        "volume": 284616800.0,
-        "amount": 11411550851.0,
+        "pct_change": 9.17,
+        "volume": 2846168.0,
+        "amount": 11411550850.61,
         "turnover_rate": 18.75,
         "rel_volume_20": 2.584739675046747,
         "ma_5": 35.888,
@@ -18416,23 +18397,23 @@
         "ema_5": 36.81400237019828,
         "ema_10": 35.85840537860064,
         "ema_20": 35.22397174271573,
-        "ema_50": 35.47764914483426,
-        "rsi_14": 61.79616872475454,
-        "macd_dif": 0.46175106838994395,
-        "macd_dea": -0.05184456650626787,
-        "macd_hist": 1.0271912697924237,
+        "ema_50": 35.47764882450204,
+        "rsi_14": 61.796168724761806,
+        "macd_dif": 0.46175106838993685,
+        "macd_dea": -0.05184456650628341,
+        "macd_hist": 1.0271912697924406,
         "kdj_k": 68.33521508842905,
         "kdj_d": 54.759518374798915,
         "kdj_j": 95.48660851568934,
         "stoch_rsi_k": 66.66666666666666,
-        "stoch_rsi_d": 43.76931716856225,
-        "adx_14": 14.497586709614367,
-        "plus_di_14": 31.839898465661467,
-        "minus_di_14": 16.096978795006013,
-        "obv": 7309670700.0,
+        "stoch_rsi_d": 43.76931716853641,
+        "adx_14": 14.4975867083256,
+        "plus_di_14": 31.839898465676004,
+        "minus_di_14": 16.096978795014852,
+        "obv": 172844438.0,
         "high_20": 40.43,
         "low_20": 31.81,
-        "atr_14": 2.731725468322559
+        "atr_14": 2.7317254683232197
       },
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
@@ -18685,6 +18666,237 @@
       "rank": 3
     },
     {
+      "code": "601138",
+      "name": "工业富联",
+      "industry": "消费电子",
+      "themes": [
+        "AI算力",
+        "服务器"
+      ],
+      "data_date": "2026-09-08",
+      "source": [
+        "东方财富日线",
+        "腾讯行情",
+        "腾讯60分钟"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 64.75,
+      "pct_change": -2.73,
+      "score": 64.1,
+      "rating": "C",
+      "daily_trend": "多头",
+      "weekly_trend": "多头",
+      "trend_60m": "多头",
+      "conclusion": "多头/多头，60分钟多头；股票结构较强，目前优先等待回踩或突破确认。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 62.78,
+        "pullback_high": 64.73,
+        "breakout_trigger": 68.71,
+        "no_chase_above": 70.93,
+        "invalidation": 61.62,
+        "target_1": 68.71,
+        "target_2": 79.25,
+        "risk_reward_1": 2.32,
+        "risk_reward_2": 7.26,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-09-03",
+          "title": "工业富联:富士康工业互联网股份有限公司关于股份回购进展公告",
+          "art_code": "AN202609021828922529",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-26",
+          "title": "工业富联:富士康工业互联网股份有限公司投资者关系活动记录表20260825",
+          "art_code": "AN202608261828484856",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-20",
+          "title": "工业富联:富士康工业互联网股份有限公司关于以集中竞价交易方式首次回购股份的公告",
+          "art_code": "AN202608191828157550",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-19",
+          "title": "工业富联:富士康工业互联网股份有限公司关于召开2026年半年度业绩说明会的公告",
+          "art_code": "AN202608181828107814",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "工业富联:富士康工业互联网股份有限公司2026年半年度募集资金存放、管理与实际使用情况的专项报告",
+          "art_code": "AN202608111827859008",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "工业富联:富士康工业互联网股份有限公司第四届董事会第三次会议决议公告",
+          "art_code": "AN202608111827859011",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "工业富联:富士康工业互联网股份有限公司2026年半年度报告摘要",
+          "art_code": "AN202608111827859014",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-12",
+          "title": "工业富联:富士康工业互联网股份有限公司2026年半年度报告",
+          "art_code": "AN202608111827859009",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-05",
+          "title": "工业富联:富士康工业互联网股份有限公司关于股份回购进展公告",
+          "art_code": "AN202608041827622949",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-31",
+          "title": "工业富联:富士康工业互联网股份有限公司关于回购股份事项前十名股东和前十名无限售条件股东持股情况的公告",
+          "art_code": "AN202607301827489281",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "工业富联:富士康工业互联网股份有限公司第四届董事会第二次会议决议公告",
+          "art_code": "AN202607271827384255",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-07-28",
+          "title": "工业富联:富士康工业互联网股份有限公司关于以集中竞价交易方式回购股份的回购报告书",
+          "art_code": "AN202607271827384253",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {},
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 14.3,
+        "trend": 19.2,
+        "structure": 8.0,
+        "events": 6.6
+      },
+      "technical_trade_score": 68.7,
+      "fundamental_status": "missing",
+      "fundamental_missing_fields": [
+        "report_date",
+        "revenue_yoy",
+        "net_profit_yoy",
+        "roe"
+      ],
+      "fundamental_report_date": null,
+      "fundamental_age_days": null,
+      "fundamental_risk_flags": [],
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-09-08"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.601138&klt=60&fqt=1&lmt=240&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 2004
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 360
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.601138&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        },
+        {
+          "source": "腾讯60分钟",
+          "ok": true,
+          "rows": 320,
+          "date": "2026-09-08 15:00:00"
+        }
+      ],
+      "metrics": {
+        "open": 66.3,
+        "high": 66.7,
+        "low": 64.55,
+        "close": 64.75,
+        "pct_change": -2.73,
+        "volume": 1076036.0,
+        "amount": 7060179547.0,
+        "turnover_rate": 0.54,
+        "rel_volume_20": 0.9335013174637635,
+        "ma_5": 64.002,
+        "ma_10": 63.626,
+        "ma_20": 63.753,
+        "ma_50": 62.8706,
+        "ma_100": 66.02780000000001,
+        "ma_200": 61.6156,
+        "ema_5": 64.45952216159793,
+        "ema_10": 63.93533292277279,
+        "ema_20": 63.62664576616911,
+        "ema_50": 63.9203490192841,
+        "rsi_14": 52.611436765361944,
+        "macd_dif": 0.2242611270734045,
+        "macd_dea": -0.03874817721419512,
+        "macd_hist": 0.5260186085751992,
+        "kdj_k": 65.85821898453585,
+        "kdj_d": 58.97867055749542,
+        "kdj_j": 79.61731583861672,
+        "stoch_rsi_k": 80.74105382867641,
+        "stoch_rsi_d": 67.2347093182786,
+        "adx_14": 12.707823460337172,
+        "plus_di_14": 30.503218176532386,
+        "minus_di_14": 20.902062906196026,
+        "obv": 152523779.0,
+        "high_20": 68.5,
+        "low_20": 58.75,
+        "atr_14": 2.7807880339831543
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "2026-09-03 工业富联:富士康工业互联网股份有限公司关于股份回购进展公告",
+        "2026-08-20 工业富联:富士康工业互联网股份有限公司关于以集中竞价交易方式首次回购股份的公告",
+        "板块动态匹配计算机、通信和其他电子设备制造业：长期逻辑7.3/8，当日1.7/4，5/20日趋势2.9/4，量能0.9/2，广度与龙头1.5/2"
+      ],
+      "sector_link": {
+        "board_type": "industry",
+        "board_code": "hangye_ZC39",
+        "board_name": "计算机、通信和其他电子设备制造业",
+        "board_score": 60.8,
+        "board_rank": 34,
+        "dynamic_score": 7.0,
+        "match_quality": 91,
+        "match_kind": "industry_contains",
+        "eligible_for_trade_gate": false
+      },
+      "rank": 4
+    },
+    {
       "code": "002916",
       "name": "深南电路",
       "industry": "电子元件",
@@ -18695,15 +18907,14 @@
       ],
       "data_date": "2026-09-08",
       "source": [
-        "腾讯日线",
+        "东方财富日线",
         "腾讯行情",
-        "腾讯60分钟",
-        "东方财富资金流"
+        "腾讯60分钟"
       ],
       "data_confidence": "high",
       "data_valid": true,
       "close": 382.5,
-      "pct_change": 4.800263028111118,
+      "pct_change": 4.8,
       "score": 63.8,
       "rating": "C",
       "daily_trend": "偏多震荡",
@@ -18751,16 +18962,7 @@
           "source": "东方财富公告"
         }
       ],
-      "fund_flow": {
-        "date": "2026-09-08",
-        "main_net_inflow": 66070800.0,
-        "small_net_inflow": 132614176.0,
-        "medium_net_inflow": -198684976.0,
-        "large_net_inflow": -26551616.0,
-        "super_large_net_inflow": 92622416.0,
-        "main_net_ratio": 1.29,
-        "source": "东方财富资金流"
-      },
+      "fund_flow": {},
       "score_breakdown": {
         "fundamental": 16.0,
         "industry": 14.4,
@@ -18792,19 +18994,15 @@
         },
         {
           "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002916&klt=101&fqt=1&lmt=360&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 2119
         },
         {
           "source": "腾讯日线",
           "ok": true,
           "date": "2026-09-08",
           "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002916&start=20241008&end=20260908&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
         },
         {
           "source": "东方财富财务",
@@ -18816,12 +19014,8 @@
         },
         {
           "source": "东方财富资金流",
-          "ok": true
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-08"
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002916&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
         },
         {
           "source": "腾讯60分钟",
@@ -18835,11 +19029,11 @@
         "high": 393.77,
         "low": 370.01,
         "close": 382.5,
-        "pct_change": 4.800263028111118,
-        "volume": 13299600.0,
-        "amount": 5110614700.0,
+        "pct_change": 4.8,
+        "volume": 132996.0,
+        "amount": 5110614699.85,
         "turnover_rate": 2.0,
-        "rel_volume_20": 1.6228009166050472,
+        "rel_volume_20": 1.622800916605047,
         "ma_5": 353.842,
         "ma_10": 356.816,
         "ma_20": 360.825,
@@ -18849,28 +19043,27 @@
         "ema_5": 361.6955760700802,
         "ema_10": 358.10095394100597,
         "ema_20": 357.7551114115306,
-        "ema_50": 360.95468714333,
-        "rsi_14": 56.77306697622752,
-        "macd_dif": -0.8432493930992564,
-        "macd_dea": -2.630089655816918,
-        "macd_hist": 3.573680525435323,
+        "ema_50": 360.9546865766058,
+        "rsi_14": 56.77306697623462,
+        "macd_dif": -0.843249393100848,
+        "macd_dea": -2.630089655819207,
+        "macd_hist": 3.5736805254367177,
         "kdj_k": 55.20215975271829,
         "kdj_d": 43.812984981284075,
         "kdj_j": 77.98050929558673,
-        "stoch_rsi_k": 66.02942432734422,
-        "stoch_rsi_d": 34.56400565033747,
-        "adx_14": 11.34216363063209,
-        "plus_di_14": 28.105183161171848,
-        "minus_di_14": 20.058412086870263,
-        "obv": 387235100.0,
+        "stoch_rsi_k": 66.02942432732779,
+        "stoch_rsi_d": 34.564005650319935,
+        "adx_14": 11.342163628639474,
+        "plus_di_14": 28.10518316118218,
+        "minus_di_14": 20.058412086881958,
+        "obv": 11274425.0,
         "high_20": 402.88,
         "low_20": 328.21,
-        "atr_14": 23.402362524370375
+        "atr_14": 23.40236252437604
       },
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
         "2026-08-27 深南电路:关于回购注销限制性股票激励计划(第二期)部分限制性股票的公告",
-        "主力净流入占比+1.29%（2026-09-08）",
         "板块动态匹配计算机、通信和其他电子设备制造业：长期逻辑7.4/8，当日1.7/4，5/20日趋势2.9/4，量能0.9/2，广度与龙头1.5/2"
       ],
       "sector_link": {
@@ -18884,7 +19077,7 @@
         "match_kind": "industry_contains",
         "eligible_for_trade_gate": false
       },
-      "rank": 4
+      "rank": 5
     },
     {
       "code": "600938",
@@ -19099,7 +19292,7 @@
         "match_kind": "industry_contains",
         "eligible_for_trade_gate": false
       },
-      "rank": 5
+      "rank": 6
     },
     {
       "code": "002602",
@@ -19112,14 +19305,13 @@
       ],
       "data_date": "2026-09-08",
       "source": [
-        "腾讯日线",
-        "腾讯行情",
-        "腾讯60分钟"
+        "东方财富日线",
+        "腾讯行情"
       ],
       "data_confidence": "high",
       "data_valid": true,
       "close": 16.13,
-      "pct_change": -0.18564356435644136,
+      "pct_change": -0.19,
       "score": 63.2,
       "rating": "C",
       "daily_trend": "强势多头",
@@ -19242,24 +19434,20 @@
         },
         {
           "source": "东方财富60分钟",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002602&klt=60&fqt=1&lmt=240&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+          "ok": true,
+          "date": "2026-09-08 15:00:00"
         },
         {
           "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002602&klt=101&fqt=1&lmt=360&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 3201
         },
         {
           "source": "腾讯日线",
           "ok": true,
           "date": "2026-09-08",
           "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002602&start=20241008&end=20260908&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
         },
         {
           "source": "东方财富财务",
@@ -19273,17 +19461,6 @@
           "source": "东方财富资金流",
           "ok": false,
           "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002602&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-08"
-        },
-        {
-          "source": "腾讯60分钟",
-          "ok": true,
-          "rows": 320,
-          "date": "2026-09-08 15:00:00"
         }
       ],
       "metrics": {
@@ -19291,37 +19468,37 @@
         "high": 16.42,
         "low": 16.02,
         "close": 16.13,
-        "pct_change": -0.18564356435644136,
-        "volume": 121487500.0,
-        "amount": 1966916857.0,
+        "pct_change": -0.19,
+        "volume": 1214875.0,
+        "amount": 1966916857.24,
         "turnover_rate": 1.79,
         "rel_volume_20": 1.058230393143425,
         "ma_5": 15.324000000000002,
         "ma_10": 14.645000000000001,
         "ma_20": 14.3405,
-        "ma_50": 13.903999999999998,
+        "ma_50": 13.904000000000002,
         "ma_100": 14.444600000000001,
         "ma_200": 16.10765,
         "ema_5": 15.499142888774124,
         "ema_10": 14.964808811029709,
-        "ema_20": 14.517208482671615,
-        "ema_50": 14.237662751497902,
-        "rsi_14": 71.7809593184743,
-        "macd_dif": 0.4557412657226152,
-        "macd_dea": 0.2194399575383758,
-        "macd_hist": 0.4726026163684788,
+        "ema_20": 14.517208482671613,
+        "ema_50": 14.23766213617501,
+        "rsi_14": 71.7809593185336,
+        "macd_dif": 0.45574126572315876,
+        "macd_dea": 0.21943995753917114,
+        "macd_hist": 0.47260261636797524,
         "kdj_k": 79.03302453425843,
         "kdj_d": 69.48529267406221,
         "kdj_j": 98.12848825465088,
-        "stoch_rsi_k": 99.28144995200357,
-        "stoch_rsi_d": 91.96321027599964,
-        "adx_14": 22.266152800470422,
-        "plus_di_14": 34.82443921033977,
-        "minus_di_14": 9.264184048392426,
-        "obv": 3564248000.0,
+        "stoch_rsi_k": 99.28144995200002,
+        "stoch_rsi_d": 91.96321027593092,
+        "adx_14": 22.266152799679674,
+        "plus_di_14": 34.82443921038335,
+        "minus_di_14": 9.2641840484146,
+        "obv": 114861587.0,
         "high_20": 16.58,
         "low_20": 13.51,
-        "atr_14": 0.6177545501677385
+        "atr_14": 0.617754550167731
       },
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
@@ -19338,7 +19515,7 @@
         "match_kind": "industry_exact_or_alias",
         "eligible_for_trade_gate": false
       },
-      "rank": 6
+      "rank": 7
     },
     {
       "code": "002648",
@@ -19531,256 +19708,6 @@
         "dynamic_score": 6.0,
         "match_quality": 0,
         "match_kind": "none",
-        "eligible_for_trade_gate": false
-      },
-      "rank": 7
-    },
-    {
-      "code": "601138",
-      "name": "工业富联",
-      "industry": "消费电子",
-      "themes": [
-        "AI算力",
-        "服务器"
-      ],
-      "data_date": "2026-09-08",
-      "source": [
-        "腾讯日线",
-        "腾讯行情",
-        "腾讯60分钟",
-        "东方财富资金流"
-      ],
-      "data_confidence": "high",
-      "data_valid": true,
-      "close": 64.75,
-      "pct_change": -2.733964248159826,
-      "score": 62.6,
-      "rating": "C",
-      "daily_trend": "多头",
-      "weekly_trend": "多头",
-      "trend_60m": "多头",
-      "conclusion": "多头/多头，60分钟多头；股票结构较强，目前优先等待回踩或突破确认。",
-      "patterns": [],
-      "levels": {
-        "status": "ready",
-        "pullback_low": 62.78,
-        "pullback_high": 64.73,
-        "breakout_trigger": 68.71,
-        "no_chase_above": 70.93,
-        "invalidation": 61.62,
-        "target_1": 68.71,
-        "target_2": 79.25,
-        "risk_reward_1": 2.32,
-        "risk_reward_2": 7.26,
-        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
-      },
-      "financials": {},
-      "announcements": [
-        {
-          "date": "2026-09-03",
-          "title": "工业富联:富士康工业互联网股份有限公司关于股份回购进展公告",
-          "art_code": "AN202609021828922529",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-26",
-          "title": "工业富联:富士康工业互联网股份有限公司投资者关系活动记录表20260825",
-          "art_code": "AN202608261828484856",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-20",
-          "title": "工业富联:富士康工业互联网股份有限公司关于以集中竞价交易方式首次回购股份的公告",
-          "art_code": "AN202608191828157550",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-19",
-          "title": "工业富联:富士康工业互联网股份有限公司关于召开2026年半年度业绩说明会的公告",
-          "art_code": "AN202608181828107814",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-12",
-          "title": "工业富联:富士康工业互联网股份有限公司2026年半年度募集资金存放、管理与实际使用情况的专项报告",
-          "art_code": "AN202608111827859008",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-12",
-          "title": "工业富联:富士康工业互联网股份有限公司第四届董事会第三次会议决议公告",
-          "art_code": "AN202608111827859011",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-12",
-          "title": "工业富联:富士康工业互联网股份有限公司2026年半年度报告摘要",
-          "art_code": "AN202608111827859014",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-12",
-          "title": "工业富联:富士康工业互联网股份有限公司2026年半年度报告",
-          "art_code": "AN202608111827859009",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-05",
-          "title": "工业富联:富士康工业互联网股份有限公司关于股份回购进展公告",
-          "art_code": "AN202608041827622949",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-07-31",
-          "title": "工业富联:富士康工业互联网股份有限公司关于回购股份事项前十名股东和前十名无限售条件股东持股情况的公告",
-          "art_code": "AN202607301827489281",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-07-28",
-          "title": "工业富联:富士康工业互联网股份有限公司第四届董事会第二次会议决议公告",
-          "art_code": "AN202607271827384255",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-07-28",
-          "title": "工业富联:富士康工业互联网股份有限公司关于以集中竞价交易方式回购股份的回购报告书",
-          "art_code": "AN202607271827384253",
-          "source": "东方财富公告"
-        }
-      ],
-      "fund_flow": {
-        "date": "2026-09-08",
-        "main_net_inflow": -895342528.0,
-        "small_net_inflow": 748798592.0,
-        "medium_net_inflow": 146543936.0,
-        "large_net_inflow": -124049360.0,
-        "super_large_net_inflow": -771293168.0,
-        "main_net_ratio": -12.68,
-        "source": "东方财富资金流"
-      },
-      "score_breakdown": {
-        "fundamental": 16.0,
-        "industry": 14.3,
-        "trend": 19.2,
-        "structure": 8.0,
-        "events": 5.1
-      },
-      "technical_trade_score": 66.6,
-      "fundamental_status": "missing",
-      "fundamental_missing_fields": [
-        "report_date",
-        "revenue_yoy",
-        "net_profit_yoy",
-        "roe"
-      ],
-      "fundamental_report_date": null,
-      "fundamental_age_days": null,
-      "fundamental_risk_flags": [],
-      "source_status": [
-        {
-          "source": "腾讯行情",
-          "ok": true,
-          "date": "2026-09-08"
-        },
-        {
-          "source": "东方财富60分钟",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.601138&klt=60&fqt=1&lmt=240&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
-        },
-        {
-          "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.601138&klt=101&fqt=1&lmt=360&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
-        },
-        {
-          "source": "腾讯日线",
-          "ok": true,
-          "date": "2026-09-08",
-          "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0601138&start=20241008&end=20260908&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
-        },
-        {
-          "source": "东方财富财务",
-          "ok": false
-        },
-        {
-          "source": "东方财富公告",
-          "ok": true
-        },
-        {
-          "source": "东方财富资金流",
-          "ok": true
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-08"
-        },
-        {
-          "source": "腾讯60分钟",
-          "ok": true,
-          "rows": 320,
-          "date": "2026-09-08 15:00:00"
-        }
-      ],
-      "metrics": {
-        "open": 66.3,
-        "high": 66.7,
-        "low": 64.55,
-        "close": 64.75,
-        "pct_change": -2.733964248159826,
-        "volume": 107603600.0,
-        "amount": 7060179547.0,
-        "turnover_rate": 0.54,
-        "rel_volume_20": 0.9335013174637635,
-        "ma_5": 64.002,
-        "ma_10": 63.626,
-        "ma_20": 63.753,
-        "ma_50": 62.8706,
-        "ma_100": 66.02780000000001,
-        "ma_200": 61.6156,
-        "ema_5": 64.45952216159793,
-        "ema_10": 63.93533292277279,
-        "ema_20": 63.62664576616911,
-        "ema_50": 63.92034855131137,
-        "rsi_14": 52.61143676534796,
-        "macd_dif": 0.22426112707399426,
-        "macd_dea": -0.03874817721332549,
-        "macd_hist": 0.5260186085746394,
-        "kdj_k": 65.85821898453585,
-        "kdj_d": 58.97867055749542,
-        "kdj_j": 79.61731583861672,
-        "stoch_rsi_k": 80.74105382873934,
-        "stoch_rsi_d": 67.23470931836208,
-        "adx_14": 12.707823461690571,
-        "plus_di_14": 30.503218176527376,
-        "minus_di_14": 20.90206290618519,
-        "obv": 7925971800.0,
-        "high_20": 68.5,
-        "low_20": 58.75,
-        "atr_14": 2.780788033982341
-      },
-      "events": [
-        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
-        "2026-09-03 工业富联:富士康工业互联网股份有限公司关于股份回购进展公告",
-        "2026-08-20 工业富联:富士康工业互联网股份有限公司关于以集中竞价交易方式首次回购股份的公告",
-        "主力净流入占比-12.68%（2026-09-08）",
-        "板块动态匹配计算机、通信和其他电子设备制造业：长期逻辑7.3/8，当日1.7/4，5/20日趋势2.9/4，量能0.9/2，广度与龙头1.5/2"
-      ],
-      "sector_link": {
-        "board_type": "industry",
-        "board_code": "hangye_ZC39",
-        "board_name": "计算机、通信和其他电子设备制造业",
-        "board_score": 60.8,
-        "board_rank": 34,
-        "dynamic_score": 7.0,
-        "match_quality": 91,
-        "match_kind": "industry_contains",
         "eligible_for_trade_gate": false
       },
       "rank": 8
@@ -20029,14 +19956,14 @@
       ],
       "data_date": "2026-09-08",
       "source": [
-        "腾讯日线",
+        "东方财富日线",
         "腾讯行情",
         "腾讯60分钟"
       ],
       "data_confidence": "high",
       "data_valid": true,
       "close": 124.9,
-      "pct_change": 1.8344883815735846,
+      "pct_change": 1.83,
       "score": 61.3,
       "rating": "C",
       "daily_trend": "偏多震荡",
@@ -20166,19 +20093,15 @@
         },
         {
           "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002463&klt=101&fqt=1&lmt=360&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 3891
         },
         {
           "source": "腾讯日线",
           "ok": true,
           "date": "2026-09-08",
           "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002463&start=20241008&end=20260908&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
         },
         {
           "source": "东方财富财务",
@@ -20194,11 +20117,6 @@
           "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002463&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
         },
         {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-08"
-        },
-        {
           "source": "腾讯60分钟",
           "ok": true,
           "rows": 320,
@@ -20210,13 +20128,13 @@
         "high": 129.25,
         "low": 124.0,
         "close": 124.9,
-        "pct_change": 1.8344883815735846,
-        "volume": 69084900.0,
-        "amount": 8721162708.0,
+        "pct_change": 1.83,
+        "volume": 690849.0,
+        "amount": 8721162707.51,
         "turnover_rate": 3.59,
         "rel_volume_20": 1.4830553410034,
         "ma_5": 118.772,
-        "ma_10": 120.24300000000001,
+        "ma_10": 120.24299999999998,
         "ma_20": 119.74250000000002,
         "ma_50": 120.9422,
         "ma_100": 121.03209999999999,
@@ -20224,23 +20142,23 @@
         "ema_5": 120.67330551532658,
         "ema_10": 119.88432905496728,
         "ema_20": 119.49148489583897,
-        "ema_50": 120.0415546040683,
-        "rsi_14": 54.72782893470783,
-        "macd_dif": 0.11359771761908632,
-        "macd_dea": -0.35756983010899435,
-        "macd_hist": 0.9423350954561613,
+        "ema_50": 120.04155637132897,
+        "rsi_14": 54.72782893471694,
+        "macd_dif": 0.11359771761713944,
+        "macd_dea": -0.3575698301118553,
+        "macd_hist": 0.9423350954579894,
         "kdj_k": 55.244005383002346,
         "kdj_d": 47.881044039445854,
         "kdj_j": 69.96992807011534,
-        "stoch_rsi_k": 61.64835065912673,
-        "stoch_rsi_d": 38.97537626828969,
-        "adx_14": 11.759804875697709,
-        "plus_di_14": 25.039208848275663,
-        "minus_di_14": 18.529343352054653,
-        "obv": 3146365100.0,
+        "stoch_rsi_k": 61.64835065909718,
+        "stoch_rsi_d": 38.975376268241384,
+        "adx_14": 11.759804873905665,
+        "plus_di_14": 25.0392088482806,
+        "minus_di_14": 18.529343352065162,
+        "obv": 173307375.0,
         "high_20": 129.25,
         "low_20": 110.59,
-        "atr_14": 7.4881719858147235
+        "atr_14": 7.488171985817171
       },
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
@@ -20508,15 +20426,14 @@
       ],
       "data_date": "2026-09-08",
       "source": [
-        "腾讯日线",
+        "东方财富日线",
         "腾讯行情",
-        "腾讯60分钟",
-        "东方财富资金流"
+        "腾讯60分钟"
       ],
       "data_confidence": "high",
       "data_valid": true,
       "close": 146.28,
-      "pct_change": -1.2622342220722227,
+      "pct_change": -1.26,
       "score": 60.9,
       "rating": "C",
       "daily_trend": "多头",
@@ -20612,16 +20529,7 @@
           "source": "东方财富公告"
         }
       ],
-      "fund_flow": {
-        "date": "2026-09-08",
-        "main_net_inflow": -35069744.0,
-        "small_net_inflow": -8392896.0,
-        "medium_net_inflow": 43462608.0,
-        "large_net_inflow": 98821104.0,
-        "super_large_net_inflow": -133890848.0,
-        "main_net_ratio": -0.34,
-        "source": "东方财富资金流"
-      },
+      "fund_flow": {},
       "score_breakdown": {
         "fundamental": 16.0,
         "industry": 14.3,
@@ -20653,19 +20561,15 @@
         },
         {
           "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600183&klt=101&fqt=1&lmt=360&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 6669
         },
         {
           "source": "腾讯日线",
           "ok": true,
           "date": "2026-09-08",
           "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0600183&start=20241008&end=20260908&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
         },
         {
           "source": "东方财富财务",
@@ -20677,12 +20581,8 @@
         },
         {
           "source": "东方财富资金流",
-          "ok": true
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-08"
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.600183&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
         },
         {
           "source": "腾讯60分钟",
@@ -20696,8 +20596,8 @@
         "high": 151.25,
         "low": 145.5,
         "close": 146.28,
-        "pct_change": -1.2622342220722227,
-        "volume": 69034400.0,
+        "pct_change": -1.26,
+        "volume": 690344.0,
         "amount": 10247536038.0,
         "turnover_rate": 2.86,
         "rel_volume_20": 0.9266090030373604,
@@ -20706,32 +20606,31 @@
         "ma_20": 139.324,
         "ma_50": 135.91219999999998,
         "ma_100": 128.08800000000002,
-        "ma_200": 95.44599999999998,
+        "ma_200": 95.446,
         "ema_5": 144.62571654970148,
         "ema_10": 142.6154100405969,
         "ema_20": 139.4175568127615,
-        "ema_50": 135.5135968716542,
-        "rsi_14": 55.453274084926775,
-        "macd_dif": 3.4152524396866397,
-        "macd_dea": 2.391982068334224,
-        "macd_hist": 2.046540742704831,
+        "ema_50": 135.51359702660093,
+        "rsi_14": 55.45327408491031,
+        "macd_dif": 3.415252439685304,
+        "macd_dea": 2.3919820683322786,
+        "macd_hist": 2.0465407427060507,
         "kdj_k": 59.65434833411477,
         "kdj_d": 60.09462668708319,
         "kdj_j": 58.77379162817792,
-        "stoch_rsi_k": 53.70286340976392,
-        "stoch_rsi_d": 51.81137675695532,
-        "adx_14": 17.95117730006432,
-        "plus_di_14": 21.869655384288016,
-        "minus_di_14": 14.861079747850146,
-        "obv": 2823285300.0,
+        "stoch_rsi_k": 53.70286340984348,
+        "stoch_rsi_d": 51.81137675702687,
+        "adx_14": 17.951177298124346,
+        "plus_di_14": 21.869655384294077,
+        "minus_di_14": 14.861079747857408,
+        "obv": 175562467.0,
         "high_20": 157.28,
         "low_20": 122.05,
-        "atr_14": 10.690571774208351
+        "atr_14": 10.6905717742101
       },
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
         "风险：2026-08-08 生益科技:生益科技股票交易风险提示公告",
-        "主力净流入占比-0.34%（2026-09-08）",
         "板块动态匹配计算机、通信和其他电子设备制造业：长期逻辑7.4/8，当日1.7/4，5/20日趋势2.9/4，量能0.9/2，广度与龙头1.5/2"
       ],
       "sector_link": {
@@ -22192,14 +22091,13 @@
       ],
       "data_date": "2026-09-08",
       "source": [
-        "腾讯日线",
-        "腾讯行情",
-        "腾讯60分钟"
+        "东方财富日线",
+        "腾讯行情"
       ],
       "data_confidence": "high",
       "data_valid": true,
       "close": 179.92,
-      "pct_change": -2.4665257223396853,
+      "pct_change": -2.47,
       "score": 56.0,
       "rating": "D",
       "daily_trend": "震荡",
@@ -22322,24 +22220,20 @@
         },
         {
           "source": "东方财富60分钟",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002281&klt=60&fqt=1&lmt=240&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+          "ok": true,
+          "date": "2026-09-08 15:00:00"
         },
         {
           "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002281&klt=101&fqt=1&lmt=360&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 4075
         },
         {
           "source": "腾讯日线",
           "ok": true,
           "date": "2026-09-08",
           "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002281&start=20241008&end=20260908&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
         },
         {
           "source": "东方财富财务",
@@ -22353,17 +22247,6 @@
           "source": "东方财富资金流",
           "ok": false,
           "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002281&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-08"
-        },
-        {
-          "source": "腾讯60分钟",
-          "ok": true,
-          "rows": 320,
-          "date": "2026-09-08 15:00:00"
         }
       ],
       "metrics": {
@@ -22371,13 +22254,13 @@
         "high": 190.46,
         "low": 178.48,
         "close": 179.92,
-        "pct_change": -2.4665257223396853,
-        "volume": 36342900.0,
-        "amount": 6661375691.0,
+        "pct_change": -2.47,
+        "volume": 363429.0,
+        "amount": 6661375691.04,
         "turnover_rate": 4.62,
         "rel_volume_20": 1.0385112925519193,
         "ma_5": 175.802,
-        "ma_10": 175.75,
+        "ma_10": 175.74999999999997,
         "ma_20": 178.9805,
         "ma_50": 188.97279999999998,
         "ma_100": 193.9296,
@@ -22385,23 +22268,23 @@
         "ema_5": 177.70610502115574,
         "ema_10": 176.9050297142211,
         "ema_20": 178.2805851209805,
-        "ema_50": 184.7184239940104,
-        "rsi_14": 49.82283184999765,
-        "macd_dif": -2.972946024998379,
-        "macd_dea": -4.284179194839981,
-        "macd_hist": 2.6224663396832053,
+        "ema_50": 184.71842502441714,
+        "rsi_14": 49.822831850035705,
+        "macd_dif": -2.9729460250008515,
+        "macd_dea": -4.2841791948436425,
+        "macd_hist": 2.622466339685582,
         "kdj_k": 62.391252582003695,
         "kdj_d": 57.16603990132715,
         "kdj_j": 72.84167794335679,
-        "stoch_rsi_k": 62.416789507764435,
-        "stoch_rsi_d": 44.72487993864595,
-        "adx_14": 14.95016737216128,
-        "plus_di_14": 22.38138077666229,
-        "minus_di_14": 21.6291426988538,
-        "obv": 2402934400.0,
+        "stoch_rsi_k": 62.416789507681955,
+        "stoch_rsi_d": 44.72487993851305,
+        "adx_14": 14.950167370389657,
+        "plus_di_14": 22.381380776666006,
+        "minus_di_14": 21.62914269885945,
+        "obv": 63063784.0,
         "high_20": 202.38,
         "low_20": 160.31,
-        "atr_14": 12.56450805619478
+        "atr_14": 12.564508056198864
       },
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
@@ -24740,14 +24623,13 @@
       ],
       "data_date": "2026-09-08",
       "source": [
-        "腾讯日线",
-        "腾讯行情",
-        "腾讯60分钟"
+        "东方财富日线",
+        "腾讯行情"
       ],
       "data_confidence": "high",
       "data_valid": true,
       "close": 385.96,
-      "pct_change": 0.13491075134910435,
+      "pct_change": 0.13,
       "score": 47.7,
       "rating": "D",
       "daily_trend": "空头",
@@ -24870,24 +24752,20 @@
         },
         {
           "source": "东方财富60分钟",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.603986&klt=60&fqt=1&lmt=240&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+          "ok": true,
+          "date": "2026-09-08 15:00:00"
         },
         {
           "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.603986&klt=101&fqt=1&lmt=360&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 2236
         },
         {
           "source": "腾讯日线",
           "ok": true,
           "date": "2026-09-08",
           "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0603986&start=20241008&end=20260908&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
         },
         {
           "source": "东方财富财务",
@@ -24901,17 +24779,6 @@
           "source": "东方财富资金流",
           "ok": false,
           "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.603986&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-08"
-        },
-        {
-          "source": "腾讯60分钟",
-          "ok": true,
-          "rows": 320,
-          "date": "2026-09-08 15:00:00"
         }
       ],
       "metrics": {
@@ -24919,37 +24786,37 @@
         "high": 398.0,
         "low": 381.96,
         "close": 385.96,
-        "pct_change": 0.13491075134910435,
-        "volume": 37469800.0,
+        "pct_change": 0.13,
+        "volume": 374698.0,
         "amount": 14605531473.0,
         "turnover_rate": 5.59,
-        "rel_volume_20": 0.9326996484497613,
+        "rel_volume_20": 0.9326996484497612,
         "ma_5": 383.06800000000004,
         "ma_10": 391.486,
-        "ma_20": 401.2095,
+        "ma_20": 401.20950000000005,
         "ma_50": 458.4164,
-        "ma_100": 460.9518,
-        "ma_200": 357.86220000000003,
+        "ma_100": 460.95179999999993,
+        "ma_200": 357.8621999999999,
         "ema_5": 385.4079581650613,
         "ema_10": 389.7825514382857,
         "ema_20": 399.8095135526595,
-        "ema_50": 432.54501259206586,
-        "rsi_14": 43.54974260467692,
-        "macd_dif": -16.404296748231786,
-        "macd_dea": -18.556289358792583,
-        "macd_hist": 4.303985221121593,
+        "ema_50": 432.545010979838,
+        "rsi_14": 43.54974260472133,
+        "macd_dif": -16.40429674823349,
+        "macd_dea": -18.556289358795183,
+        "macd_hist": 4.3039852211233836,
         "kdj_k": 36.94776606535192,
         "kdj_d": 38.88975455415215,
         "kdj_j": 33.06378908775147,
-        "stoch_rsi_k": 36.748687672954226,
-        "stoch_rsi_d": 25.611030488954388,
-        "adx_14": 19.094302635254124,
-        "plus_di_14": 18.899762499950864,
-        "minus_di_14": 27.09651331402924,
-        "obv": 1263184000.0,
+        "stoch_rsi_k": 36.74868767285355,
+        "stoch_rsi_d": 25.611030488820017,
+        "adx_14": 19.09430263409664,
+        "plus_di_14": 18.899762499962417,
+        "minus_di_14": 27.096513314037043,
+        "obv": 31876894.0,
         "high_20": 455.81,
         "low_20": 367.0,
-        "atr_14": 23.958847598032825
+        "atr_14": 23.958847598036236
       },
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
@@ -26578,15 +26445,14 @@
       ],
       "data_date": "2026-09-08",
       "source": [
-        "腾讯日线",
+        "东方财富日线",
         "腾讯行情",
-        "腾讯60分钟",
-        "东方财富资金流"
+        "腾讯60分钟"
       ],
       "data_confidence": "high",
       "data_valid": true,
       "close": 100.53,
-      "pct_change": -1.3541360023550109,
+      "pct_change": -1.35,
       "score": 45.7,
       "rating": "D",
       "daily_trend": "空头",
@@ -26654,16 +26520,7 @@
           "source": "东方财富公告"
         }
       ],
-      "fund_flow": {
-        "date": "2026-09-08",
-        "main_net_inflow": 15189216.0,
-        "small_net_inflow": 18790368.0,
-        "medium_net_inflow": -33979584.0,
-        "large_net_inflow": -9246000.0,
-        "super_large_net_inflow": 24435216.0,
-        "main_net_ratio": 0.46,
-        "source": "东方财富资金流"
-      },
+      "fund_flow": {},
       "score_breakdown": {
         "fundamental": 16.0,
         "industry": 12.5,
@@ -26695,19 +26552,15 @@
         },
         {
           "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.000988&klt=101&fqt=1&lmt=360&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 6291
         },
         {
           "source": "腾讯日线",
           "ok": true,
           "date": "2026-09-08",
           "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1000988&start=20241008&end=20260908&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
         },
         {
           "source": "东方财富财务",
@@ -26719,12 +26572,8 @@
         },
         {
           "source": "东方财富资金流",
-          "ok": true
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-08"
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.000988&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
         },
         {
           "source": "腾讯60分钟",
@@ -26738,41 +26587,40 @@
         "high": 103.44,
         "low": 100.22,
         "close": 100.53,
-        "pct_change": -1.3541360023550109,
-        "volume": 32543400.0,
-        "amount": 3312872786.0,
+        "pct_change": -1.35,
+        "volume": 325434.0,
+        "amount": 3312872785.88,
         "turnover_rate": 3.24,
         "rel_volume_20": 0.7380077482717649,
         "ma_5": 99.264,
         "ma_10": 101.423,
         "ma_20": 104.24600000000001,
-        "ma_50": 116.14219999999999,
-        "ma_100": 131.77136,
-        "ma_200": 110.13218,
-        "ema_5": 100.25589874763705,
-        "ema_10": 101.25479175097769,
-        "ema_20": 103.69132676956659,
-        "ema_50": 113.8523946845403,
-        "rsi_14": 43.310043639217284,
-        "macd_dif": -4.054871525461877,
-        "macd_dea": -4.580494868796727,
-        "macd_hist": 1.0512466866696997,
-        "kdj_k": 35.31533406810604,
-        "kdj_d": 29.890454340527143,
-        "kdj_j": 46.165093523263835,
-        "stoch_rsi_k": 61.34910323957041,
-        "stoch_rsi_d": 31.56081219096792,
-        "adx_14": 30.070848728882655,
-        "plus_di_14": 14.276088909852657,
-        "minus_di_14": 25.09669169164823,
-        "obv": 3121891500.0,
+        "ma_50": 116.14220000000002,
+        "ma_100": 131.7706,
+        "ma_200": 110.1308,
+        "ema_5": 100.25589874763702,
+        "ema_10": 101.25479174307598,
+        "ema_20": 103.69132273165334,
+        "ema_50": 113.85222685493292,
+        "rsi_14": 43.31007118212808,
+        "macd_dif": -4.0548546550727735,
+        "macd_dea": -4.5804701945810695,
+        "macd_hist": 1.051231079016592,
+        "kdj_k": 35.31533406810672,
+        "kdj_d": 29.890454340540067,
+        "kdj_j": 46.16509352324003,
+        "stoch_rsi_k": 61.349096776363155,
+        "stoch_rsi_d": 31.560810036565584,
+        "adx_14": 30.070720997656107,
+        "plus_di_14": 14.276111087244873,
+        "minus_di_14": 25.096685198964554,
+        "obv": 169378087.0,
         "high_20": 114.58,
         "low_20": 94.61,
-        "atr_14": 6.009356152341976
+        "atr_14": 6.009357707008101
       },
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
-        "主力净流入占比+0.46%（2026-09-08）",
         "板块动态匹配电信、广播电视和卫星传输服务：长期逻辑7.5/8，当日2.0/4，5/20日趋势1.2/4，量能0.8/2，广度与龙头1.1/2"
       ],
       "sector_link": {
@@ -27513,15 +27361,14 @@
       ],
       "data_date": "2026-09-08",
       "source": [
-        "腾讯日线",
+        "东方财富日线",
         "腾讯行情",
-        "腾讯60分钟",
-        "东方财富资金流"
+        "腾讯60分钟"
       ],
       "data_confidence": "high",
       "data_valid": true,
       "close": 68.6,
-      "pct_change": -0.5797101449275477,
+      "pct_change": -0.58,
       "score": 44.5,
       "rating": "D",
       "daily_trend": "空头",
@@ -27608,16 +27455,7 @@
           "source": "东方财富公告"
         }
       ],
-      "fund_flow": {
-        "date": "2026-09-08",
-        "main_net_inflow": -150153184.0,
-        "small_net_inflow": 95929808.0,
-        "medium_net_inflow": 54223376.0,
-        "large_net_inflow": -83592384.0,
-        "super_large_net_inflow": -66560800.0,
-        "main_net_ratio": -2.94,
-        "source": "东方财富资金流"
-      },
+      "fund_flow": {},
       "score_breakdown": {
         "fundamental": 16.0,
         "industry": 12.9,
@@ -27649,19 +27487,15 @@
         },
         {
           "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600584&klt=101&fqt=1&lmt=360&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 5345
         },
         {
           "source": "腾讯日线",
           "ok": true,
           "date": "2026-09-08",
           "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0600584&start=20241008&end=20260908&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
         },
         {
           "source": "东方财富财务",
@@ -27673,12 +27507,8 @@
         },
         {
           "source": "东方财富资金流",
-          "ok": true
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-08"
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.600584&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
         },
         {
           "source": "腾讯60分钟",
@@ -27692,11 +27522,11 @@
         "high": 70.3,
         "low": 68.11,
         "close": 68.6,
-        "pct_change": -0.5797101449275477,
-        "volume": 73836100.0,
+        "pct_change": -0.58,
+        "volume": 738361.0,
         "amount": 5107935645.0,
         "turnover_rate": 4.13,
-        "rel_volume_20": 0.7004036070793828,
+        "rel_volume_20": 0.7004036070793827,
         "ma_5": 69.508,
         "ma_10": 72.167,
         "ma_20": 75.5645,
@@ -27706,27 +27536,26 @@
         "ema_5": 69.76958234192705,
         "ema_10": 71.60115273990489,
         "ema_20": 73.86540169949377,
-        "ema_50": 76.32240943016645,
-        "rsi_14": 39.65936436987777,
-        "macd_dif": -2.6893908265745523,
-        "macd_dea": -2.033665193065588,
-        "macd_hist": -1.3114512670179286,
+        "ema_50": 76.32241040680118,
+        "rsi_14": 39.65936436991335,
+        "macd_dif": -2.689390826575746,
+        "macd_dea": -2.033665193067357,
+        "macd_hist": -1.3114512670167784,
         "kdj_k": 16.242015055910294,
         "kdj_d": 17.550643974482345,
         "kdj_j": 13.624757218766192,
-        "stoch_rsi_k": 14.000789309561053,
-        "stoch_rsi_d": 7.211561474348489,
-        "adx_14": 16.777745680652455,
-        "plus_di_14": 18.387289120429394,
-        "minus_di_14": 30.23459042789135,
-        "obv": 4081781700.0,
+        "stoch_rsi_k": 14.000789309520945,
+        "stoch_rsi_d": 7.211561474328172,
+        "adx_14": 16.777745678512808,
+        "plus_di_14": 18.387289120430744,
+        "minus_di_14": 30.234590427894812,
+        "obv": 216073177.0,
         "high_20": 87.5,
         "low_20": 66.63,
-        "atr_14": 4.354074900869273
+        "atr_14": 4.354074900871129
       },
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
-        "主力净流入占比-2.94%（2026-09-08）",
         "板块动态数据暂缺，动态12分按中性6分计入"
       ],
       "sector_link": {
@@ -29392,14 +29221,13 @@
       ],
       "data_date": "2026-09-08",
       "source": [
-        "腾讯日线",
-        "腾讯行情",
-        "腾讯60分钟"
+        "东方财富日线",
+        "腾讯行情"
       ],
       "data_confidence": "high",
       "data_valid": true,
       "close": 39.04,
-      "pct_change": 0.6185567010309256,
+      "pct_change": 0.62,
       "score": 42.7,
       "rating": "D",
       "daily_trend": "空头",
@@ -29512,24 +29340,20 @@
         },
         {
           "source": "东方财富60分钟",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600111&klt=60&fqt=1&lmt=240&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+          "ok": true,
+          "date": "2026-09-08 15:00:00"
         },
         {
           "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600111&klt=101&fqt=1&lmt=360&beg=0&end=20260908&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+          "ok": true,
+          "date": "2026-09-08",
+          "rows": 6964
         },
         {
           "source": "腾讯日线",
           "ok": true,
           "date": "2026-09-08",
           "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0600111&start=20241008&end=20260908&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
         },
         {
           "source": "东方财富财务",
@@ -29543,17 +29367,6 @@
           "source": "东方财富资金流",
           "ok": false,
           "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.600111&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-08"
-        },
-        {
-          "source": "腾讯60分钟",
-          "ok": true,
-          "rows": 320,
-          "date": "2026-09-08 15:00:00"
         }
       ],
       "metrics": {
@@ -29561,8 +29374,8 @@
         "high": 39.23,
         "low": 38.7,
         "close": 39.04,
-        "pct_change": 0.6185567010309256,
-        "volume": 27873500.0,
+        "pct_change": 0.62,
+        "volume": 278735.0,
         "amount": 1084199924.0,
         "turnover_rate": 0.77,
         "rel_volume_20": 0.5674008771115573,
@@ -29570,28 +29383,28 @@
         "ma_10": 39.701,
         "ma_20": 40.4425,
         "ma_50": 41.1966,
-        "ma_100": 45.78360000000001,
+        "ma_100": 45.7836,
         "ma_200": 47.5572,
         "ema_5": 39.11687897746791,
         "ema_10": 39.53549130625798,
         "ema_20": 40.1243009598784,
-        "ema_50": 41.87458678872962,
-        "rsi_14": 40.2470282452374,
-        "macd_dif": -0.7624914590113292,
-        "macd_dea": -0.6411276002514054,
-        "macd_hist": -0.24272771751984767,
+        "ema_50": 41.8745865170876,
+        "rsi_14": 40.24702824538615,
+        "macd_dif": -0.762491459011656,
+        "macd_dea": -0.6411276002518901,
+        "macd_hist": -0.24272771751953193,
         "kdj_k": 18.9831624218151,
         "kdj_d": 21.79825526829739,
         "kdj_j": 13.352976728850521,
-        "stoch_rsi_k": 12.333561993744352,
-        "stoch_rsi_d": 5.1656547288394705,
-        "adx_14": 15.672782847812847,
-        "plus_di_14": 18.914545546377788,
-        "minus_di_14": 27.706870610235132,
-        "obv": 7537795100.0,
+        "stoch_rsi_k": 12.33356199365737,
+        "stoch_rsi_d": 5.165654728803179,
+        "adx_14": 15.672782846987769,
+        "plus_di_14": 18.91454554640314,
+        "minus_di_14": 27.7068706102519,
+        "obv": 351939625.0,
         "high_20": 42.98,
         "low_20": 38.41,
-        "atr_14": 1.13274852044716
+        "atr_14": 1.1327485204475918
       },
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
@@ -31700,17 +31513,15 @@
     "603228",
     "002436",
     "600036",
-    "002916",
-    "600938"
+    "601138",
+    "002916"
   ],
   "comparison": {
     "baseline": false,
     "new_top5": [
-      "002916",
-      "600938"
+      "002916"
     ],
     "dropped_top5": [
-      "601138",
       "600183"
     ],
     "rank_moves": [
@@ -31792,12 +31603,12 @@
       {
         "code": "002648",
         "before": 13,
-        "after": 7
+        "after": 8
       },
       {
         "code": "002916",
         "before": 8,
-        "after": 4
+        "after": 5
       },
       {
         "code": "300014",
@@ -31877,7 +31688,7 @@
       {
         "code": "600938",
         "before": 40,
-        "after": 5
+        "after": 6
       },
       {
         "code": "600941",
@@ -31887,7 +31698,7 @@
       {
         "code": "601138",
         "before": 1,
-        "after": 8
+        "after": 4
       },
       {
         "code": "601318",
@@ -32029,7 +31840,7 @@
       {
         "code": "601138",
         "before": 68.9,
-        "after": 62.6
+        "after": 64.1
       },
       {
         "code": "601318",
@@ -32840,7 +32651,7 @@
   "alerts": [
     "景旺电子已达到放量突破触发条件106.33",
     "兴森科技已达到放量突破触发条件39.50",
-    "Top5发生变化：新进002916、600938；调出601138、600183",
+    "Top5发生变化：新进002916；调出600183",
     "002008新增公告：大族激光:关于股东部分股份解除质押的公告",
     "002415新增公告：海康威视:关于公司高级管理人员增持公司股份的公告",
     "002436新增公告：兴森科技:2026年第三次临时股东会法律意见书",
@@ -32869,14 +32680,14 @@
     "target_date": "2026-09-08",
     "valid_for": "2026-09-09",
     "market_regime": {
-      "score": 54.7,
+      "score": 54.8,
       "label": "neutral",
       "max_total_weight_pct": 50.0,
       "evidence": [
         "三大指数均值-0.49%（分项37.8）",
         "上涨家数占比62.8%",
         "市场中位涨跌幅+0.54%（分项63.4）",
-        "行业上涨比例67.9%"
+        "行业上涨比例69.0%"
       ]
     },
     "executable": [],
@@ -33163,6 +32974,102 @@
         "risk_reward_1": 1.8,
         "risk_reward_2": 3.0,
         "no_chase_above": 42.31,
+        "market_regime": "neutral"
+      },
+      {
+        "plan_id": "2026-09-08:601138:pullback:v1",
+        "code": "601138",
+        "name": "工业富联",
+        "industry": "消费电子",
+        "setup": "pullback",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 68.7,
+        "composite_score": 64.1,
+        "valid_for": "2026-09-09",
+        "expires_after": "2026-09-09",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 62.78,
+          "high": 64.73,
+          "reference": 63.76
+        },
+        "trigger": {
+          "kind": "pullback_reclaim",
+          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
+          "confirmation_level": 63.76
+        },
+        "stop": 61.62,
+        "target_1": 68.71,
+        "target_2": 79.25,
+        "risk_reward_1": 2.32,
+        "risk_reward_2": 7.26,
+        "no_chase_above": 70.93,
+        "market_regime": "neutral"
+      },
+      {
+        "plan_id": "2026-09-08:601138:breakout:v1",
+        "code": "601138",
+        "name": "工业富联",
+        "industry": "消费电子",
+        "setup": "breakout",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 68.7,
+        "composite_score": 64.1,
+        "valid_for": "2026-09-09",
+        "expires_after": "2026-09-09",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 68.71,
+          "high": 68.71,
+          "reference": 68.71
+        },
+        "trigger": {
+          "kind": "volume_breakout",
+          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
+          "minimum_volume_ratio": 1.3
+        },
+        "stop": 65.37,
+        "target_1": 74.72,
+        "target_2": 79.25,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 3.16,
+        "no_chase_above": 70.38,
         "market_regime": "neutral"
       },
       {
@@ -33549,102 +33456,6 @@
         "risk_reward_1": 1.8,
         "risk_reward_2": 3.0,
         "no_chase_above": 29.99,
-        "market_regime": "neutral"
-      },
-      {
-        "plan_id": "2026-09-08:601138:pullback:v1",
-        "code": "601138",
-        "name": "工业富联",
-        "industry": "消费电子",
-        "setup": "pullback",
-        "decision_status": "watch_only",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 66.6,
-        "composite_score": 62.6,
-        "valid_for": "2026-09-09",
-        "expires_after": "2026-09-09",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 62.78,
-          "high": 64.73,
-          "reference": 63.76
-        },
-        "trigger": {
-          "kind": "pullback_reclaim",
-          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
-          "confirmation_level": 63.76
-        },
-        "stop": 61.62,
-        "target_1": 68.71,
-        "target_2": 79.25,
-        "risk_reward_1": 2.32,
-        "risk_reward_2": 7.26,
-        "no_chase_above": 70.93,
-        "market_regime": "neutral"
-      },
-      {
-        "plan_id": "2026-09-08:601138:breakout:v1",
-        "code": "601138",
-        "name": "工业富联",
-        "industry": "消费电子",
-        "setup": "breakout",
-        "decision_status": "watch_only",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 66.6,
-        "composite_score": 62.6,
-        "valid_for": "2026-09-09",
-        "expires_after": "2026-09-09",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 68.71,
-          "high": 68.71,
-          "reference": 68.71
-        },
-        "trigger": {
-          "kind": "volume_breakout",
-          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
-          "minimum_volume_ratio": 1.3
-        },
-        "stop": 65.37,
-        "target_1": 74.72,
-        "target_2": 79.25,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 3.16,
-        "no_chase_above": 70.38,
         "market_regime": "neutral"
       },
       {
@@ -38878,6 +38689,102 @@
         "market_regime": "neutral"
       },
       {
+        "plan_id": "2026-09-08:601138:pullback:v1",
+        "code": "601138",
+        "name": "工业富联",
+        "industry": "消费电子",
+        "setup": "pullback",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 68.7,
+        "composite_score": 64.1,
+        "valid_for": "2026-09-09",
+        "expires_after": "2026-09-09",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 62.78,
+          "high": 64.73,
+          "reference": 63.76
+        },
+        "trigger": {
+          "kind": "pullback_reclaim",
+          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
+          "confirmation_level": 63.76
+        },
+        "stop": 61.62,
+        "target_1": 68.71,
+        "target_2": 79.25,
+        "risk_reward_1": 2.32,
+        "risk_reward_2": 7.26,
+        "no_chase_above": 70.93,
+        "market_regime": "neutral"
+      },
+      {
+        "plan_id": "2026-09-08:601138:breakout:v1",
+        "code": "601138",
+        "name": "工业富联",
+        "industry": "消费电子",
+        "setup": "breakout",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 68.7,
+        "composite_score": 64.1,
+        "valid_for": "2026-09-09",
+        "expires_after": "2026-09-09",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 68.71,
+          "high": 68.71,
+          "reference": 68.71
+        },
+        "trigger": {
+          "kind": "volume_breakout",
+          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
+          "minimum_volume_ratio": 1.3
+        },
+        "stop": 65.37,
+        "target_1": 74.72,
+        "target_2": 79.25,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 3.16,
+        "no_chase_above": 70.38,
+        "market_regime": "neutral"
+      },
+      {
         "plan_id": "2026-09-08:002916:pullback:v1",
         "code": "002916",
         "name": "深南电路",
@@ -39261,102 +39168,6 @@
         "risk_reward_1": 1.8,
         "risk_reward_2": 3.0,
         "no_chase_above": 29.99,
-        "market_regime": "neutral"
-      },
-      {
-        "plan_id": "2026-09-08:601138:pullback:v1",
-        "code": "601138",
-        "name": "工业富联",
-        "industry": "消费电子",
-        "setup": "pullback",
-        "decision_status": "watch_only",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 66.6,
-        "composite_score": 62.6,
-        "valid_for": "2026-09-09",
-        "expires_after": "2026-09-09",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 62.78,
-          "high": 64.73,
-          "reference": 63.76
-        },
-        "trigger": {
-          "kind": "pullback_reclaim",
-          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
-          "confirmation_level": 63.76
-        },
-        "stop": 61.62,
-        "target_1": 68.71,
-        "target_2": 79.25,
-        "risk_reward_1": 2.32,
-        "risk_reward_2": 7.26,
-        "no_chase_above": 70.93,
-        "market_regime": "neutral"
-      },
-      {
-        "plan_id": "2026-09-08:601138:breakout:v1",
-        "code": "601138",
-        "name": "工业富联",
-        "industry": "消费电子",
-        "setup": "breakout",
-        "decision_status": "watch_only",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 66.6,
-        "composite_score": 62.6,
-        "valid_for": "2026-09-09",
-        "expires_after": "2026-09-09",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 68.71,
-          "high": 68.71,
-          "reference": 68.71
-        },
-        "trigger": {
-          "kind": "volume_breakout",
-          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
-          "minimum_volume_ratio": 1.3
-        },
-        "stop": 65.37,
-        "target_1": 74.72,
-        "target_2": 79.25,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 3.16,
-        "no_chase_above": 70.38,
         "market_regime": "neutral"
       },
       {
