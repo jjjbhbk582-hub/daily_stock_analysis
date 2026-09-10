@@ -2,7 +2,7 @@
   "schema_version": 2,
   "status": "success",
   "target_date": "2026-09-10",
-  "generated_at": "2026-09-10T20:14:51.131005+08:00",
+  "generated_at": "2026-09-10T20:19:36.776602+08:00",
   "valid_count": 59,
   "universe_count": 59,
   "market": {
@@ -14,8 +14,8 @@
         "date": "2026-09-10",
         "close": 3934.4,
         "pct_change": -0.43,
-        "amount": 779672692270.0,
-        "source": "腾讯指数行情"
+        "amount": 779672692269.7,
+        "source": "东方财富日线"
       },
       {
         "code": "399001",
@@ -23,8 +23,8 @@
         "date": "2026-09-10",
         "close": 13617.67,
         "pct_change": -0.77,
-        "amount": 867475137215.0,
-        "source": "腾讯指数行情"
+        "amount": 867475137215.2,
+        "source": "东方财富日线"
       },
       {
         "code": "399006",
@@ -32,8 +32,8 @@
         "date": "2026-09-10",
         "close": 3338.42,
         "pct_change": -0.49,
-        "amount": 380056426215.0,
-        "source": "腾讯指数行情"
+        "amount": 384061121974.21,
+        "source": "东方财富日线"
       }
     ],
     "total_amount": 1661968218164.0,
@@ -284,9 +284,9 @@
       },
       {
         "industry": "铁路、船舶、航空航天和其他运输设备制造业",
-        "pct_change": -1.023342835652,
-        "amount": 26774189750.0,
-        "count": 87,
+        "pct_change": -1.0208746000305,
+        "amount": 1229500895.0,
+        "count": 11,
         "source": "新浪行业行情"
       },
       {
@@ -635,45 +635,15 @@
     ],
     "source_status": [
       {
-        "source": "上证指数行情",
-        "ok": false,
-        "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.000001&klt=101&fqt=1&lmt=5&beg=0&end=20260910&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf"
-      },
-      {
-        "source": "深证成指行情",
-        "ok": false,
-        "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.399001&klt=101&fqt=1&lmt=5&beg=0&end=20260910&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf"
-      },
-      {
-        "source": "创业板指行情",
-        "ok": false,
-        "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.399006&klt=101&fqt=1&lmt=5&beg=0&end=20260910&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf"
-      },
-      {
         "source": "东方财富全市场行情",
-        "ok": false,
-        "error": "ConnectionError: HTTPSConnectionPool(host='82.push2.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/clist/get?pn=1&pz=6000&po=1&np=1&fltt=2&invt=2&fid=f3&fs=m%3A0%2Bt%3A6%2Cm%3A0%2Bt%3A80%2Cm%3A1%2Bt%3A2%2Cm%3A1%2Bt%3A23&fields=f12%2Cf14%2"
+        "ok": true,
+        "rows": 100
       },
       {
         "source": "东方财富全市场完整性校验",
         "ok": false,
-        "rows": 0,
-        "error": "仅返回0只股票，低于完整性阈值3000；未将局部样本冒充全市场"
-      },
-      {
-        "source": "腾讯上证指数",
-        "ok": true,
-        "date": "2026-09-10"
-      },
-      {
-        "source": "腾讯深证成指",
-        "ok": true,
-        "date": "2026-09-10"
-      },
-      {
-        "source": "腾讯创业板指",
-        "ok": true,
-        "date": "2026-09-10"
+        "rows": 100,
+        "error": "仅返回100只股票，低于完整性阈值3000；未将局部样本冒充全市场"
       },
       {
         "source": "新浪全市场行情",
@@ -10860,25 +10830,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZG60",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZM75",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZJ67",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZJ66",
         "ok": false,
         "rows": 0
       },
@@ -10896,7 +10848,25 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZG60",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZJ67",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZD45",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZJ66",
         "ok": false,
         "rows": 0
       },
@@ -10920,6 +10890,12 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZQ84",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZG53",
         "ok": false,
         "rows": 0
@@ -10932,13 +10908,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZQ84",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZD46",
+        "board_code": "hangye_ZS90",
         "ok": false,
         "rows": 0
       },
@@ -10951,12 +10921,6 @@
       {
         "source": "industry板块历史",
         "board_code": "hangye_ZI63",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZS90",
         "ok": false,
         "rows": 0
       },
@@ -10980,13 +10944,25 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZE49",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZH61",
         "ok": false,
         "rows": 0
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZE49",
+        "board_code": "hangye_ZD46",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZG55",
         "ok": false,
         "rows": 0
       },
@@ -10998,7 +10974,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZG55",
+        "board_code": "hangye_ZG59",
         "ok": false,
         "rows": 0
       },
@@ -11016,19 +10992,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZG59",
+        "board_code": "hangye_ZC20",
         "ok": false,
         "rows": 0
       },
       {
         "source": "industry板块历史",
         "board_code": "hangye_ZB09",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC20",
         "ok": false,
         "rows": 0
       },
@@ -11052,13 +11022,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZM74",
+        "board_code": "hangye_ZC37",
         "ok": false,
         "rows": 0
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC37",
+        "board_code": "hangye_ZM74",
         "ok": false,
         "rows": 0
       },
@@ -11148,13 +11118,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC38",
+        "board_code": "hangye_ZC28",
         "ok": false,
         "rows": 0
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC28",
+        "board_code": "hangye_ZC38",
         "ok": false,
         "rows": 0
       },
@@ -11226,6 +11196,12 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZC31",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZC34",
         "ok": false,
         "rows": 0
@@ -11233,12 +11209,6 @@
       {
         "source": "industry板块历史",
         "board_code": "hangye_ZC26",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC31",
         "ok": false,
         "rows": 0
       },
@@ -11262,13 +11232,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC14",
+        "board_code": "hangye_ZR86",
         "ok": false,
         "rows": 0
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZR86",
+        "board_code": "hangye_ZC14",
         "ok": false,
         "rows": 0
       },
@@ -11292,19 +11262,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZB11",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZC13",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC25",
         "ok": false,
         "rows": 0
       },
@@ -11328,6 +11286,12 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZB11",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZA03",
         "ok": false,
         "rows": 0
@@ -11335,6 +11299,12 @@
       {
         "source": "industry板块历史",
         "board_code": "hangye_ZE47",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZC25",
         "ok": false,
         "rows": 0
       },
@@ -11351,14 +11321,14 @@
         "rows": 0
       },
       {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZA04",
+        "source": "concept板块历史",
+        "board_code": "gn_hGDR",
         "ok": false,
         "rows": 0
       },
       {
-        "source": "concept板块历史",
-        "board_code": "gn_hGDR",
+        "source": "industry板块历史",
+        "board_code": "hangye_ZA04",
         "ok": false,
         "rows": 0
       },
@@ -11382,13 +11352,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_tjy",
+        "board_code": "gn_fn",
         "ok": false,
         "rows": 0
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_fn",
+        "board_code": "gn_tjy",
         "ok": false,
         "rows": 0
       },
@@ -11406,25 +11376,19 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_yq50",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "concept板块历史",
         "board_code": "gn_cdp",
         "ok": false,
         "rows": 0
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_cmp",
+        "board_code": "gn_yq50",
         "ok": false,
         "rows": 0
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_mtjzm",
+        "board_code": "gn_cmp",
         "ok": false,
         "rows": 0
       },
@@ -11460,12 +11424,6 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_hHg",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "concept板块历史",
         "board_code": "gn_zxsy",
         "ok": false,
         "rows": 0
@@ -11478,7 +11436,7 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_xny",
+        "board_code": "gn_mtjzm",
         "ok": false,
         "rows": 0
       },
@@ -11490,13 +11448,19 @@
       },
       {
         "source": "concept板块历史",
+        "board_code": "gn_xny",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "concept板块历史",
         "board_code": "gn_HITdc",
         "ok": false,
         "rows": 0
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_dsn",
+        "board_code": "gn_hHg",
         "ok": false,
         "rows": 0
       },
@@ -11544,13 +11508,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_pggn",
+        "board_code": "gn_cxy",
         "ok": false,
         "rows": 0
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_cxy",
+        "board_code": "gn_pggn",
         "ok": false,
         "rows": 0
       },
@@ -11559,6 +11523,19 @@
         "board_code": "gn_hjgn",
         "ok": false,
         "rows": 0
+      },
+      {
+        "source": "concept板块历史",
+        "board_code": "gn_dsn",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "板块成份",
+        "board_type": "industry",
+        "board_code": "hangye_ZJ66",
+        "ok": false,
+        "error": "HTTPError: 456 Client Error:  for url: https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount?node=hangye_ZJ66"
       },
       {
         "source": "板块成份",
@@ -11570,13 +11547,6 @@
       {
         "source": "板块成份",
         "board_type": "concept",
-        "board_code": "gn_fngn",
-        "ok": false,
-        "error": "HTTPError: 456 Client Error:  for url: https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount?node=gn_fngn"
-      },
-      {
-        "source": "板块成份",
-        "board_type": "concept",
         "board_code": "gn_xhjj",
         "ok": false,
         "error": "HTTPError: 456 Client Error:  for url: https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount?node=gn_xhjj"
@@ -11584,16 +11554,16 @@
       {
         "source": "板块成份",
         "board_type": "industry",
-        "board_code": "hangye_ZJ66",
-        "ok": false,
-        "error": "HTTPError: 456 Client Error:  for url: https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount?node=hangye_ZJ66"
-      },
-      {
-        "source": "板块成份",
-        "board_type": "industry",
         "board_code": "hangye_ZD44",
         "ok": false,
         "error": "HTTPError: 456 Client Error:  for url: https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount?node=hangye_ZD44"
+      },
+      {
+        "source": "板块成份",
+        "board_type": "concept",
+        "board_code": "gn_fngn",
+        "ok": false,
+        "error": "HTTPError: 456 Client Error:  for url: https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount?node=gn_fngn"
       },
       {
         "source": "板块成份",
