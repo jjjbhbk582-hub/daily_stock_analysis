@@ -2,7 +2,7 @@
   "schema_version": 2,
   "status": "success",
   "target_date": "2026-09-11",
-  "generated_at": "2026-09-11T20:12:38.229409+08:00",
+  "generated_at": "2026-09-11T20:18:14.992747+08:00",
   "valid_count": 59,
   "universe_count": 59,
   "market": {
@@ -14,8 +14,8 @@
         "date": "2026-09-11",
         "close": 3888.11,
         "pct_change": -1.18,
-        "amount": 958186336970.1,
-        "source": "东方财富日线"
+        "amount": 958186336970.0,
+        "source": "腾讯指数行情"
       },
       {
         "code": "399001",
@@ -23,8 +23,8 @@
         "date": "2026-09-11",
         "close": 13471.26,
         "pct_change": -1.08,
-        "amount": 1013712150759.75,
-        "source": "东方财富日线"
+        "amount": 1013712150760.0,
+        "source": "腾讯指数行情"
       },
       {
         "code": "399006",
@@ -32,8 +32,8 @@
         "date": "2026-09-11",
         "close": 3322.04,
         "pct_change": -0.49,
-        "amount": 462614555118.24,
-        "source": "东方财富日线"
+        "amount": 457744517571.0,
+        "source": "腾讯指数行情"
       }
     ],
     "total_amount": 1986586920878.0,
@@ -119,13 +119,6 @@
         "pct_change": -0.62015503875969,
         "amount": 1774462107.0,
         "count": 19,
-        "source": "新浪行业行情"
-      },
-      {
-        "industry": "铁路、船舶、航空航天和其他运输设备制造业",
-        "pct_change": -0.78124334772354,
-        "amount": 29206236473.0,
-        "count": 87,
         "source": "新浪行业行情"
       },
       {
@@ -378,6 +371,13 @@
         "pct_change": -2.2817561373128,
         "amount": 9656994987.0,
         "count": 8,
+        "source": "新浪行业行情"
+      },
+      {
+        "industry": "铁路、船舶、航空航天和其他运输设备制造业",
+        "pct_change": -2.3091133004926,
+        "amount": 1395459706.0,
+        "count": 11,
         "source": "新浪行业行情"
       },
       {
@@ -635,6 +635,21 @@
     ],
     "source_status": [
       {
+        "source": "上证指数行情",
+        "ok": false,
+        "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.000001&klt=101&fqt=1&lmt=5&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf"
+      },
+      {
+        "source": "深证成指行情",
+        "ok": false,
+        "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.399001&klt=101&fqt=1&lmt=5&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf"
+      },
+      {
+        "source": "创业板指行情",
+        "ok": false,
+        "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.399006&klt=101&fqt=1&lmt=5&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf"
+      },
+      {
         "source": "东方财富全市场行情",
         "ok": false,
         "error": "ConnectionError: HTTPSConnectionPool(host='82.push2.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/clist/get?pn=1&pz=6000&po=1&np=1&fltt=2&invt=2&fid=f3&fs=m%3A0%2Bt%3A6%2Cm%3A0%2Bt%3A80%2Cm%3A1%2Bt%3A2%2Cm%3A1%2Bt%3A23&fields=f12%2Cf14%2"
@@ -644,6 +659,21 @@
         "ok": false,
         "rows": 0,
         "error": "仅返回0只股票，低于完整性阈值3000；未将局部样本冒充全市场"
+      },
+      {
+        "source": "腾讯上证指数",
+        "ok": true,
+        "date": "2026-09-11"
+      },
+      {
+        "source": "腾讯深证成指",
+        "ok": true,
+        "date": "2026-09-11"
+      },
+      {
+        "source": "腾讯创业板指",
+        "ok": true,
+        "date": "2026-09-11"
       },
       {
         "source": "新浪全市场行情",
@@ -674,7 +704,7 @@
       "AI算力": {
         "sample_count": 15,
         "median_pct_change": 0.06,
-        "average_score": 52.8,
+        "average_score": 53.0,
         "source": "固定股票池样本代理"
       },
       "CPO": {
@@ -686,7 +716,7 @@
       "PCB": {
         "sample_count": 7,
         "median_pct_change": 1.0,
-        "average_score": 61.2,
+        "average_score": 61.4,
         "source": "固定股票池样本代理"
       },
       "半导体": {
@@ -698,7 +728,7 @@
       "存储": {
         "sample_count": 2,
         "median_pct_change": -1.5,
-        "average_score": 45.3,
+        "average_score": 44.5,
         "source": "固定股票池样本代理"
       },
       "稀土": {
@@ -10897,19 +10927,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZI63",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZE47",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC41",
         "ok": false,
         "rows": 0
       },
@@ -10921,13 +10939,25 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZR86",
+        "board_code": "hangye_ZI63",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZC41",
         "ok": false,
         "rows": 0
       },
       {
         "source": "industry板块历史",
         "board_code": "hangye_ZD44",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZC39",
         "ok": false,
         "rows": 0
       },
@@ -10945,12 +10975,6 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZR85",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZD46",
         "ok": false,
         "rows": 0
@@ -10963,31 +10987,49 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC40",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC15",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC39",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZJ66",
         "ok": false,
         "rows": 0
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZR86",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZR85",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZC40",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZG53",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZC30",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZR88",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZC15",
         "ok": false,
         "rows": 0
       },
@@ -11005,25 +11047,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZE50",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZC35",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC30",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZG53",
         "ok": false,
         "rows": 0
       },
@@ -11089,6 +11113,12 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZO80",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZA03",
         "ok": false,
         "rows": 0
@@ -11113,13 +11143,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZM74",
+        "board_code": "hangye_ZE50",
         "ok": false,
         "rows": 0
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZO80",
+        "board_code": "hangye_ZM74",
         "ok": false,
         "rows": 0
       },
@@ -11137,19 +11167,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZI64",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZQ83",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZF51",
         "ok": false,
         "rows": 0
       },
@@ -11179,43 +11197,13 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZI64",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZB07",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZF52",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC31",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZN77",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZN78",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC18",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZD45",
         "ok": false,
         "rows": 0
       },
@@ -11227,7 +11215,37 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC14",
+        "board_code": "hangye_ZF51",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZF52",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZN77",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZC18",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZN78",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZD45",
         "ok": false,
         "rows": 0
       },
@@ -11245,6 +11263,12 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZC31",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZB10",
         "ok": false,
         "rows": 0
@@ -11257,13 +11281,19 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZC24",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZC34",
         "ok": false,
         "rows": 0
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC24",
+        "board_code": "hangye_ZC14",
         "ok": false,
         "rows": 0
       },
@@ -11275,7 +11305,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC32",
+        "board_code": "hangye_ZK70",
         "ok": false,
         "rows": 0
       },
@@ -11287,19 +11317,25 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZG58",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZM73",
         "ok": false,
         "rows": 0
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZG58",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZE49",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZC32",
         "ok": false,
         "rows": 0
       },
@@ -11317,13 +11353,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZK70",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC43",
+        "board_code": "hangye_ZJ67",
         "ok": false,
         "rows": 0
       },
@@ -11335,13 +11365,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZJ67",
+        "board_code": "hangye_ZB09",
         "ok": false,
         "rows": 0
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZB09",
+        "board_code": "hangye_ZC43",
         "ok": false,
         "rows": 0
       },
@@ -11407,13 +11437,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_cdgn",
+        "board_code": "gn_cmp",
         "ok": false,
         "rows": 0
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_cmp",
+        "board_code": "gn_cdgn",
         "ok": false,
         "rows": 0
       },
@@ -11485,7 +11515,7 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_lszm",
+        "board_code": "gn_hwgn",
         "ok": false,
         "rows": 0
       },
@@ -11497,7 +11527,19 @@
       },
       {
         "source": "concept板块历史",
+        "board_code": "gn_lszm",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "concept板块历史",
         "board_code": "gn_szql",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "concept板块历史",
+        "board_code": "gn_qhgn",
         "ok": false,
         "rows": 0
       },
@@ -11515,13 +11557,7 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_gxbj",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "concept板块历史",
-        "board_code": "gn_dfj",
+        "board_code": "gn_wlyx",
         "ok": false,
         "rows": 0
       },
@@ -11533,13 +11569,19 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_hwgn",
+        "board_code": "gn_jght",
         "ok": false,
         "rows": 0
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_jght",
+        "board_code": "gn_dfj",
+        "ok": false,
+        "rows": 0
+      },
+      {
+        "source": "concept板块历史",
+        "board_code": "gn_wxdh",
         "ok": false,
         "rows": 0
       },
@@ -11557,31 +11599,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_wlyx",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "concept板块历史",
-        "board_code": "gn_wxdh",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "concept板块历史",
-        "board_code": "gn_qhgn",
+        "board_code": "gn_gfjg",
         "ok": false,
         "rows": 0
       },
       {
         "source": "concept板块历史",
         "board_code": "gn_zjqrgn",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "concept板块历史",
-        "board_code": "gn_gfjg",
         "ok": false,
         "rows": 0
       },
@@ -11598,11 +11622,24 @@
         "rows": 0
       },
       {
+        "source": "concept板块历史",
+        "board_code": "gn_gxbj",
+        "ok": false,
+        "rows": 0
+      },
+      {
         "source": "板块成份",
         "board_type": "concept",
         "board_code": "gn_xmgn",
         "ok": false,
         "error": "HTTPError: 456 Client Error:  for url: https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount?node=gn_xmgn"
+      },
+      {
+        "source": "板块成份",
+        "board_type": "industry",
+        "board_code": "hangye_ZR86",
+        "ok": false,
+        "error": "HTTPError: 456 Client Error:  for url: https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount?node=hangye_ZR86"
       },
       {
         "source": "板块成份",
@@ -11624,13 +11661,6 @@
         "board_code": "gn_hhsj",
         "ok": false,
         "error": "HTTPError: 456 Client Error:  for url: https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount?node=gn_hhsj"
-      },
-      {
-        "source": "板块成份",
-        "board_type": "industry",
-        "board_code": "hangye_ZR86",
-        "ok": false,
-        "error": "HTTPError: 456 Client Error:  for url: https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeStockCount?node=hangye_ZR86"
       },
       {
         "source": "板块成份",
@@ -14195,6 +14225,237 @@
       "rank": 1
     },
     {
+      "code": "002916",
+      "name": "深南电路",
+      "industry": "电子元件",
+      "themes": [
+        "PCB",
+        "AI算力",
+        "先进封装"
+      ],
+      "data_date": "2026-09-11",
+      "source": [
+        "腾讯日线",
+        "腾讯行情",
+        "腾讯60分钟",
+        "东方财富资金流"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 396.68,
+      "pct_change": 1.1139150161861844,
+      "score": 64.1,
+      "rating": "C",
+      "daily_trend": "多头",
+      "weekly_trend": "多头",
+      "trend_60m": "多头",
+      "conclusion": "多头/多头，60分钟多头；股票结构较强，目前优先等待回踩或突破确认。",
+      "patterns": [],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 362.16,
+        "pullback_high": 377.54,
+        "breakout_trigger": 399.06,
+        "no_chase_above": 416.63,
+        "invalidation": 352.64,
+        "target_1": 399.06,
+        "target_2": 484.57,
+        "risk_reward_1": 1.7,
+        "risk_reward_2": 6.67,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-09-09",
+          "title": "深南电路:2026年9月7日-9月9日投资者关系活动记录表",
+          "art_code": "AN202609091829178610",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-09",
+          "title": "深南电路:第四届董事会第二十次会议决议公告",
+          "art_code": "AN202609081829139457",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-09",
+          "title": "深南电路:2026年度向特定对象发行股票募集资金使用的可行性分析报告(修订稿)",
+          "art_code": "AN202609081829139458",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-09",
+          "title": "深南电路:董事会审计委员会关于调整公司2026年度向特定对象发行股票相关事项的书面审核意见",
+          "art_code": "AN202609081829139461",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-09",
+          "title": "深南电路:2026年度向特定对象发行股票摊薄即期回报、填补措施及相关主体承诺(修订稿)的公告",
+          "art_code": "AN202609081829139462",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-09",
+          "title": "深南电路:2026年度向特定对象发行股票方案的论证分析报告(修订稿)",
+          "art_code": "AN202609081829139459",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-09",
+          "title": "深南电路:关于2026年度向特定对象发行股票预案及相关文件修订情况说明的公告",
+          "art_code": "AN202609081829139460",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-09",
+          "title": "深南电路:深南电路股份有限公司2026年度向特定对象发行股票预案(修订稿)",
+          "art_code": "AN202609081829139451",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-09",
+          "title": "深南电路:关于2026年度向特定对象发行股票预案(修订稿)披露的提示性公告",
+          "art_code": "AN202609081829139452",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {
+        "date": "2026-09-11",
+        "main_net_inflow": 249870288.0,
+        "small_net_inflow": -300453040.0,
+        "medium_net_inflow": 50582736.0,
+        "large_net_inflow": 106975120.0,
+        "super_large_net_inflow": 142895168.0,
+        "main_net_ratio": 7.06,
+        "source": "东方财富资金流"
+      },
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 13.5,
+        "trend": 19.2,
+        "structure": 9.0,
+        "events": 6.5
+      },
+      "technical_trade_score": 68.9,
+      "fundamental_status": "missing",
+      "fundamental_missing_fields": [
+        "report_date",
+        "revenue_yoy",
+        "net_profit_yoy",
+        "roe"
+      ],
+      "fundamental_report_date": null,
+      "fundamental_age_days": null,
+      "fundamental_risk_flags": [],
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-09-11"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002916&klt=60&fqt=1&lmt=240&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002916&klt=101&fqt=1&lmt=360&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-09-11",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002916&start=20241011&end=20260911&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": true
+        },
+        {
+          "source": "腾讯收盘字段补全",
+          "ok": true,
+          "date": "2026-09-11"
+        },
+        {
+          "source": "腾讯60分钟",
+          "ok": true,
+          "rows": 320,
+          "date": "2026-09-11 15:00:00"
+        }
+      ],
+      "metrics": {
+        "open": 388.41,
+        "high": 400.33,
+        "low": 384.59,
+        "close": 396.68,
+        "pct_change": 1.1139150161861844,
+        "volume": 9004600.0,
+        "amount": 3538066975.0,
+        "turnover_rate": 1.35,
+        "rel_volume_20": 1.1048297498900337,
+        "ma_5": 383.954,
+        "ma_10": 366.49199999999996,
+        "ma_20": 362.3505,
+        "ma_50": 362.52420000000006,
+        "ma_100": 368.6242,
+        "ma_200": 300.4232,
+        "ema_5": 383.3609114281719,
+        "ema_10": 373.27132638842465,
+        "ema_20": 366.431276230611,
+        "ema_50": 364.3459836082392,
+        "rsi_14": 60.301846286519265,
+        "macd_dif": 5.755634000404086,
+        "macd_dea": 0.5425437160669564,
+        "macd_hist": 10.42618056867426,
+        "kdj_k": 80.89992696521183,
+        "kdj_d": 65.9678227613018,
+        "kdj_j": 110.7641353730319,
+        "stoch_rsi_k": 100.0,
+        "stoch_rsi_d": 99.78758588688049,
+        "adx_14": 13.016482989902448,
+        "plus_di_14": 26.65164695788897,
+        "minus_di_14": 17.11169254985915,
+        "obv": 420936000.0,
+        "high_20": 400.33,
+        "low_20": 328.21,
+        "atr_14": 21.963888653810745
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "主力净流入占比+7.06%（2026-09-11）",
+        "板块动态匹配计算机、通信和其他电子设备制造业：长期逻辑7.4/8，当日2.6/4，5/20日趋势1.6/4，量能0.9/2，广度与龙头0.9/2"
+      ],
+      "sector_link": {
+        "board_type": "industry",
+        "board_code": "hangye_ZC39",
+        "board_name": "计算机、通信和其他电子设备制造业",
+        "board_score": 48.9,
+        "board_rank": 3,
+        "dynamic_score": 6.0,
+        "match_quality": 95,
+        "match_kind": "industry_contains",
+        "eligible_for_trade_gate": false
+      },
+      "rank": 2
+    },
+    {
       "code": "600036",
       "name": "招商银行",
       "industry": "银行",
@@ -14425,7 +14686,7 @@
         "match_kind": "concept_contains",
         "eligible_for_trade_gate": false
       },
-      "rank": 2
+      "rank": 3
     },
     {
       "code": "002436",
@@ -14625,227 +14886,6 @@
         "match_kind": "industry_contains",
         "eligible_for_trade_gate": false
       },
-      "rank": 3
-    },
-    {
-      "code": "002916",
-      "name": "深南电路",
-      "industry": "电子元件",
-      "themes": [
-        "PCB",
-        "AI算力",
-        "先进封装"
-      ],
-      "data_date": "2026-09-11",
-      "source": [
-        "腾讯日线",
-        "腾讯行情",
-        "腾讯60分钟"
-      ],
-      "data_confidence": "high",
-      "data_valid": true,
-      "close": 396.68,
-      "pct_change": 1.1139150161861844,
-      "score": 62.6,
-      "rating": "C",
-      "daily_trend": "多头",
-      "weekly_trend": "多头",
-      "trend_60m": "多头",
-      "conclusion": "多头/多头，60分钟多头；股票结构较强，目前优先等待回踩或突破确认。",
-      "patterns": [],
-      "levels": {
-        "status": "ready",
-        "pullback_low": 362.16,
-        "pullback_high": 377.54,
-        "breakout_trigger": 399.06,
-        "no_chase_above": 416.63,
-        "invalidation": 352.64,
-        "target_1": 399.06,
-        "target_2": 484.57,
-        "risk_reward_1": 1.7,
-        "risk_reward_2": 6.67,
-        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
-      },
-      "financials": {},
-      "announcements": [
-        {
-          "date": "2026-09-09",
-          "title": "深南电路:2026年9月7日-9月9日投资者关系活动记录表",
-          "art_code": "AN202609091829178610",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-09",
-          "title": "深南电路:第四届董事会第二十次会议决议公告",
-          "art_code": "AN202609081829139457",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-09",
-          "title": "深南电路:2026年度向特定对象发行股票募集资金使用的可行性分析报告(修订稿)",
-          "art_code": "AN202609081829139458",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-09",
-          "title": "深南电路:董事会审计委员会关于调整公司2026年度向特定对象发行股票相关事项的书面审核意见",
-          "art_code": "AN202609081829139461",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-09",
-          "title": "深南电路:2026年度向特定对象发行股票摊薄即期回报、填补措施及相关主体承诺(修订稿)的公告",
-          "art_code": "AN202609081829139462",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-09",
-          "title": "深南电路:2026年度向特定对象发行股票方案的论证分析报告(修订稿)",
-          "art_code": "AN202609081829139459",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-09",
-          "title": "深南电路:关于2026年度向特定对象发行股票预案及相关文件修订情况说明的公告",
-          "art_code": "AN202609081829139460",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-09",
-          "title": "深南电路:深南电路股份有限公司2026年度向特定对象发行股票预案(修订稿)",
-          "art_code": "AN202609081829139451",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-09",
-          "title": "深南电路:关于2026年度向特定对象发行股票预案(修订稿)披露的提示性公告",
-          "art_code": "AN202609081829139452",
-          "source": "东方财富公告"
-        }
-      ],
-      "fund_flow": {},
-      "score_breakdown": {
-        "fundamental": 16.0,
-        "industry": 13.5,
-        "trend": 19.2,
-        "structure": 9.0,
-        "events": 5.0
-      },
-      "technical_trade_score": 66.7,
-      "fundamental_status": "missing",
-      "fundamental_missing_fields": [
-        "report_date",
-        "revenue_yoy",
-        "net_profit_yoy",
-        "roe"
-      ],
-      "fundamental_report_date": null,
-      "fundamental_age_days": null,
-      "fundamental_risk_flags": [],
-      "source_status": [
-        {
-          "source": "腾讯行情",
-          "ok": true,
-          "date": "2026-09-11"
-        },
-        {
-          "source": "东方财富60分钟",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002916&klt=60&fqt=1&lmt=240&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
-        },
-        {
-          "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002916&klt=101&fqt=1&lmt=360&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
-        },
-        {
-          "source": "腾讯日线",
-          "ok": true,
-          "date": "2026-09-11",
-          "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002916&start=20241011&end=20260911&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
-        },
-        {
-          "source": "东方财富财务",
-          "ok": false
-        },
-        {
-          "source": "东方财富公告",
-          "ok": true
-        },
-        {
-          "source": "东方财富资金流",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002916&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-11"
-        },
-        {
-          "source": "腾讯60分钟",
-          "ok": true,
-          "rows": 320,
-          "date": "2026-09-11 15:00:00"
-        }
-      ],
-      "metrics": {
-        "open": 388.41,
-        "high": 400.33,
-        "low": 384.59,
-        "close": 396.68,
-        "pct_change": 1.1139150161861844,
-        "volume": 9004600.0,
-        "amount": 3538066975.0,
-        "turnover_rate": 1.35,
-        "rel_volume_20": 1.1048297498900337,
-        "ma_5": 383.954,
-        "ma_10": 366.49199999999996,
-        "ma_20": 362.3505,
-        "ma_50": 362.52420000000006,
-        "ma_100": 368.6242,
-        "ma_200": 300.4232,
-        "ema_5": 383.3609114281719,
-        "ema_10": 373.27132638842465,
-        "ema_20": 366.431276230611,
-        "ema_50": 364.3459836082392,
-        "rsi_14": 60.301846286519265,
-        "macd_dif": 5.755634000404086,
-        "macd_dea": 0.5425437160669564,
-        "macd_hist": 10.42618056867426,
-        "kdj_k": 80.89992696521183,
-        "kdj_d": 65.9678227613018,
-        "kdj_j": 110.7641353730319,
-        "stoch_rsi_k": 100.0,
-        "stoch_rsi_d": 99.78758588688049,
-        "adx_14": 13.016482989902448,
-        "plus_di_14": 26.65164695788897,
-        "minus_di_14": 17.11169254985915,
-        "obv": 420936000.0,
-        "high_20": 400.33,
-        "low_20": 328.21,
-        "atr_14": 21.963888653810745
-      },
-      "events": [
-        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
-        "板块动态匹配计算机、通信和其他电子设备制造业：长期逻辑7.4/8，当日2.6/4，5/20日趋势1.6/4，量能0.9/2，广度与龙头0.9/2"
-      ],
-      "sector_link": {
-        "board_type": "industry",
-        "board_code": "hangye_ZC39",
-        "board_name": "计算机、通信和其他电子设备制造业",
-        "board_score": 48.9,
-        "board_rank": 3,
-        "dynamic_score": 6.0,
-        "match_quality": 95,
-        "match_kind": "industry_contains",
-        "eligible_for_trade_gate": false
-      },
       "rank": 4
     },
     {
@@ -14860,7 +14900,8 @@
       "source": [
         "腾讯日线",
         "腾讯行情",
-        "腾讯60分钟"
+        "腾讯60分钟",
+        "东方财富资金流"
       ],
       "data_confidence": "high",
       "data_valid": true,
@@ -14963,7 +15004,16 @@
           "source": "东方财富公告"
         }
       ],
-      "fund_flow": {},
+      "fund_flow": {
+        "date": "2026-09-11",
+        "main_net_inflow": -134193952.0,
+        "small_net_inflow": 77338976.0,
+        "medium_net_inflow": 56854976.0,
+        "large_net_inflow": -110313232.0,
+        "super_large_net_inflow": -23880720.0,
+        "main_net_ratio": -2.78,
+        "source": "东方财富资金流"
+      },
       "score_breakdown": {
         "fundamental": 16.0,
         "industry": 13.3,
@@ -15019,8 +15069,7 @@
         },
         {
           "source": "东方财富资金流",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.601138&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+          "ok": true
         },
         {
           "source": "腾讯收盘字段补全",
@@ -15075,6 +15124,7 @@
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
         "2026-09-03 工业富联:富士康工业互联网股份有限公司关于股份回购进展公告",
         "2026-08-20 工业富联:富士康工业互联网股份有限公司关于以集中竞价交易方式首次回购股份的公告",
+        "主力净流入占比-2.78%（2026-09-11）",
         "板块动态匹配计算机、通信和其他电子设备制造业：长期逻辑7.3/8，当日2.6/4，5/20日趋势1.6/4，量能0.9/2，广度与龙头0.9/2"
       ],
       "sector_link": {
@@ -15091,6 +15141,251 @@
       "rank": 5
     },
     {
+      "code": "002602",
+      "name": "世纪华通",
+      "industry": "游戏",
+      "themes": [
+        "游戏",
+        "数据中心",
+        "AI应用"
+      ],
+      "data_date": "2026-09-11",
+      "source": [
+        "腾讯日线",
+        "腾讯行情",
+        "腾讯60分钟",
+        "东方财富资金流"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 15.56,
+      "pct_change": 0.0,
+      "score": 62.1,
+      "rating": "C",
+      "daily_trend": "强势多头",
+      "weekly_trend": "震荡",
+      "trend_60m": "偏空震荡",
+      "conclusion": "强势多头/震荡，60分钟偏空震荡；股票结构较强，目前优先等待回踩或突破确认。",
+      "patterns": [
+        "缩量回踩"
+      ],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 14.61,
+        "pullback_high": 15.0,
+        "breakout_trigger": 16.63,
+        "no_chase_above": 17.08,
+        "invalidation": 13.77,
+        "target_1": 16.63,
+        "target_2": 17.39,
+        "risk_reward_1": 1.76,
+        "risk_reward_2": 2.5,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-09-10",
+          "title": "世纪华通:2026年员工持股计划法律意见书",
+          "art_code": "AN202609091829179393",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-28",
+          "title": "世纪华通:关于续聘2026年度审计机构的公告",
+          "art_code": "AN202608271828557511",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-28",
+          "title": "世纪华通:2026年员工持股计划管理办法",
+          "art_code": "AN202608271828557508",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-28",
+          "title": "世纪华通:关于召开2026年第二次临时股东会的通知",
+          "art_code": "AN202608271828557507",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-28",
+          "title": "世纪华通:2026年员工持股计划(草案)",
+          "art_code": "AN202608271828557504",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-28",
+          "title": "世纪华通:2026年员工持股计划(草案)摘要",
+          "art_code": "AN202608271828557510",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-28",
+          "title": "世纪华通:董事会薪酬与考核委员会关于公司2026年员工持股计划相关事项的审核意见",
+          "art_code": "AN202608271828557505",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-28",
+          "title": "世纪华通:关于2026年中期利润分配预案的公告",
+          "art_code": "AN202608271828557506",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-28",
+          "title": "世纪华通:上市公司2026年1-6月非经营性资金占用及其他关联资金往来情况汇总表",
+          "art_code": "AN202608271828557509",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-28",
+          "title": "世纪华通:第六届董事会第二十次会议决议公告",
+          "art_code": "AN202608271828557503",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-08-28",
+          "title": "世纪华通:2026年半年度报告",
+          "art_code": "AN202608270006755305",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {
+        "date": "2026-09-11",
+        "main_net_inflow": 79530099.0,
+        "small_net_inflow": -82452144.0,
+        "medium_net_inflow": 2922048.0,
+        "large_net_inflow": 17282544.0,
+        "super_large_net_inflow": 62247555.0,
+        "main_net_ratio": 5.58,
+        "source": "东方财富资金流"
+      },
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 11.2,
+        "trend": 21.0,
+        "structure": 7.4,
+        "events": 6.5
+      },
+      "technical_trade_score": 65.9,
+      "fundamental_status": "missing",
+      "fundamental_missing_fields": [
+        "report_date",
+        "revenue_yoy",
+        "net_profit_yoy",
+        "roe"
+      ],
+      "fundamental_report_date": null,
+      "fundamental_age_days": null,
+      "fundamental_risk_flags": [],
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-09-11"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002602&klt=60&fqt=1&lmt=240&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002602&klt=101&fqt=1&lmt=360&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-09-11",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002602&start=20241011&end=20260911&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": true
+        },
+        {
+          "source": "腾讯收盘字段补全",
+          "ok": true,
+          "date": "2026-09-11"
+        },
+        {
+          "source": "腾讯60分钟",
+          "ok": true,
+          "rows": 320,
+          "date": "2026-09-11 15:00:00"
+        }
+      ],
+      "metrics": {
+        "open": 15.47,
+        "high": 15.71,
+        "low": 15.35,
+        "close": 15.56,
+        "pct_change": 0.0,
+        "volume": 91679200.0,
+        "amount": 1425602136.0,
+        "turnover_rate": 1.35,
+        "rel_volume_20": 0.784925699173659,
+        "ma_5": 15.838,
+        "ma_10": 15.151,
+        "ma_20": 14.554499999999999,
+        "ma_50": 14.0252,
+        "ma_100": 14.401499999999999,
+        "ma_200": 16.0882,
+        "ema_5": 15.574560855933075,
+        "ema_10": 15.26078559221687,
+        "ema_20": 14.804825934849863,
+        "ema_50": 14.395174807394945,
+        "rsi_14": 62.70382098235252,
+        "macd_dif": 0.5080121478278077,
+        "macd_dea": 0.35864200833724197,
+        "macd_hist": 0.2987402789811314,
+        "kdj_k": 69.0071931812865,
+        "kdj_d": 70.92604839987837,
+        "kdj_j": 65.16948274410277,
+        "stoch_rsi_k": 63.292782155764336,
+        "stoch_rsi_d": 76.6864455138399,
+        "adx_14": 25.378023629598857,
+        "plus_di_14": 30.39157308802466,
+        "minus_di_14": 15.818505086485075,
+        "obv": 3544879600.0,
+        "high_20": 16.58,
+        "low_20": 13.51,
+        "atr_14": 0.5667517298536966
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "主力净流入占比+5.58%（2026-09-11）",
+        "板块动态匹配互联网和相关服务：长期逻辑6.2/8，当日1.8/4，5/20日趋势1.6/4，量能0.8/2，广度与龙头0.8/2"
+      ],
+      "sector_link": {
+        "board_type": "industry",
+        "board_code": "hangye_ZI64",
+        "board_name": "互联网和相关服务",
+        "board_score": 42.3,
+        "board_rank": 22,
+        "dynamic_score": 5.0,
+        "match_quality": 105,
+        "match_kind": "industry_exact_or_alias",
+        "eligible_for_trade_gate": false
+      },
+      "rank": 6
+    },
+    {
       "code": "002463",
       "name": "沪电股份",
       "industry": "电子元件",
@@ -15103,7 +15398,8 @@
       "source": [
         "腾讯日线",
         "腾讯行情",
-        "腾讯60分钟"
+        "腾讯60分钟",
+        "东方财富资金流"
       ],
       "data_confidence": "high",
       "data_valid": true,
@@ -15204,7 +15500,16 @@
           "source": "东方财富公告"
         }
       ],
-      "fund_flow": {},
+      "fund_flow": {
+        "date": "2026-09-11",
+        "main_net_inflow": -38269424.0,
+        "small_net_inflow": -54478976.0,
+        "medium_net_inflow": 92748416.0,
+        "large_net_inflow": -60982400.0,
+        "super_large_net_inflow": 22712976.0,
+        "main_net_ratio": -0.69,
+        "source": "东方财富资金流"
+      },
       "score_breakdown": {
         "fundamental": 16.0,
         "industry": 13.6,
@@ -15260,8 +15565,7 @@
         },
         {
           "source": "东方财富资金流",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002463&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+          "ok": true
         },
         {
           "source": "腾讯收盘字段补全",
@@ -15314,6 +15618,7 @@
       },
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "主力净流入占比-0.69%（2026-09-11）",
         "板块动态匹配计算机、通信和其他电子设备制造业：长期逻辑7.6/8，当日2.6/4，5/20日趋势1.6/4，量能0.9/2，广度与龙头0.9/2"
       ],
       "sector_link": {
@@ -15327,7 +15632,7 @@
         "match_kind": "industry_contains",
         "eligible_for_trade_gate": false
       },
-      "rank": 6
+      "rank": 7
     },
     {
       "code": "000333",
@@ -15553,241 +15858,6 @@
         "dynamic_score": 5.0,
         "match_quality": 103,
         "match_kind": "concept_exact_or_alias",
-        "eligible_for_trade_gate": false
-      },
-      "rank": 7
-    },
-    {
-      "code": "002602",
-      "name": "世纪华通",
-      "industry": "游戏",
-      "themes": [
-        "游戏",
-        "数据中心",
-        "AI应用"
-      ],
-      "data_date": "2026-09-11",
-      "source": [
-        "腾讯日线",
-        "腾讯行情",
-        "腾讯60分钟"
-      ],
-      "data_confidence": "high",
-      "data_valid": true,
-      "close": 15.56,
-      "pct_change": 0.0,
-      "score": 60.6,
-      "rating": "C",
-      "daily_trend": "强势多头",
-      "weekly_trend": "震荡",
-      "trend_60m": "偏空震荡",
-      "conclusion": "强势多头/震荡，60分钟偏空震荡；股票结构较强，目前优先等待回踩或突破确认。",
-      "patterns": [
-        "缩量回踩"
-      ],
-      "levels": {
-        "status": "ready",
-        "pullback_low": 14.61,
-        "pullback_high": 15.0,
-        "breakout_trigger": 16.63,
-        "no_chase_above": 17.08,
-        "invalidation": 13.77,
-        "target_1": 16.63,
-        "target_2": 17.39,
-        "risk_reward_1": 1.76,
-        "risk_reward_2": 2.5,
-        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
-      },
-      "financials": {},
-      "announcements": [
-        {
-          "date": "2026-09-10",
-          "title": "世纪华通:2026年员工持股计划法律意见书",
-          "art_code": "AN202609091829179393",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-28",
-          "title": "世纪华通:关于续聘2026年度审计机构的公告",
-          "art_code": "AN202608271828557511",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-28",
-          "title": "世纪华通:2026年员工持股计划管理办法",
-          "art_code": "AN202608271828557508",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-28",
-          "title": "世纪华通:关于召开2026年第二次临时股东会的通知",
-          "art_code": "AN202608271828557507",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-28",
-          "title": "世纪华通:2026年员工持股计划(草案)",
-          "art_code": "AN202608271828557504",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-28",
-          "title": "世纪华通:2026年员工持股计划(草案)摘要",
-          "art_code": "AN202608271828557510",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-28",
-          "title": "世纪华通:董事会薪酬与考核委员会关于公司2026年员工持股计划相关事项的审核意见",
-          "art_code": "AN202608271828557505",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-28",
-          "title": "世纪华通:关于2026年中期利润分配预案的公告",
-          "art_code": "AN202608271828557506",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-28",
-          "title": "世纪华通:上市公司2026年1-6月非经营性资金占用及其他关联资金往来情况汇总表",
-          "art_code": "AN202608271828557509",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-28",
-          "title": "世纪华通:第六届董事会第二十次会议决议公告",
-          "art_code": "AN202608271828557503",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-08-28",
-          "title": "世纪华通:2026年半年度报告",
-          "art_code": "AN202608270006755305",
-          "source": "东方财富公告"
-        }
-      ],
-      "fund_flow": {},
-      "score_breakdown": {
-        "fundamental": 16.0,
-        "industry": 11.2,
-        "trend": 21.0,
-        "structure": 7.4,
-        "events": 5.0
-      },
-      "technical_trade_score": 63.7,
-      "fundamental_status": "missing",
-      "fundamental_missing_fields": [
-        "report_date",
-        "revenue_yoy",
-        "net_profit_yoy",
-        "roe"
-      ],
-      "fundamental_report_date": null,
-      "fundamental_age_days": null,
-      "fundamental_risk_flags": [],
-      "source_status": [
-        {
-          "source": "腾讯行情",
-          "ok": true,
-          "date": "2026-09-11"
-        },
-        {
-          "source": "东方财富60分钟",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002602&klt=60&fqt=1&lmt=240&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
-        },
-        {
-          "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002602&klt=101&fqt=1&lmt=360&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
-        },
-        {
-          "source": "腾讯日线",
-          "ok": true,
-          "date": "2026-09-11",
-          "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=1002602&start=20241011&end=20260911&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
-        },
-        {
-          "source": "东方财富财务",
-          "ok": false
-        },
-        {
-          "source": "东方财富公告",
-          "ok": true
-        },
-        {
-          "source": "东方财富资金流",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002602&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-11"
-        },
-        {
-          "source": "腾讯60分钟",
-          "ok": true,
-          "rows": 320,
-          "date": "2026-09-11 15:00:00"
-        }
-      ],
-      "metrics": {
-        "open": 15.47,
-        "high": 15.71,
-        "low": 15.35,
-        "close": 15.56,
-        "pct_change": 0.0,
-        "volume": 91679200.0,
-        "amount": 1425602136.0,
-        "turnover_rate": 1.35,
-        "rel_volume_20": 0.784925699173659,
-        "ma_5": 15.838,
-        "ma_10": 15.151,
-        "ma_20": 14.554499999999999,
-        "ma_50": 14.0252,
-        "ma_100": 14.401499999999999,
-        "ma_200": 16.0882,
-        "ema_5": 15.574560855933075,
-        "ema_10": 15.26078559221687,
-        "ema_20": 14.804825934849863,
-        "ema_50": 14.395174807394945,
-        "rsi_14": 62.70382098235252,
-        "macd_dif": 0.5080121478278077,
-        "macd_dea": 0.35864200833724197,
-        "macd_hist": 0.2987402789811314,
-        "kdj_k": 69.0071931812865,
-        "kdj_d": 70.92604839987837,
-        "kdj_j": 65.16948274410277,
-        "stoch_rsi_k": 63.292782155764336,
-        "stoch_rsi_d": 76.6864455138399,
-        "adx_14": 25.378023629598857,
-        "plus_di_14": 30.39157308802466,
-        "minus_di_14": 15.818505086485075,
-        "obv": 3544879600.0,
-        "high_20": 16.58,
-        "low_20": 13.51,
-        "atr_14": 0.5667517298536966
-      },
-      "events": [
-        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
-        "板块动态匹配互联网和相关服务：长期逻辑6.2/8，当日1.8/4，5/20日趋势1.6/4，量能0.8/2，广度与龙头0.8/2"
-      ],
-      "sector_link": {
-        "board_type": "industry",
-        "board_code": "hangye_ZI64",
-        "board_name": "互联网和相关服务",
-        "board_score": 42.3,
-        "board_rank": 22,
-        "dynamic_score": 5.0,
-        "match_quality": 105,
-        "match_kind": "industry_exact_or_alias",
         "eligible_for_trade_gate": false
       },
       "rank": 8
@@ -16266,7 +16336,8 @@
       "source": [
         "腾讯日线",
         "腾讯行情",
-        "腾讯60分钟"
+        "腾讯60分钟",
+        "东方财富资金流"
       ],
       "data_confidence": "high",
       "data_valid": true,
@@ -16355,7 +16426,16 @@
           "source": "东方财富公告"
         }
       ],
-      "fund_flow": {},
+      "fund_flow": {
+        "date": "2026-09-11",
+        "main_net_inflow": -266989264.0,
+        "small_net_inflow": 457737824.0,
+        "medium_net_inflow": -190748576.0,
+        "large_net_inflow": -262395312.0,
+        "super_large_net_inflow": -4593952.0,
+        "main_net_ratio": -2.32,
+        "source": "东方财富资金流"
+      },
       "score_breakdown": {
         "fundamental": 16.0,
         "industry": 13.4,
@@ -16411,8 +16491,7 @@
         },
         {
           "source": "东方财富资金流",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.600183&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+          "ok": true
         },
         {
           "source": "腾讯收盘字段补全",
@@ -16466,6 +16545,7 @@
       "events": [
         "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
         "风险：2026-08-08 生益科技:生益科技股票交易风险提示公告",
+        "主力净流入占比-2.32%（2026-09-11）",
         "板块动态匹配计算机、通信和其他电子设备制造业：长期逻辑7.4/8，当日2.6/4，5/20日趋势1.6/4，量能0.9/2，广度与龙头0.9/2"
       ],
       "sector_link": {
@@ -22125,243 +22205,6 @@
       "rank": 36
     },
     {
-      "code": "600584",
-      "name": "长电科技",
-      "industry": "半导体",
-      "themes": [
-        "半导体",
-        "先进封装",
-        "存储"
-      ],
-      "data_date": "2026-09-11",
-      "source": [
-        "腾讯日线",
-        "腾讯行情",
-        "腾讯60分钟"
-      ],
-      "data_confidence": "high",
-      "data_valid": true,
-      "close": 67.74,
-      "pct_change": -0.5578391074574474,
-      "score": 43.7,
-      "rating": "D",
-      "daily_trend": "空头",
-      "weekly_trend": "偏空震荡",
-      "trend_60m": "空头",
-      "conclusion": "空头/偏空震荡，60分钟空头；目前只适合观察，等待结构改善。",
-      "patterns": [
-        "跌破后反抽"
-      ],
-      "levels": {
-        "status": "ready",
-        "pullback_low": 68.64,
-        "pullback_high": 68.42,
-        "breakout_trigger": 87.76,
-        "no_chase_above": 90.93,
-        "invalidation": 65.84,
-        "target_1": 87.76,
-        "target_2": 113.87,
-        "risk_reward_1": 7.16,
-        "risk_reward_2": 16.87,
-        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
-      },
-      "financials": {},
-      "announcements": [
-        {
-          "date": "2026-09-11",
-          "title": "长电科技:江苏长电科技股份有限公司关于2025年股票期权激励计划授予结果的公告",
-          "art_code": "AN202609101829232487",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-04",
-          "title": "长电科技:江苏长电科技股份有限公司关于向特定对象发行股份涉及关联交易事项暨与特定对象签署《附生效条件的股份认购协议》的公告",
-          "art_code": "AN202609031828971294",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-04",
-          "title": "长电科技:江苏长电科技股份有限公司关于2026年度向特定对象发行A股股票预案披露的提示性公告",
-          "art_code": "AN202609031828971285",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-04",
-          "title": "长电科技:江苏长电科技股份有限公司关于2026年度向特定对象发行A股股票摊薄即期回报、采取填补措施及相关主体承诺的公告",
-          "art_code": "AN202609031828971289",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-04",
-          "title": "长电科技:江苏长电科技股份有限公司关于向特定对象发行A股股票不存在直接或通过利益相关方向参与认购的投资者提供财务资助或补偿的公告",
-          "art_code": "AN202609031828971287",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-04",
-          "title": "长电科技:江苏长电科技股份有限公司2026年度向特定对象发行A股股票预案",
-          "art_code": "AN202609031828971286",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-04",
-          "title": "长电科技:江苏长电科技股份有限公司2026年度向特定对象发行A股股票方案论证分析报告",
-          "art_code": "AN202609031828971291",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-04",
-          "title": "长电科技:江苏长电科技股份有限公司第九届董事会第五次临时会议决议公告",
-          "art_code": "AN202609031828971296",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-04",
-          "title": "长电科技:江苏长电科技股份有限公司未来三年(2026-2028年)股东回报规划",
-          "art_code": "AN202609031828971288",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-04",
-          "title": "长电科技:江苏长电科技股份有限公司关于最近五年不存在被证券监管部门和证券交易所处罚或采取监管措施情况的公告",
-          "art_code": "AN202609031828971293",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-04",
-          "title": "长电科技:江苏长电科技股份有限公司关于前次募集资金使用情况报告的公告",
-          "art_code": "AN202609031828971292",
-          "source": "东方财富公告"
-        },
-        {
-          "date": "2026-09-04",
-          "title": "长电科技:江苏长电科技股份有限公司2026年度向特定对象发行A股股票募集资金使用可行性分析报告",
-          "art_code": "AN202609031828971295",
-          "source": "东方财富公告"
-        }
-      ],
-      "fund_flow": {},
-      "score_breakdown": {
-        "fundamental": 16.0,
-        "industry": 12.9,
-        "trend": 6.9,
-        "structure": 3.0,
-        "events": 5.0
-      },
-      "technical_trade_score": 39.7,
-      "fundamental_status": "missing",
-      "fundamental_missing_fields": [
-        "report_date",
-        "revenue_yoy",
-        "net_profit_yoy",
-        "roe"
-      ],
-      "fundamental_report_date": null,
-      "fundamental_age_days": null,
-      "fundamental_risk_flags": [],
-      "source_status": [
-        {
-          "source": "腾讯行情",
-          "ok": true,
-          "date": "2026-09-11"
-        },
-        {
-          "source": "东方财富60分钟",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600584&klt=60&fqt=1&lmt=240&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
-        },
-        {
-          "source": "东方财富日线",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600584&klt=101&fqt=1&lmt=360&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
-        },
-        {
-          "source": "腾讯日线",
-          "ok": true,
-          "date": "2026-09-11",
-          "rows": 360
-        },
-        {
-          "source": "网易日线",
-          "ok": false,
-          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0600584&start=20241011&end=20260911&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
-        },
-        {
-          "source": "东方财富财务",
-          "ok": false
-        },
-        {
-          "source": "东方财富公告",
-          "ok": true
-        },
-        {
-          "source": "东方财富资金流",
-          "ok": false,
-          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.600584&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
-        },
-        {
-          "source": "腾讯收盘字段补全",
-          "ok": true,
-          "date": "2026-09-11"
-        },
-        {
-          "source": "腾讯60分钟",
-          "ok": true,
-          "rows": 320,
-          "date": "2026-09-11 15:00:00"
-        }
-      ],
-      "metrics": {
-        "open": 66.5,
-        "high": 68.12,
-        "low": 65.5,
-        "close": 67.74,
-        "pct_change": -0.5578391074574474,
-        "volume": 66541400.0,
-        "amount": 4446672974.0,
-        "turnover_rate": 3.72,
-        "rel_volume_20": 0.697919459229733,
-        "ma_5": 68.41999999999999,
-        "ma_10": 70.108,
-        "ma_20": 74.054,
-        "ma_50": 79.0192,
-        "ma_100": 75.2295,
-        "ma_200": 58.5584,
-        "ema_5": 68.55913550871912,
-        "ema_10": 70.02085675987277,
-        "ema_20": 72.37958214629388,
-        "ema_50": 75.39868976882967,
-        "rsi_14": 38.49267876146783,
-        "macd_dif": -2.900695719459506,
-        "macd_dea": -2.431257093318884,
-        "macd_hist": -0.9388772522812436,
-        "kdj_k": 17.69479815525687,
-        "kdj_d": 17.187821765147625,
-        "kdj_j": 18.708750935475358,
-        "stoch_rsi_k": 16.700345344289236,
-        "stoch_rsi_d": 18.979001135721806,
-        "adx_14": 19.02803048638743,
-        "plus_di_14": 16.203876654490916,
-        "minus_di_14": 31.363532284320762,
-        "obv": 4050637200.0,
-        "high_20": 87.5,
-        "low_20": 65.5,
-        "atr_14": 3.9558573459225106
-      },
-      "events": [
-        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
-        "板块动态数据暂缺，动态12分按中性6分计入"
-      ],
-      "sector_link": {
-        "status": "unverified",
-        "dynamic_score": 6.0,
-        "match_quality": 0,
-        "match_kind": "none",
-        "eligible_for_trade_gate": false
-      },
-      "rank": 37
-    },
-    {
       "code": "002050",
       "name": "三花智控",
       "industry": "家电行业",
@@ -22601,7 +22444,7 @@
         "match_kind": "concept_exact_or_alias",
         "eligible_for_trade_gate": false
       },
-      "rank": 38
+      "rank": 37
     },
     {
       "code": "002156",
@@ -22808,7 +22651,7 @@
         "match_kind": "none",
         "eligible_for_trade_gate": false
       },
-      "rank": 39
+      "rank": 38
     },
     {
       "code": "603993",
@@ -23050,7 +22893,7 @@
         "match_kind": "industry_contains",
         "eligible_for_trade_gate": false
       },
-      "rank": 40
+      "rank": 39
     },
     {
       "code": "600549",
@@ -23292,7 +23135,7 @@
         "match_kind": "industry_contains",
         "eligible_for_trade_gate": false
       },
-      "rank": 41
+      "rank": 40
     },
     {
       "code": "600312",
@@ -23532,6 +23375,253 @@
         "dynamic_score": 5.2,
         "match_quality": 85,
         "match_kind": "concept_contains",
+        "eligible_for_trade_gate": false
+      },
+      "rank": 41
+    },
+    {
+      "code": "600584",
+      "name": "长电科技",
+      "industry": "半导体",
+      "themes": [
+        "半导体",
+        "先进封装",
+        "存储"
+      ],
+      "data_date": "2026-09-11",
+      "source": [
+        "腾讯日线",
+        "腾讯行情",
+        "腾讯60分钟",
+        "东方财富资金流"
+      ],
+      "data_confidence": "high",
+      "data_valid": true,
+      "close": 67.74,
+      "pct_change": -0.5578391074574474,
+      "score": 42.2,
+      "rating": "D",
+      "daily_trend": "空头",
+      "weekly_trend": "偏空震荡",
+      "trend_60m": "空头",
+      "conclusion": "空头/偏空震荡，60分钟空头；目前只适合观察，等待结构改善。",
+      "patterns": [
+        "跌破后反抽"
+      ],
+      "levels": {
+        "status": "ready",
+        "pullback_low": 68.64,
+        "pullback_high": 68.42,
+        "breakout_trigger": 87.76,
+        "no_chase_above": 90.93,
+        "invalidation": 65.84,
+        "target_1": 87.76,
+        "target_2": 113.87,
+        "risk_reward_1": 7.16,
+        "risk_reward_2": 16.87,
+        "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+      },
+      "financials": {},
+      "announcements": [
+        {
+          "date": "2026-09-11",
+          "title": "长电科技:江苏长电科技股份有限公司关于2025年股票期权激励计划授予结果的公告",
+          "art_code": "AN202609101829232487",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-04",
+          "title": "长电科技:江苏长电科技股份有限公司关于向特定对象发行股份涉及关联交易事项暨与特定对象签署《附生效条件的股份认购协议》的公告",
+          "art_code": "AN202609031828971294",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-04",
+          "title": "长电科技:江苏长电科技股份有限公司关于2026年度向特定对象发行A股股票预案披露的提示性公告",
+          "art_code": "AN202609031828971285",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-04",
+          "title": "长电科技:江苏长电科技股份有限公司关于2026年度向特定对象发行A股股票摊薄即期回报、采取填补措施及相关主体承诺的公告",
+          "art_code": "AN202609031828971289",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-04",
+          "title": "长电科技:江苏长电科技股份有限公司关于向特定对象发行A股股票不存在直接或通过利益相关方向参与认购的投资者提供财务资助或补偿的公告",
+          "art_code": "AN202609031828971287",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-04",
+          "title": "长电科技:江苏长电科技股份有限公司2026年度向特定对象发行A股股票预案",
+          "art_code": "AN202609031828971286",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-04",
+          "title": "长电科技:江苏长电科技股份有限公司2026年度向特定对象发行A股股票方案论证分析报告",
+          "art_code": "AN202609031828971291",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-04",
+          "title": "长电科技:江苏长电科技股份有限公司第九届董事会第五次临时会议决议公告",
+          "art_code": "AN202609031828971296",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-04",
+          "title": "长电科技:江苏长电科技股份有限公司未来三年(2026-2028年)股东回报规划",
+          "art_code": "AN202609031828971288",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-04",
+          "title": "长电科技:江苏长电科技股份有限公司关于最近五年不存在被证券监管部门和证券交易所处罚或采取监管措施情况的公告",
+          "art_code": "AN202609031828971293",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-04",
+          "title": "长电科技:江苏长电科技股份有限公司关于前次募集资金使用情况报告的公告",
+          "art_code": "AN202609031828971292",
+          "source": "东方财富公告"
+        },
+        {
+          "date": "2026-09-04",
+          "title": "长电科技:江苏长电科技股份有限公司2026年度向特定对象发行A股股票募集资金使用可行性分析报告",
+          "art_code": "AN202609031828971295",
+          "source": "东方财富公告"
+        }
+      ],
+      "fund_flow": {
+        "date": "2026-09-11",
+        "main_net_inflow": -396707344.0,
+        "small_net_inflow": 422551552.0,
+        "medium_net_inflow": -25844224.0,
+        "large_net_inflow": -215263584.0,
+        "super_large_net_inflow": -181443760.0,
+        "main_net_ratio": -8.92,
+        "source": "东方财富资金流"
+      },
+      "score_breakdown": {
+        "fundamental": 16.0,
+        "industry": 12.9,
+        "trend": 6.9,
+        "structure": 3.0,
+        "events": 3.5
+      },
+      "technical_trade_score": 37.6,
+      "fundamental_status": "missing",
+      "fundamental_missing_fields": [
+        "report_date",
+        "revenue_yoy",
+        "net_profit_yoy",
+        "roe"
+      ],
+      "fundamental_report_date": null,
+      "fundamental_age_days": null,
+      "fundamental_risk_flags": [],
+      "source_status": [
+        {
+          "source": "腾讯行情",
+          "ok": true,
+          "date": "2026-09-11"
+        },
+        {
+          "source": "东方财富60分钟",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600584&klt=60&fqt=1&lmt=240&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
+        },
+        {
+          "source": "东方财富日线",
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600584&klt=101&fqt=1&lmt=360&beg=0&end=20260911&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2"
+        },
+        {
+          "source": "腾讯日线",
+          "ok": true,
+          "date": "2026-09-11",
+          "rows": 360
+        },
+        {
+          "source": "网易日线",
+          "ok": false,
+          "error": "HTTPError: 502 Server Error: Bad Gateway for url: https://quotes.money.163.com/service/chddata.html?code=0600584&start=20241011&end=20260911&fields=TCLOSE%3BHIGH%3BLOW%3BTOPEN%3BLCLOSE%3BCHG%3BPCHG%3BTURNOVER%3BVOTURNOVER%3BVATURNOVER"
+        },
+        {
+          "source": "东方财富财务",
+          "ok": false
+        },
+        {
+          "source": "东方财富公告",
+          "ok": true
+        },
+        {
+          "source": "东方财富资金流",
+          "ok": true
+        },
+        {
+          "source": "腾讯收盘字段补全",
+          "ok": true,
+          "date": "2026-09-11"
+        },
+        {
+          "source": "腾讯60分钟",
+          "ok": true,
+          "rows": 320,
+          "date": "2026-09-11 15:00:00"
+        }
+      ],
+      "metrics": {
+        "open": 66.5,
+        "high": 68.12,
+        "low": 65.5,
+        "close": 67.74,
+        "pct_change": -0.5578391074574474,
+        "volume": 66541400.0,
+        "amount": 4446672974.0,
+        "turnover_rate": 3.72,
+        "rel_volume_20": 0.697919459229733,
+        "ma_5": 68.41999999999999,
+        "ma_10": 70.108,
+        "ma_20": 74.054,
+        "ma_50": 79.0192,
+        "ma_100": 75.2295,
+        "ma_200": 58.5584,
+        "ema_5": 68.55913550871912,
+        "ema_10": 70.02085675987277,
+        "ema_20": 72.37958214629388,
+        "ema_50": 75.39868976882967,
+        "rsi_14": 38.49267876146783,
+        "macd_dif": -2.900695719459506,
+        "macd_dea": -2.431257093318884,
+        "macd_hist": -0.9388772522812436,
+        "kdj_k": 17.69479815525687,
+        "kdj_d": 17.187821765147625,
+        "kdj_j": 18.708750935475358,
+        "stoch_rsi_k": 16.700345344289236,
+        "stoch_rsi_d": 18.979001135721806,
+        "adx_14": 19.02803048638743,
+        "plus_di_14": 16.203876654490916,
+        "minus_di_14": 31.363532284320762,
+        "obv": 4050637200.0,
+        "high_20": 87.5,
+        "low_20": 65.5,
+        "atr_14": 3.9558573459225106
+      },
+      "events": [
+        "最新财务接口暂缺，基本面按中性基准计分并降低置信度",
+        "主力净流入占比-8.92%（2026-09-11）",
+        "板块动态数据暂缺，动态12分按中性6分计入"
+      ],
+      "sector_link": {
+        "status": "unverified",
+        "dynamic_score": 6.0,
+        "match_quality": 0,
+        "match_kind": "none",
         "eligible_for_trade_gate": false
       },
       "rank": 42
@@ -27436,9 +27526,9 @@
   ],
   "top5": [
     "603228",
+    "002916",
     "600036",
     "002436",
-    "002916",
     "601138"
   ],
   "comparison": {
@@ -27453,7 +27543,7 @@
       {
         "code": "000333",
         "before": 11,
-        "after": 7
+        "after": 8
       },
       {
         "code": "000977",
@@ -27473,12 +27563,17 @@
       {
         "code": "002050",
         "before": 48,
-        "after": 38
+        "after": 37
       },
       {
         "code": "002126",
         "before": 45,
         "after": 52
+      },
+      {
+        "code": "002156",
+        "before": 41,
+        "after": 38
       },
       {
         "code": "002281",
@@ -27489,6 +27584,11 @@
         "code": "002371",
         "before": 53,
         "after": 46
+      },
+      {
+        "code": "002463",
+        "before": 4,
+        "after": 7
       },
       {
         "code": "002475",
@@ -27513,12 +27613,17 @@
       {
         "code": "002602",
         "before": 19,
-        "after": 8
+        "after": 6
       },
       {
         "code": "002648",
         "before": 6,
         "after": 20
+      },
+      {
+        "code": "002916",
+        "before": 5,
+        "after": 2
       },
       {
         "code": "002938",
@@ -27568,7 +27673,7 @@
       {
         "code": "600312",
         "before": 32,
-        "after": 42
+        "after": 41
       },
       {
         "code": "600406",
@@ -27583,12 +27688,7 @@
       {
         "code": "600549",
         "before": 54,
-        "after": 41
-      },
-      {
-        "code": "600584",
-        "before": 40,
-        "after": 37
+        "after": 40
       },
       {
         "code": "600690",
@@ -27643,7 +27743,7 @@
       {
         "code": "603993",
         "before": 18,
-        "after": 40
+        "after": 39
       },
       {
         "code": "688187",
@@ -27675,7 +27775,7 @@
       {
         "code": "002602",
         "before": 55.8,
-        "after": 60.6
+        "after": 62.1
       },
       {
         "code": "002648",
@@ -28647,6 +28747,102 @@
         "market_regime": "risk_off"
       },
       {
+        "plan_id": "2026-09-11:002916:pullback:v1",
+        "code": "002916",
+        "name": "深南电路",
+        "industry": "电子元件",
+        "setup": "pullback",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 68.9,
+        "composite_score": 64.1,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 362.16,
+          "high": 377.54,
+          "reference": 369.85
+        },
+        "trigger": {
+          "kind": "pullback_reclaim",
+          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
+          "confirmation_level": 369.85
+        },
+        "stop": 352.64,
+        "target_1": 400.83,
+        "target_2": 484.57,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 6.67,
+        "no_chase_above": 416.63,
+        "market_regime": "risk_off"
+      },
+      {
+        "plan_id": "2026-09-11:002916:breakout:v1",
+        "code": "002916",
+        "name": "深南电路",
+        "industry": "电子元件",
+        "setup": "breakout",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 68.9,
+        "composite_score": 64.1,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 399.06,
+          "high": 399.06,
+          "reference": 399.06
+        },
+        "trigger": {
+          "kind": "volume_breakout",
+          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
+          "minimum_volume_ratio": 1.3
+        },
+        "stop": 377.54,
+        "target_1": 437.8,
+        "target_2": 484.57,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 3.97,
+        "no_chase_above": 409.82,
+        "market_regime": "risk_off"
+      },
+      {
         "plan_id": "2026-09-11:600036:pullback:v1",
         "code": "600036",
         "name": "招商银行",
@@ -28743,102 +28939,6 @@
         "market_regime": "risk_off"
       },
       {
-        "plan_id": "2026-09-11:002916:pullback:v1",
-        "code": "002916",
-        "name": "深南电路",
-        "industry": "电子元件",
-        "setup": "pullback",
-        "decision_status": "watch_only",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 66.7,
-        "composite_score": 62.6,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 362.16,
-          "high": 377.54,
-          "reference": 369.85
-        },
-        "trigger": {
-          "kind": "pullback_reclaim",
-          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
-          "confirmation_level": 369.85
-        },
-        "stop": 352.64,
-        "target_1": 400.83,
-        "target_2": 484.57,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 6.67,
-        "no_chase_above": 416.63,
-        "market_regime": "risk_off"
-      },
-      {
-        "plan_id": "2026-09-11:002916:breakout:v1",
-        "code": "002916",
-        "name": "深南电路",
-        "industry": "电子元件",
-        "setup": "breakout",
-        "decision_status": "watch_only",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 66.7,
-        "composite_score": 62.6,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 399.06,
-          "high": 399.06,
-          "reference": 399.06
-        },
-        "trigger": {
-          "kind": "volume_breakout",
-          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
-          "minimum_volume_ratio": 1.3
-        },
-        "stop": 377.54,
-        "target_1": 437.8,
-        "target_2": 484.57,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 3.97,
-        "no_chase_above": 409.82,
-        "market_regime": "risk_off"
-      },
-      {
         "plan_id": "2026-09-11:601138:pullback:v1",
         "code": "601138",
         "name": "工业富联",
@@ -28932,6 +29032,102 @@
         "risk_reward_1": 1.8,
         "risk_reward_2": 3.43,
         "no_chase_above": 70.25,
+        "market_regime": "risk_off"
+      },
+      {
+        "plan_id": "2026-09-11:002602:pullback:v1",
+        "code": "002602",
+        "name": "世纪华通",
+        "industry": "游戏",
+        "setup": "pullback",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 65.9,
+        "composite_score": 62.1,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 14.61,
+          "high": 15.0,
+          "reference": 14.8
+        },
+        "trigger": {
+          "kind": "pullback_reclaim",
+          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
+          "confirmation_level": 14.8
+        },
+        "stop": 13.77,
+        "target_1": 16.67,
+        "target_2": 17.91,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 3.0,
+        "no_chase_above": 17.08,
+        "market_regime": "risk_off"
+      },
+      {
+        "plan_id": "2026-09-11:002602:breakout:v1",
+        "code": "002602",
+        "name": "世纪华通",
+        "industry": "游戏",
+        "setup": "breakout",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 65.9,
+        "composite_score": 62.1,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 16.63,
+          "high": 16.63,
+          "reference": 16.63
+        },
+        "trigger": {
+          "kind": "volume_breakout",
+          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
+          "minimum_volume_ratio": 1.3
+        },
+        "stop": 15.95,
+        "target_1": 17.85,
+        "target_2": 18.67,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 3.0,
+        "no_chase_above": 16.97,
         "market_regime": "risk_off"
       },
       {
@@ -29126,102 +29322,6 @@
         "risk_reward_1": 1.8,
         "risk_reward_2": 3.0,
         "no_chase_above": 89.74,
-        "market_regime": "risk_off"
-      },
-      {
-        "plan_id": "2026-09-11:002602:pullback:v1",
-        "code": "002602",
-        "name": "世纪华通",
-        "industry": "游戏",
-        "setup": "pullback",
-        "decision_status": "rejected",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 63.7,
-        "composite_score": 60.6,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 14.61,
-          "high": 15.0,
-          "reference": 14.8
-        },
-        "trigger": {
-          "kind": "pullback_reclaim",
-          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
-          "confirmation_level": 14.8
-        },
-        "stop": 13.77,
-        "target_1": 16.67,
-        "target_2": 17.91,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 3.0,
-        "no_chase_above": 17.08,
-        "market_regime": "risk_off"
-      },
-      {
-        "plan_id": "2026-09-11:002602:breakout:v1",
-        "code": "002602",
-        "name": "世纪华通",
-        "industry": "游戏",
-        "setup": "breakout",
-        "decision_status": "rejected",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 63.7,
-        "composite_score": 60.6,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 16.63,
-          "high": 16.63,
-          "reference": 16.63
-        },
-        "trigger": {
-          "kind": "volume_breakout",
-          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
-          "minimum_volume_ratio": 1.3
-        },
-        "stop": 15.95,
-        "target_1": 17.85,
-        "target_2": 18.67,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 3.0,
-        "no_chase_above": 16.97,
         "market_regime": "risk_off"
       },
       {
@@ -31931,106 +32031,6 @@
         "market_regime": "risk_off"
       },
       {
-        "plan_id": "2026-09-11:600584:pullback:v1",
-        "code": "600584",
-        "name": "长电科技",
-        "industry": "半导体",
-        "setup": "pullback",
-        "decision_status": "rejected",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 39.7,
-        "composite_score": 43.7,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "日线未达到多头门槛",
-          "60分钟趋势为空头",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 68.42,
-          "high": 68.64,
-          "reference": 68.53
-        },
-        "trigger": {
-          "kind": "pullback_reclaim",
-          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
-          "confirmation_level": 68.53
-        },
-        "stop": 65.84,
-        "target_1": 87.76,
-        "target_2": 113.87,
-        "risk_reward_1": 7.15,
-        "risk_reward_2": 16.86,
-        "no_chase_above": 90.93,
-        "market_regime": "risk_off"
-      },
-      {
-        "plan_id": "2026-09-11:600584:breakout:v1",
-        "code": "600584",
-        "name": "长电科技",
-        "industry": "半导体",
-        "setup": "breakout",
-        "decision_status": "rejected",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 39.7,
-        "composite_score": 43.7,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "日线未达到多头门槛",
-          "60分钟趋势为空头",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 87.76,
-          "high": 87.76,
-          "reference": 87.76
-        },
-        "trigger": {
-          "kind": "volume_breakout",
-          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
-          "minimum_volume_ratio": 1.3
-        },
-        "stop": 83.01,
-        "target_1": 96.3,
-        "target_2": 113.87,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 5.5,
-        "no_chase_above": 90.13,
-        "market_regime": "risk_off"
-      },
-      {
         "plan_id": "2026-09-11:002050:pullback:v1",
         "code": "002050",
         "name": "三花智控",
@@ -32628,6 +32628,106 @@
         "risk_reward_1": 1.8,
         "risk_reward_2": 3.0,
         "no_chase_above": 21.17,
+        "market_regime": "risk_off"
+      },
+      {
+        "plan_id": "2026-09-11:600584:pullback:v1",
+        "code": "600584",
+        "name": "长电科技",
+        "industry": "半导体",
+        "setup": "pullback",
+        "decision_status": "rejected",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 37.6,
+        "composite_score": 42.2,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "日线未达到多头门槛",
+          "60分钟趋势为空头",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 68.42,
+          "high": 68.64,
+          "reference": 68.53
+        },
+        "trigger": {
+          "kind": "pullback_reclaim",
+          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
+          "confirmation_level": 68.53
+        },
+        "stop": 65.84,
+        "target_1": 87.76,
+        "target_2": 113.87,
+        "risk_reward_1": 7.15,
+        "risk_reward_2": 16.86,
+        "no_chase_above": 90.93,
+        "market_regime": "risk_off"
+      },
+      {
+        "plan_id": "2026-09-11:600584:breakout:v1",
+        "code": "600584",
+        "name": "长电科技",
+        "industry": "半导体",
+        "setup": "breakout",
+        "decision_status": "rejected",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 37.6,
+        "composite_score": 42.2,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "日线未达到多头门槛",
+          "60分钟趋势为空头",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 87.76,
+          "high": 87.76,
+          "reference": 87.76
+        },
+        "trigger": {
+          "kind": "volume_breakout",
+          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
+          "minimum_volume_ratio": 1.3
+        },
+        "stop": 83.01,
+        "target_1": 96.3,
+        "target_2": 113.87,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 5.5,
+        "no_chase_above": 90.13,
         "market_regime": "risk_off"
       },
       {
@@ -34254,6 +34354,102 @@
         "market_regime": "risk_off"
       },
       {
+        "plan_id": "2026-09-11:002916:pullback:v1",
+        "code": "002916",
+        "name": "深南电路",
+        "industry": "电子元件",
+        "setup": "pullback",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 68.9,
+        "composite_score": 64.1,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 362.16,
+          "high": 377.54,
+          "reference": 369.85
+        },
+        "trigger": {
+          "kind": "pullback_reclaim",
+          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
+          "confirmation_level": 369.85
+        },
+        "stop": 352.64,
+        "target_1": 400.83,
+        "target_2": 484.57,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 6.67,
+        "no_chase_above": 416.63,
+        "market_regime": "risk_off"
+      },
+      {
+        "plan_id": "2026-09-11:002916:breakout:v1",
+        "code": "002916",
+        "name": "深南电路",
+        "industry": "电子元件",
+        "setup": "breakout",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 68.9,
+        "composite_score": 64.1,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 399.06,
+          "high": 399.06,
+          "reference": 399.06
+        },
+        "trigger": {
+          "kind": "volume_breakout",
+          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
+          "minimum_volume_ratio": 1.3
+        },
+        "stop": 377.54,
+        "target_1": 437.8,
+        "target_2": 484.57,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 3.97,
+        "no_chase_above": 409.82,
+        "market_regime": "risk_off"
+      },
+      {
         "plan_id": "2026-09-11:600036:pullback:v1",
         "code": "600036",
         "name": "招商银行",
@@ -34350,102 +34546,6 @@
         "market_regime": "risk_off"
       },
       {
-        "plan_id": "2026-09-11:002916:pullback:v1",
-        "code": "002916",
-        "name": "深南电路",
-        "industry": "电子元件",
-        "setup": "pullback",
-        "decision_status": "watch_only",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 66.7,
-        "composite_score": 62.6,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 362.16,
-          "high": 377.54,
-          "reference": 369.85
-        },
-        "trigger": {
-          "kind": "pullback_reclaim",
-          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
-          "confirmation_level": 369.85
-        },
-        "stop": 352.64,
-        "target_1": 400.83,
-        "target_2": 484.57,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 6.67,
-        "no_chase_above": 416.63,
-        "market_regime": "risk_off"
-      },
-      {
-        "plan_id": "2026-09-11:002916:breakout:v1",
-        "code": "002916",
-        "name": "深南电路",
-        "industry": "电子元件",
-        "setup": "breakout",
-        "decision_status": "watch_only",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 66.7,
-        "composite_score": 62.6,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 399.06,
-          "high": 399.06,
-          "reference": 399.06
-        },
-        "trigger": {
-          "kind": "volume_breakout",
-          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
-          "minimum_volume_ratio": 1.3
-        },
-        "stop": 377.54,
-        "target_1": 437.8,
-        "target_2": 484.57,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 3.97,
-        "no_chase_above": 409.82,
-        "market_regime": "risk_off"
-      },
-      {
         "plan_id": "2026-09-11:601138:pullback:v1",
         "code": "601138",
         "name": "工业富联",
@@ -34539,6 +34639,102 @@
         "risk_reward_1": 1.8,
         "risk_reward_2": 3.43,
         "no_chase_above": 70.25,
+        "market_regime": "risk_off"
+      },
+      {
+        "plan_id": "2026-09-11:002602:pullback:v1",
+        "code": "002602",
+        "name": "世纪华通",
+        "industry": "游戏",
+        "setup": "pullback",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 65.9,
+        "composite_score": 62.1,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 14.61,
+          "high": 15.0,
+          "reference": 14.8
+        },
+        "trigger": {
+          "kind": "pullback_reclaim",
+          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
+          "confirmation_level": 14.8
+        },
+        "stop": 13.77,
+        "target_1": 16.67,
+        "target_2": 17.91,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 3.0,
+        "no_chase_above": 17.08,
+        "market_regime": "risk_off"
+      },
+      {
+        "plan_id": "2026-09-11:002602:breakout:v1",
+        "code": "002602",
+        "name": "世纪华通",
+        "industry": "游戏",
+        "setup": "breakout",
+        "decision_status": "watch_only",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 65.9,
+        "composite_score": 62.1,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 16.63,
+          "high": 16.63,
+          "reference": 16.63
+        },
+        "trigger": {
+          "kind": "volume_breakout",
+          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
+          "minimum_volume_ratio": 1.3
+        },
+        "stop": 15.95,
+        "target_1": 17.85,
+        "target_2": 18.67,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 3.0,
+        "no_chase_above": 16.97,
         "market_regime": "risk_off"
       },
       {
@@ -34731,102 +34927,6 @@
         "risk_reward_1": 1.8,
         "risk_reward_2": 3.0,
         "no_chase_above": 89.74,
-        "market_regime": "risk_off"
-      },
-      {
-        "plan_id": "2026-09-11:002602:pullback:v1",
-        "code": "002602",
-        "name": "世纪华通",
-        "industry": "游戏",
-        "setup": "pullback",
-        "decision_status": "rejected",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 63.7,
-        "composite_score": 60.6,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 14.61,
-          "high": 15.0,
-          "reference": 14.8
-        },
-        "trigger": {
-          "kind": "pullback_reclaim",
-          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
-          "confirmation_level": 14.8
-        },
-        "stop": 13.77,
-        "target_1": 16.67,
-        "target_2": 17.91,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 3.0,
-        "no_chase_above": 17.08,
-        "market_regime": "risk_off"
-      },
-      {
-        "plan_id": "2026-09-11:002602:breakout:v1",
-        "code": "002602",
-        "name": "世纪华通",
-        "industry": "游戏",
-        "setup": "breakout",
-        "decision_status": "rejected",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 63.7,
-        "composite_score": 60.6,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 16.63,
-          "high": 16.63,
-          "reference": 16.63
-        },
-        "trigger": {
-          "kind": "volume_breakout",
-          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
-          "minimum_volume_ratio": 1.3
-        },
-        "stop": 15.95,
-        "target_1": 17.85,
-        "target_2": 18.67,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 3.0,
-        "no_chase_above": 16.97,
         "market_regime": "risk_off"
       },
       {
@@ -37536,106 +37636,6 @@
         "market_regime": "risk_off"
       },
       {
-        "plan_id": "2026-09-11:600584:pullback:v1",
-        "code": "600584",
-        "name": "长电科技",
-        "industry": "半导体",
-        "setup": "pullback",
-        "decision_status": "rejected",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 39.7,
-        "composite_score": 43.7,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "日线未达到多头门槛",
-          "60分钟趋势为空头",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 68.42,
-          "high": 68.64,
-          "reference": 68.53
-        },
-        "trigger": {
-          "kind": "pullback_reclaim",
-          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
-          "confirmation_level": 68.53
-        },
-        "stop": 65.84,
-        "target_1": 87.76,
-        "target_2": 113.87,
-        "risk_reward_1": 7.15,
-        "risk_reward_2": 16.86,
-        "no_chase_above": 90.93,
-        "market_regime": "risk_off"
-      },
-      {
-        "plan_id": "2026-09-11:600584:breakout:v1",
-        "code": "600584",
-        "name": "长电科技",
-        "industry": "半导体",
-        "setup": "breakout",
-        "decision_status": "rejected",
-        "lifecycle_status": "pending",
-        "recommendation_type": "technical_only",
-        "fundamental_status": "missing",
-        "fundamental_missing_fields": [
-          "report_date",
-          "revenue_yoy",
-          "net_profit_yoy",
-          "roe"
-        ],
-        "technical_trade_score": 39.7,
-        "composite_score": 43.7,
-        "valid_for": "2026-09-14",
-        "expires_after": "2026-09-14",
-        "max_holding_sessions": 5,
-        "fundamental_position_cap_pct": 7.5,
-        "model_weight_pct": 0.0,
-        "reasons": [
-          "基本面缺失"
-        ],
-        "rejection_reasons": [
-          "技术交易评分低于70",
-          "日线未达到多头门槛",
-          "60分钟趋势为空头",
-          "板块匹配置信度不足"
-        ],
-        "entry": {
-          "low": 87.76,
-          "high": 87.76,
-          "reference": 87.76
-        },
-        "trigger": {
-          "kind": "volume_breakout",
-          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
-          "minimum_volume_ratio": 1.3
-        },
-        "stop": 83.01,
-        "target_1": 96.3,
-        "target_2": 113.87,
-        "risk_reward_1": 1.8,
-        "risk_reward_2": 5.5,
-        "no_chase_above": 90.13,
-        "market_regime": "risk_off"
-      },
-      {
         "plan_id": "2026-09-11:002050:pullback:v1",
         "code": "002050",
         "name": "三花智控",
@@ -38233,6 +38233,106 @@
         "risk_reward_1": 1.8,
         "risk_reward_2": 3.0,
         "no_chase_above": 21.17,
+        "market_regime": "risk_off"
+      },
+      {
+        "plan_id": "2026-09-11:600584:pullback:v1",
+        "code": "600584",
+        "name": "长电科技",
+        "industry": "半导体",
+        "setup": "pullback",
+        "decision_status": "rejected",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 37.6,
+        "composite_score": 42.2,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "日线未达到多头门槛",
+          "60分钟趋势为空头",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 68.42,
+          "high": 68.64,
+          "reference": 68.53
+        },
+        "trigger": {
+          "kind": "pullback_reclaim",
+          "description": "进入回踩区后，30或60分钟K线收回区间中枢且不再创新低",
+          "confirmation_level": 68.53
+        },
+        "stop": 65.84,
+        "target_1": 87.76,
+        "target_2": 113.87,
+        "risk_reward_1": 7.15,
+        "risk_reward_2": 16.86,
+        "no_chase_above": 90.93,
+        "market_regime": "risk_off"
+      },
+      {
+        "plan_id": "2026-09-11:600584:breakout:v1",
+        "code": "600584",
+        "name": "长电科技",
+        "industry": "半导体",
+        "setup": "breakout",
+        "decision_status": "rejected",
+        "lifecycle_status": "pending",
+        "recommendation_type": "technical_only",
+        "fundamental_status": "missing",
+        "fundamental_missing_fields": [
+          "report_date",
+          "revenue_yoy",
+          "net_profit_yoy",
+          "roe"
+        ],
+        "technical_trade_score": 37.6,
+        "composite_score": 42.2,
+        "valid_for": "2026-09-14",
+        "expires_after": "2026-09-14",
+        "max_holding_sessions": 5,
+        "fundamental_position_cap_pct": 7.5,
+        "model_weight_pct": 0.0,
+        "reasons": [
+          "基本面缺失"
+        ],
+        "rejection_reasons": [
+          "技术交易评分低于70",
+          "日线未达到多头门槛",
+          "60分钟趋势为空头",
+          "板块匹配置信度不足"
+        ],
+        "entry": {
+          "low": 87.76,
+          "high": 87.76,
+          "reference": 87.76
+        },
+        "trigger": {
+          "kind": "volume_breakout",
+          "description": "60分钟或日线收盘站上突破价，成交量不低于20期均量1.30倍",
+          "minimum_volume_ratio": 1.3
+        },
+        "stop": 83.01,
+        "target_1": 96.3,
+        "target_2": 113.87,
+        "risk_reward_1": 1.8,
+        "risk_reward_2": 5.5,
+        "no_chase_above": 90.13,
         "market_regime": "risk_off"
       },
       {
