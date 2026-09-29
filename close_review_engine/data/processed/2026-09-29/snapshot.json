@@ -2,7 +2,7 @@
   "schema_version": 2,
   "status": "success",
   "target_date": "2026-09-29",
-  "generated_at": "2026-09-29T22:05:10.951883+08:00",
+  "generated_at": "2026-09-29T22:14:49.048346+08:00",
   "valid_count": 59,
   "universe_count": 59,
   "market": {
@@ -651,14 +651,14 @@
       },
       {
         "source": "东方财富全市场行情",
-        "ok": true,
-        "rows": 100
+        "ok": false,
+        "error": "ConnectionError: HTTPSConnectionPool(host='82.push2.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/clist/get?pn=1&pz=6000&po=1&np=1&fltt=2&invt=2&fid=f3&fs=m%3A0%2Bt%3A6%2Cm%3A0%2Bt%3A80%2Cm%3A1%2Bt%3A2%2Cm%3A1%2Bt%3A23&fields=f12%2Cf14%2"
       },
       {
         "source": "东方财富全市场完整性校验",
         "ok": false,
-        "rows": 100,
-        "error": "仅返回100只股票，低于完整性阈值3000；未将局部样本冒充全市场"
+        "rows": 0,
+        "error": "仅返回0只股票，低于完整性阈值3000；未将局部样本冒充全市场"
       },
       {
         "source": "腾讯上证指数",
@@ -12332,20 +12332,132 @@
           "capacity_leader": {
             "role": "capacity_leader",
             "role_label": "资金容量龙头",
-            "status": "no_qualified_stock",
-            "code": null,
-            "name": null,
-            "close": null,
-            "reason": "无足够的沪深主板100元以下合格标的，不强行补足。"
+            "status": "ready",
+            "code": "000504",
+            "name": "南华生物",
+            "close": 11.29,
+            "pct_change": -8.656957928802589,
+            "daily_trend": "强势多头",
+            "weekly_trend": "强势多头",
+            "trend_60m": "偏空震荡",
+            "patterns": [],
+            "levels": {
+              "status": "ready",
+              "pullback_low": 9.97,
+              "pullback_high": 10.53,
+              "breakout_trigger": 14.08,
+              "no_chase_above": 14.72,
+              "invalidation": 8.43,
+              "target_1": 14.08,
+              "target_2": 14.78,
+              "risk_reward_1": 2.11,
+              "risk_reward_2": 2.5,
+              "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+            },
+            "metrics": {
+              "open": 11.28,
+              "high": 12.52,
+              "low": 11.12,
+              "close": 11.29,
+              "pct_change": -8.656957928802589,
+              "volume": 93159000.0,
+              "amount": 1080729294.0,
+              "turnover_rate": 28.31,
+              "rel_volume_20": 5.398302958378267,
+              "ma_5": 12.45,
+              "ma_10": 10.899,
+              "ma_20": 9.661,
+              "ma_50": 8.7934,
+              "ma_100": 8.687800000000001,
+              "ma_200": 8.9693,
+              "ema_5": 11.883290692106819,
+              "ema_10": 11.197207565207135,
+              "ema_20": 10.246278021454627,
+              "ema_50": 9.269689459255945,
+              "rsi_14": 59.99666590675479,
+              "macd_dif": 1.0369110915661182,
+              "macd_dea": 0.6848027010282254,
+              "macd_hist": 0.7042167810757856,
+              "kdj_k": 73.87726774621544,
+              "kdj_d": 80.50785800290872,
+              "kdj_j": 60.616087232828875,
+              "stoch_rsi_k": 63.0883967158516,
+              "stoch_rsi_d": 82.93436027657079,
+              "adx_14": 41.99240757248679,
+              "plus_di_14": 41.113147351125214,
+              "minus_di_14": 14.637146336542939,
+              "obv": 146511400.0,
+              "high_20": 14.04,
+              "low_20": 8.06,
+              "atr_14": 0.8028287464769643
+            },
+            "data_confidence": "high",
+            "reason": "成交承载力、流通规模和中期结构领先"
           },
           "momentum_leader": {
             "role": "momentum_leader",
             "role_label": "弹性龙头",
-            "status": "no_qualified_stock",
-            "code": null,
-            "name": null,
-            "close": null,
-            "reason": "无足够的沪深主板100元以下合格标的，不强行补足。"
+            "status": "ready",
+            "code": "000829",
+            "name": "天音控股",
+            "close": 9.15,
+            "pct_change": 5.65819861431871,
+            "daily_trend": "多头",
+            "weekly_trend": "震荡",
+            "trend_60m": "震荡",
+            "patterns": [],
+            "levels": {
+              "status": "ready",
+              "pullback_low": 8.94,
+              "pullback_high": 9.22,
+              "breakout_trigger": 9.93,
+              "no_chase_above": 10.25,
+              "invalidation": 8.54,
+              "target_1": 9.93,
+              "target_2": 10.43,
+              "risk_reward_1": 1.57,
+              "risk_reward_2": 2.5,
+              "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+            },
+            "metrics": {
+              "open": 8.63,
+              "high": 9.2,
+              "low": 8.6,
+              "close": 9.15,
+              "pct_change": 5.65819861431871,
+              "volume": 36692900.0,
+              "amount": 333031509.0,
+              "turnover_rate": 3.58,
+              "rel_volume_20": 1.5544460038983052,
+              "ma_5": 9.114,
+              "ma_10": 9.071000000000002,
+              "ma_20": 9.08,
+              "ma_50": 8.7164,
+              "ma_100": 8.7149,
+              "ma_200": 9.7446,
+              "ema_5": 9.076873618835021,
+              "ema_10": 9.078106075475713,
+              "ema_20": 9.00387555889465,
+              "ema_50": 8.840190807535581,
+              "rsi_14": 53.18802466040363,
+              "macd_dif": 0.11616587762365604,
+              "macd_dea": 0.14026543563074878,
+              "macd_hist": -0.04819911601418547,
+              "kdj_k": 37.16398238588814,
+              "kdj_d": 41.34032446092178,
+              "kdj_j": 28.811298235820857,
+              "stoch_rsi_k": 21.519760454116803,
+              "stoch_rsi_d": 22.724733936080074,
+              "adx_14": 16.352429729399013,
+              "plus_di_14": 21.13156930037291,
+              "minus_di_14": 20.158132004816444,
+              "obv": 760958500.0,
+              "high_20": 9.9,
+              "low_20": 8.59,
+              "atr_14": 0.39993808436894973
+            },
+            "data_confidence": "high",
+            "reason": "板块相对强度、换手和60分钟弹性领先"
           },
           "pullback_potential": {
             "role": "pullback_potential",
@@ -13380,6 +13492,144 @@
         "board_code": "hangye_ZC36",
         "board_name": "汽车制造业",
         "board_score": 74.4
+      },
+      {
+        "role": "capacity_leader",
+        "role_label": "资金容量龙头",
+        "status": "ready",
+        "code": "000504",
+        "name": "南华生物",
+        "close": 11.29,
+        "pct_change": -8.656957928802589,
+        "daily_trend": "强势多头",
+        "weekly_trend": "强势多头",
+        "trend_60m": "偏空震荡",
+        "patterns": [],
+        "levels": {
+          "status": "ready",
+          "pullback_low": 9.97,
+          "pullback_high": 10.53,
+          "breakout_trigger": 14.08,
+          "no_chase_above": 14.72,
+          "invalidation": 8.43,
+          "target_1": 14.08,
+          "target_2": 14.78,
+          "risk_reward_1": 2.11,
+          "risk_reward_2": 2.5,
+          "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+        },
+        "metrics": {
+          "open": 11.28,
+          "high": 12.52,
+          "low": 11.12,
+          "close": 11.29,
+          "pct_change": -8.656957928802589,
+          "volume": 93159000.0,
+          "amount": 1080729294.0,
+          "turnover_rate": 28.31,
+          "rel_volume_20": 5.398302958378267,
+          "ma_5": 12.45,
+          "ma_10": 10.899,
+          "ma_20": 9.661,
+          "ma_50": 8.7934,
+          "ma_100": 8.687800000000001,
+          "ma_200": 8.9693,
+          "ema_5": 11.883290692106819,
+          "ema_10": 11.197207565207135,
+          "ema_20": 10.246278021454627,
+          "ema_50": 9.269689459255945,
+          "rsi_14": 59.99666590675479,
+          "macd_dif": 1.0369110915661182,
+          "macd_dea": 0.6848027010282254,
+          "macd_hist": 0.7042167810757856,
+          "kdj_k": 73.87726774621544,
+          "kdj_d": 80.50785800290872,
+          "kdj_j": 60.616087232828875,
+          "stoch_rsi_k": 63.0883967158516,
+          "stoch_rsi_d": 82.93436027657079,
+          "adx_14": 41.99240757248679,
+          "plus_di_14": 41.113147351125214,
+          "minus_di_14": 14.637146336542939,
+          "obv": 146511400.0,
+          "high_20": 14.04,
+          "low_20": 8.06,
+          "atr_14": 0.8028287464769643
+        },
+        "data_confidence": "high",
+        "reason": "成交承载力、流通规模和中期结构领先",
+        "board_type": "concept",
+        "board_code": "gn_whzx",
+        "board_name": "文化振兴",
+        "board_score": 70.4
+      },
+      {
+        "role": "momentum_leader",
+        "role_label": "弹性龙头",
+        "status": "ready",
+        "code": "000829",
+        "name": "天音控股",
+        "close": 9.15,
+        "pct_change": 5.65819861431871,
+        "daily_trend": "多头",
+        "weekly_trend": "震荡",
+        "trend_60m": "震荡",
+        "patterns": [],
+        "levels": {
+          "status": "ready",
+          "pullback_low": 8.94,
+          "pullback_high": 9.22,
+          "breakout_trigger": 9.93,
+          "no_chase_above": 10.25,
+          "invalidation": 8.54,
+          "target_1": 9.93,
+          "target_2": 10.43,
+          "risk_reward_1": 1.57,
+          "risk_reward_2": 2.5,
+          "reason": "EMA10/EMA20/MA20、近20日突破位、近期低点与ATR共同计算。"
+        },
+        "metrics": {
+          "open": 8.63,
+          "high": 9.2,
+          "low": 8.6,
+          "close": 9.15,
+          "pct_change": 5.65819861431871,
+          "volume": 36692900.0,
+          "amount": 333031509.0,
+          "turnover_rate": 3.58,
+          "rel_volume_20": 1.5544460038983052,
+          "ma_5": 9.114,
+          "ma_10": 9.071000000000002,
+          "ma_20": 9.08,
+          "ma_50": 8.7164,
+          "ma_100": 8.7149,
+          "ma_200": 9.7446,
+          "ema_5": 9.076873618835021,
+          "ema_10": 9.078106075475713,
+          "ema_20": 9.00387555889465,
+          "ema_50": 8.840190807535581,
+          "rsi_14": 53.18802466040363,
+          "macd_dif": 0.11616587762365604,
+          "macd_dea": 0.14026543563074878,
+          "macd_hist": -0.04819911601418547,
+          "kdj_k": 37.16398238588814,
+          "kdj_d": 41.34032446092178,
+          "kdj_j": 28.811298235820857,
+          "stoch_rsi_k": 21.519760454116803,
+          "stoch_rsi_d": 22.724733936080074,
+          "adx_14": 16.352429729399013,
+          "plus_di_14": 21.13156930037291,
+          "minus_di_14": 20.158132004816444,
+          "obv": 760958500.0,
+          "high_20": 9.9,
+          "low_20": 8.59,
+          "atr_14": 0.39993808436894973
+        },
+        "data_confidence": "high",
+        "reason": "板块相对强度、换手和60分钟弹性领先",
+        "board_type": "concept",
+        "board_code": "gn_whzx",
+        "board_name": "文化振兴",
+        "board_score": 70.4
       }
     ],
     "source_status": [
@@ -13397,7 +13647,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZK70",
+        "board_code": "hangye_ZR85",
         "ok": true,
         "rows": 45
       },
@@ -13421,12 +13671,6 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZR85",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZR86",
         "ok": true,
         "rows": 45
@@ -13434,6 +13678,12 @@
       {
         "source": "industry板块历史",
         "board_code": "hangye_ZC39",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZK70",
         "ok": true,
         "rows": 45
       },
@@ -13451,7 +13701,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZN77",
+        "board_code": "hangye_ZC36",
         "ok": true,
         "rows": 45
       },
@@ -13463,7 +13713,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC36",
+        "board_code": "hangye_ZN77",
         "ok": true,
         "rows": 45
       },
@@ -13475,13 +13725,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZR88",
+        "board_code": "hangye_ZJ69",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZJ69",
+        "board_code": "hangye_ZR88",
         "ok": true,
         "rows": 45
       },
@@ -13559,13 +13809,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZG54",
+        "board_code": "hangye_ZL71",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZL71",
+        "board_code": "hangye_ZG54",
         "ok": true,
         "rows": 45
       },
@@ -13685,12 +13935,6 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZQ84",
-        "ok": false,
-        "rows": 0
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZC22",
         "ok": true,
         "rows": 45
@@ -13700,6 +13944,12 @@
         "board_code": "hangye_ZA04",
         "ok": true,
         "rows": 45
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZQ84",
+        "ok": false,
+        "rows": 0
       },
       {
         "source": "industry板块历史",
@@ -13763,13 +14013,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZA05",
+        "board_code": "hangye_ZC14",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC14",
+        "board_code": "hangye_ZA05",
         "ok": true,
         "rows": 45
       },
@@ -13787,25 +14037,25 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC28",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC33",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZE49",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZC28",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZC13",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZC33",
         "ok": true,
         "rows": 45
       },
@@ -13847,6 +14097,12 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZB07",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZG56",
         "ok": true,
         "rows": 45
@@ -13871,25 +14127,19 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZB07",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "industry板块历史",
         "board_code": "hangye_ZM75",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZB06",
+        "board_code": "hangye_ZA02",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZA02",
+        "board_code": "hangye_ZB06",
         "ok": true,
         "rows": 45
       },
@@ -14033,19 +14283,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_tdlz",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "concept板块历史",
         "board_code": "gn_zndw",
         "ok": true,
         "rows": 45
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_shzm",
+        "board_code": "gn_tdlz",
         "ok": true,
         "rows": 45
       },
@@ -14057,7 +14301,19 @@
       },
       {
         "source": "concept板块历史",
+        "board_code": "gn_shzm",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "concept板块历史",
         "board_code": "gn_zczr",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "concept板块历史",
+        "board_code": "gn_gtk",
         "ok": true,
         "rows": 45
       },
@@ -14075,7 +14331,7 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_gtk",
+        "board_code": "gn_zjqrgn",
         "ok": true,
         "rows": 45
       },
@@ -14087,19 +14343,13 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "gn_zjqrgn",
+        "board_code": "gn_cxy",
         "ok": true,
         "rows": 45
       },
       {
         "source": "concept板块历史",
         "board_code": "gn_pggn",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "concept板块历史",
-        "board_code": "gn_cxy",
         "ok": true,
         "rows": 45
       },
@@ -14112,16 +14362,9 @@
       {
         "source": "板块成份",
         "board_type": "industry",
-        "board_code": "hangye_ZM74",
+        "board_code": "hangye_ZK70",
         "ok": true,
-        "rows": 92
-      },
-      {
-        "source": "板块成份",
-        "board_type": "industry",
-        "board_code": "hangye_ZC36",
-        "ok": true,
-        "rows": 220
+        "rows": 104
       },
       {
         "source": "板块成份",
@@ -14133,9 +14376,9 @@
       {
         "source": "板块成份",
         "board_type": "industry",
-        "board_code": "hangye_ZK70",
+        "board_code": "hangye_ZC36",
         "ok": true,
-        "rows": 104
+        "rows": 220
       },
       {
         "source": "板块成份",
@@ -14143,6 +14386,13 @@
         "board_code": "gn_whzx",
         "ok": true,
         "rows": 30
+      },
+      {
+        "source": "板块成份",
+        "board_type": "industry",
+        "board_code": "hangye_ZM74",
+        "ok": true,
+        "rows": 92
       },
       {
         "source": "板块成份",
@@ -19834,7 +20084,8 @@
       "data_date": "2026-09-29",
       "source": [
         "东方财富日线",
-        "腾讯行情"
+        "腾讯行情",
+        "腾讯60分钟"
       ],
       "data_confidence": "high",
       "data_valid": true,
@@ -19962,8 +20213,8 @@
         },
         {
           "source": "东方财富60分钟",
-          "ok": true,
-          "date": "2026-09-29 15:00:00"
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.002916&klt=60&fqt=1&lmt=240&beg=0&end=20260929&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
         },
         {
           "source": "东方财富日线",
@@ -19989,6 +20240,12 @@
           "source": "东方财富资金流",
           "ok": false,
           "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.002916&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        },
+        {
+          "source": "腾讯60分钟",
+          "ok": true,
+          "rows": 320,
+          "date": "2026-09-29 15:00:00"
         }
       ],
       "metrics": {
@@ -22130,7 +22387,8 @@
       "data_date": "2026-09-29",
       "source": [
         "东方财富日线",
-        "腾讯行情"
+        "腾讯行情",
+        "腾讯60分钟"
       ],
       "data_confidence": "high",
       "data_valid": true,
@@ -22233,8 +22491,8 @@
         },
         {
           "source": "东方财富60分钟",
-          "ok": true,
-          "date": "2026-09-29 15:00:00"
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600183&klt=60&fqt=1&lmt=240&beg=0&end=20260929&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
         },
         {
           "source": "东方财富日线",
@@ -22260,6 +22518,12 @@
           "source": "东方财富资金流",
           "ok": false,
           "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.600183&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        },
+        {
+          "source": "腾讯60分钟",
+          "ok": true,
+          "rows": 320,
+          "date": "2026-09-29 15:00:00"
         }
       ],
       "metrics": {
@@ -22779,7 +23043,8 @@
       "data_date": "2026-09-29",
       "source": [
         "东方财富日线",
-        "腾讯行情"
+        "腾讯行情",
+        "腾讯60分钟"
       ],
       "data_confidence": "high",
       "data_valid": true,
@@ -22858,8 +23123,8 @@
         },
         {
           "source": "东方财富60分钟",
-          "ok": true,
-          "date": "2026-09-29 15:00:00"
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.601138&klt=60&fqt=1&lmt=240&beg=0&end=20260929&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
         },
         {
           "source": "东方财富日线",
@@ -22885,6 +23150,12 @@
           "source": "东方财富资金流",
           "ok": false,
           "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.601138&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        },
+        {
+          "source": "腾讯60分钟",
+          "ok": true,
+          "rows": 320,
+          "date": "2026-09-29 15:00:00"
         }
       ],
       "metrics": {
@@ -26388,7 +26659,8 @@
       "data_date": "2026-09-29",
       "source": [
         "东方财富日线",
-        "腾讯行情"
+        "腾讯行情",
+        "腾讯60分钟"
       ],
       "data_confidence": "high",
       "data_valid": true,
@@ -26509,8 +26781,8 @@
         },
         {
           "source": "东方财富60分钟",
-          "ok": true,
-          "date": "2026-09-29 15:00:00"
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=0.000988&klt=60&fqt=1&lmt=240&beg=0&end=20260929&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
         },
         {
           "source": "东方财富日线",
@@ -26536,6 +26808,12 @@
           "source": "东方财富资金流",
           "ok": false,
           "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=0.000988&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        },
+        {
+          "source": "腾讯60分钟",
+          "ok": true,
+          "rows": 320,
+          "date": "2026-09-29 15:00:00"
         }
       ],
       "metrics": {
@@ -27475,7 +27753,8 @@
       "data_date": "2026-09-29",
       "source": [
         "东方财富日线",
-        "腾讯行情"
+        "腾讯行情",
+        "腾讯60分钟"
       ],
       "data_confidence": "high",
       "data_valid": true,
@@ -27588,8 +27867,8 @@
         },
         {
           "source": "东方财富60分钟",
-          "ok": true,
-          "date": "2026-09-29 15:00:00"
+          "ok": false,
+          "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/kline/get?secid=1.600584&klt=60&fqt=1&lmt=240&beg=0&end=20260929&fields1=f1%2Cf2%2Cf3%2Cf4%2Cf5%2Cf6&fields2=f51%2Cf52%2Cf53%2Cf54%2C"
         },
         {
           "source": "东方财富日线",
@@ -27615,6 +27894,12 @@
           "source": "东方财富资金流",
           "ok": false,
           "error": "ConnectionError: HTTPSConnectionPool(host='push2his.eastmoney.com', port=443): Max retries exceeded with url: /api/qt/stock/fflow/daykline/get?secid=1.600584&lmt=20&klt=101&fields1=f1%2Cf2%2Cf3%2Cf7&fields2=f51%2Cf52%2Cf53%2Cf54%2Cf55%2Cf56%2Cf57%2Cf58%2Cf5"
+        },
+        {
+          "source": "腾讯60分钟",
+          "ok": true,
+          "rows": 320,
+          "date": "2026-09-29 15:00:00"
         }
       ],
       "metrics": {
