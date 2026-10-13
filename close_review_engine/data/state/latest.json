@@ -2,7 +2,7 @@
   "schema_version": 2,
   "status": "success",
   "target_date": "2026-10-13",
-  "generated_at": "2026-10-13T22:54:51.039618+08:00",
+  "generated_at": "2026-10-13T23:04:22.244867+08:00",
   "valid_count": 59,
   "universe_count": 59,
   "market": {
@@ -4624,7 +4624,7 @@
         "latest": 213.25,
         "pct_change": 1.71,
         "amount": 44808453212.0,
-        "turnover_rate": 14.2,
+        "turnover_rate": 6.92,
         "market_cap": 412988720000.0,
         "up_count": 24,
         "down_count": 23,
@@ -4878,7 +4878,7 @@
         "latest": 3790.05,
         "pct_change": 1.52,
         "amount": 23619888970.0,
-        "turnover_rate": 3.21,
+        "turnover_rate": 3.19,
         "market_cap": 868203360000.0,
         "up_count": 349,
         "down_count": 47,
@@ -8576,7 +8576,7 @@
         "latest": 1269.92,
         "pct_change": 0.92,
         "amount": 36519247704.0,
-        "turnover_rate": 5.73,
+        "turnover_rate": 5.9,
         "market_cap": 633153696000.0,
         "up_count": 26,
         "down_count": 19,
@@ -9086,7 +9086,7 @@
         "latest": 807.88,
         "pct_change": 0.68,
         "amount": 338607011140.0,
-        "turnover_rate": 2.66,
+        "turnover_rate": 2.53,
         "market_cap": 19068837120000.0,
         "up_count": 96,
         "down_count": 84,
@@ -10530,7 +10530,7 @@
         "latest": 1081.46,
         "pct_change": 0.36,
         "amount": 24216631532.0,
-        "turnover_rate": 1.31,
+        "turnover_rate": 1.35,
         "market_cap": 2038355424000.0,
         "up_count": 116,
         "down_count": 69,
@@ -11040,7 +11040,7 @@
         "latest": 151.89,
         "pct_change": 1.1,
         "amount": 18966538026.0,
-        "turnover_rate": 14.75,
+        "turnover_rate": 24.2,
         "market_cap": 153922795000.0,
         "up_count": 8,
         "down_count": 9,
@@ -15204,7 +15204,7 @@
         "latest": 1426.88,
         "pct_change": 0.22,
         "amount": 9459664929.0,
-        "turnover_rate": 0.87,
+        "turnover_rate": 0.88,
         "market_cap": 1170512544000.0,
         "up_count": 23,
         "down_count": 24,
@@ -15340,7 +15340,7 @@
         "latest": 1459.58,
         "pct_change": -0.09,
         "amount": 92487708972.0,
-        "turnover_rate": 0.57,
+        "turnover_rate": 0.58,
         "market_cap": 25252271616000.0,
         "up_count": 165,
         "down_count": 232,
@@ -25289,7 +25289,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC25",
+        "board_code": "hangye_ZA02",
         "ok": true,
         "rows": 45
       },
@@ -25301,7 +25301,7 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZA02",
+        "board_code": "hangye_ZA04",
         "ok": true,
         "rows": 45
       },
@@ -25313,13 +25313,19 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZA04",
+        "board_code": "hangye_ZC25",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
         "board_code": "hangye_ZC41",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "industry板块历史",
+        "board_code": "hangye_ZH62",
         "ok": true,
         "rows": 45
       },
@@ -25332,12 +25338,6 @@
       {
         "source": "industry板块历史",
         "board_code": "hangye_ZS90",
-        "ok": true,
-        "rows": 45
-      },
-      {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZH62",
         "ok": true,
         "rows": 45
       },
@@ -25373,13 +25373,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZR88",
+        "board_code": "hangye_ZF52",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZF52",
+        "board_code": "hangye_ZR88",
         "ok": true,
         "rows": 45
       },
@@ -25415,13 +25415,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZG60",
+        "board_code": "hangye_ZB11",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZB11",
+        "board_code": "hangye_ZG60",
         "ok": true,
         "rows": 45
       },
@@ -25505,13 +25505,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC23",
+        "board_code": "hangye_ZG53",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZG53",
+        "board_code": "hangye_ZC23",
         "ok": true,
         "rows": 45
       },
@@ -25703,13 +25703,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZD44",
+        "board_code": "hangye_ZP82",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZP82",
+        "board_code": "hangye_ZD44",
         "ok": true,
         "rows": 45
       },
@@ -25739,13 +25739,13 @@
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZE49",
+        "board_code": "hangye_ZC15",
         "ok": true,
         "rows": 45
       },
       {
         "source": "industry板块历史",
-        "board_code": "hangye_ZC15",
+        "board_code": "hangye_ZE49",
         "ok": true,
         "rows": 45
       },
@@ -25769,6 +25769,12 @@
       },
       {
         "source": "industry板块历史",
+        "board_code": "hangye_ZC27",
+        "ok": true,
+        "rows": 45
+      },
+      {
+        "source": "industry板块历史",
         "board_code": "hangye_ZM75",
         "ok": true,
         "rows": 45
@@ -25786,10 +25792,10 @@
         "rows": 45
       },
       {
-        "source": "industry板块历史",
-        "board_code": "hangye_ZC27",
+        "source": "concept板块历史",
+        "board_code": "BK0949",
         "ok": true,
-        "rows": 45
+        "rows": 1489
       },
       {
         "source": "concept板块历史",
@@ -25805,21 +25811,15 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "BK1142",
-        "ok": true,
-        "rows": 807
-      },
-      {
-        "source": "concept板块历史",
-        "board_code": "BK0949",
-        "ok": true,
-        "rows": 1489
-      },
-      {
-        "source": "concept板块历史",
         "board_code": "BK0954",
         "ok": true,
         "rows": 1468
+      },
+      {
+        "source": "concept板块历史",
+        "board_code": "BK1142",
+        "ok": true,
+        "rows": 807
       },
       {
         "source": "concept板块历史",
@@ -25829,9 +25829,21 @@
       },
       {
         "source": "concept板块历史",
+        "board_code": "BK0480",
+        "ok": true,
+        "rows": 6484
+      },
+      {
+        "source": "concept板块历史",
         "board_code": "BK1128",
         "ok": true,
         "rows": 889
+      },
+      {
+        "source": "concept板块历史",
+        "board_code": "BK1109",
+        "ok": true,
+        "rows": 955
       },
       {
         "source": "concept板块历史",
@@ -25847,19 +25859,7 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "BK1109",
-        "ok": true,
-        "rows": 955
-      },
-      {
-        "source": "concept板块历史",
-        "board_code": "BK0855",
-        "ok": true,
-        "rows": 1852
-      },
-      {
-        "source": "concept板块历史",
-        "board_code": "BK0480",
+        "board_code": "BK0485",
         "ok": true,
         "rows": 6484
       },
@@ -25877,15 +25877,21 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "BK0715",
+        "board_code": "BK0855",
         "ok": true,
-        "rows": 2765
+        "rows": 1852
       },
       {
         "source": "concept板块历史",
         "board_code": "BK1660",
         "ok": true,
         "rows": 126
+      },
+      {
+        "source": "concept板块历史",
+        "board_code": "BK0692",
+        "ok": true,
+        "rows": 3009
       },
       {
         "source": "concept板块历史",
@@ -25907,21 +25913,9 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "BK0485",
+        "board_code": "BK0715",
         "ok": true,
-        "rows": 6484
-      },
-      {
-        "source": "concept板块历史",
-        "board_code": "BK0729",
-        "ok": true,
-        "rows": 2632
-      },
-      {
-        "source": "concept板块历史",
-        "board_code": "BK0692",
-        "ok": true,
-        "rows": 3009
+        "rows": 2765
       },
       {
         "source": "concept板块历史",
@@ -25931,33 +25925,27 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "BK1675",
-        "ok": true,
-        "rows": 116
-      },
-      {
-        "source": "concept板块历史",
         "board_code": "BK1126",
         "ok": true,
         "rows": 896
       },
       {
         "source": "concept板块历史",
-        "board_code": "BK0699",
+        "board_code": "BK1675",
         "ok": true,
-        "rows": 2976
-      },
-      {
-        "source": "concept板块历史",
-        "board_code": "BK0976",
-        "ok": true,
-        "rows": 1364
+        "rows": 116
       },
       {
         "source": "concept板块历史",
         "board_code": "BK1001",
         "ok": true,
         "rows": 1255
+      },
+      {
+        "source": "concept板块历史",
+        "board_code": "BK0976",
+        "ok": true,
+        "rows": 1364
       },
       {
         "source": "concept板块历史",
@@ -25973,9 +25961,15 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "BK1137",
+        "board_code": "BK0729",
         "ok": true,
-        "rows": 836
+        "rows": 2632
+      },
+      {
+        "source": "concept板块历史",
+        "board_code": "BK1755",
+        "ok": true,
+        "rows": 45
       },
       {
         "source": "concept板块历史",
@@ -26003,9 +25997,9 @@
       },
       {
         "source": "concept板块历史",
-        "board_code": "BK0578",
+        "board_code": "BK0699",
         "ok": true,
-        "rows": 3901
+        "rows": 2976
       },
       {
         "source": "concept板块历史",
@@ -26015,9 +26009,21 @@
       },
       {
         "source": "concept板块历史",
+        "board_code": "BK1137",
+        "ok": true,
+        "rows": 836
+      },
+      {
+        "source": "concept板块历史",
         "board_code": "BK0490",
         "ok": true,
         "rows": 6484
+      },
+      {
+        "source": "concept板块历史",
+        "board_code": "BK0578",
+        "ok": true,
+        "rows": 3901
       },
       {
         "source": "concept板块历史",
@@ -26026,17 +26032,11 @@
         "rows": 6482
       },
       {
-        "source": "concept板块历史",
-        "board_code": "BK1755",
-        "ok": true,
-        "rows": 45
-      },
-      {
         "source": "板块成份",
         "board_type": "industry",
-        "board_code": "hangye_ZA04",
+        "board_code": "hangye_ZE50",
         "ok": true,
-        "rows": 8
+        "rows": 26
       },
       {
         "source": "板块成份",
@@ -26048,9 +26048,9 @@
       {
         "source": "板块成份",
         "board_type": "industry",
-        "board_code": "hangye_ZE50",
+        "board_code": "hangye_ZA04",
         "ok": true,
-        "rows": 26
+        "rows": 8
       },
       {
         "source": "板块成份",
